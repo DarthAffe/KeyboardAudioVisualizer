@@ -1,0 +1,21 @@
+﻿using System;
+
+namespace KeyboardAudioVisualizer.Helper
+{
+    public static class ExceptionExtension
+    {
+        #region Methods
+
+        public static string GetFullMessage(this Exception ex, string message = "")
+        {
+            if (ex == null) return string.Empty;
+
+            if (ex.InnerException != null)
+                message += "\r\nInnerException: " + GetFullMessage(ex.InnerException);
+
+            return message;
+        }
+
+        #endregion
+    }
+}

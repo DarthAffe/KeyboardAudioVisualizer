@@ -1,0 +1,21 @@
+﻿<styles:CachedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                    xmlns:window="clr-namespace:KeyboardAudioVisualizer.Controls"
+                                    xmlns:ui="clr-namespace:KeyboardAudioVisualizer.UI"
+                                    xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles">
+
+    <styles:CachedResourceDictionary.MergedDictionaries>
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/BlurredDecorationWindow.xaml" />
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ImageButton.xaml" />
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ToolTip.xaml" />
+    </styles:CachedResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type window:BlurredDecorationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
+    <Style TargetType="{x:Type ui:ConfigurationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
+    <Style TargetType="{x:Type window:ImageButton}" BasedOn="{StaticResource StyleImageButton}" />
+    <Style TargetType="ToolTip" BasedOn="{StaticResource StyleToolTip}" />
+
+</styles:CachedResourceDictionary>
+
+
+
