@@ -33,6 +33,7 @@ namespace KeyboardAudioVisualizer
             try
             {
                 _taskbarIcon = (TaskbarIcon)FindResource("TaskbarIcon");
+                _taskbarIcon.DoubleClickCommand = ApplicationManager.Instance.OpenConfigurationCommand;
 
                 Settings settings = SerializationHelper.LoadObjectFromFile<Settings>(PATH_SETTINGS);
                 if (settings == null)

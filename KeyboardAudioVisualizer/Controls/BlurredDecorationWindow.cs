@@ -10,7 +10,7 @@ namespace KeyboardAudioVisualizer.Controls
     [TemplatePart(Name = "PART_CloseButton", Type = typeof(Button))]
     [TemplatePart(Name = "PART_MinimizeButton", Type = typeof(Button))]
     [TemplatePart(Name = "PART_IconButton", Type = typeof(Button))]
-    public class BlurredDecorationWindow : System.Windows.Window
+    public class BlurredDecorationWindow : Window
     {
         #region DependencyProperties
         // ReSharper disable InconsistentNaming
@@ -79,7 +79,7 @@ namespace KeyboardAudioVisualizer.Controls
 
             Button minimizeButton = GetTemplateChild("PART_MinimizeButton") as Button;
             if (minimizeButton != null)
-                minimizeButton.Click += (sender, args) => Application.Current.MainWindow.WindowState = WindowState.Minimized;
+                minimizeButton.Click += (sender, args) => Hide();
 
             Button iconButton = GetTemplateChild("PART_IconButton") as Button;
             if (iconButton != null)
