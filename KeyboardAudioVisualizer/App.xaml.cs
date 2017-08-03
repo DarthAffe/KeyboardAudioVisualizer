@@ -10,7 +10,7 @@ namespace KeyboardAudioVisualizer
     {
         #region Constants
 
-        private const string PATH_SETTINGS = "Settings.xaml";
+        private const string PATH_SETTINGS = "Settings.xml";
 
         #endregion
 
