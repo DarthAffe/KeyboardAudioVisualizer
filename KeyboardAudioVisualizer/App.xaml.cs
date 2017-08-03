@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
+using KeyboardAudioVisualizer.AudioProcessing;
 using KeyboardAudioVisualizer.Helper;
 
 namespace KeyboardAudioVisualizer
@@ -42,6 +43,9 @@ namespace KeyboardAudioVisualizer
                     _taskbarIcon.ShowBalloonTip("Keyboard Audio-Visualizer is starting in the tray!", "Click on the icon to open the configuration.", BalloonIcon.Info);
                 }
                 ApplicationManager.Instance.Settings = settings;
+
+                AudioProcessor.Initialize();
+                ApplicationManager.Instance.InitializeDevices();
             }
             catch (Exception ex)
             {

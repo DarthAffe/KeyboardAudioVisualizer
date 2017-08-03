@@ -63,6 +63,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -86,9 +87,23 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ApplicationManager.cs" />
+    <Compile Include="AudioCapture\AudioBuffer.cs" />
+    <Compile Include="AudioCapture\CSCoreAudioInput.cs" />
+    <Compile Include="AudioCapture\IAudioInput.cs" />
+    <Compile Include="AudioProcessing\AudioProcessor.cs" />
+    <Compile Include="AudioProcessing\Equalizer\IEqualizer.cs" />
+    <Compile Include="AudioProcessing\Equalizer\MultiBandEqualizer.cs" />
+    <Compile Include="AudioProcessing\IAudioProcessor.cs" />
+    <Compile Include="AudioProcessing\Spectrum\ISpectrumProvider.cs" />
+    <Compile Include="AudioProcessing\Spectrum\FourierSpectrumProvider.cs" />
+    <Compile Include="AudioProcessing\VisualizationPRovider\FrequencyBarsVisualizationProvider.cs" />
+    <Compile Include="AudioProcessing\VisualizationPRovider\IVisualizationProvider.cs" />
+    <Compile Include="Brushes\FrequencyBarsBrush.cs" />
+    <Compile Include="Configuration\AbstractConfiguration.cs" />
     <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="Helper\ActionCommand.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
+    <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Controls\BlurredDecorationWindow.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
