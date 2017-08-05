@@ -5,6 +5,11 @@ VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyboardAudioVisualizer", "KeyboardAudioVisualizer\KeyboardAudioVisualizer.csproj", "{0AC4E8B1-4D4D-447F-B9FD-38A74ED1F243}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{9A053D4E-5BC6-4179-8F82-9B5C8C7E4127}"
+	ProjectSection(SolutionItems) = preProject
+		libs\Transitionals.dll = libs\Transitionals.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

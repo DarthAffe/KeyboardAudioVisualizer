@@ -75,7 +75,7 @@ namespace KeyboardAudioVisualizer.Controls
 
             Button closeButton = GetTemplateChild("PART_CloseButton") as Button;
             if (closeButton != null)
-                closeButton.Click += (sender, args) => Application.Current.Shutdown();
+                closeButton.Click += (sender, args) => ApplicationManager.Instance.ExitCommand.Execute(null);
 
             Button minimizeButton = GetTemplateChild("PART_MinimizeButton") as Button;
             if (minimizeButton != null)

@@ -5,16 +5,29 @@
                                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                                   xmlns:ui="clr-namespace:KeyboardAudioVisualizer.UI"
                                   xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls"
+                                  xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
                                   mc:Ignorable="d"
                                   Title="Keyboard Audio-Visualizer # Configuration" 
                                   Icon="pack://application:,,,/KeyboardAudioVisualizer;component/Resources/Icon.ico"
                                   IconCommand="{Binding OpenHomepageCommand}"
                                   Width="1280"  Height="720">
 
+    <controls:BlurredDecorationWindow.Resources>
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Navigation.xaml" />
+    </controls:BlurredDecorationWindow.Resources>
+
     <controls:BlurredDecorationWindow.DataContext>
         <ui:ConfigurationViewModel />
     </controls:BlurredDecorationWindow.DataContext>
 
-    <Grid></Grid>
+    <TabControl Style="{StaticResource StyleTabControlNavigation}">
+        <TabItem Header="Primary">
+            <Border Background="Black"></Border>
+        </TabItem>
+
+        <TabItem Header="Secondary">
+            <Border Background="White"></Border>
+        </TabItem>
+    </TabControl>
 
 </controls:BlurredDecorationWindow>
