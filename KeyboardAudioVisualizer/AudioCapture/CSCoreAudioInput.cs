@@ -38,6 +38,12 @@ namespace KeyboardAudioVisualizer.AudioCapture
             _capture.Start();
         }
 
+        public void Dispose()
+        {
+            _capture?.Stop();
+            _capture?.Dispose();
+        }
+
         private void OnSoundDataAvailable(object sender, DataAvailableEventArgs dataAvailableEventArgs)
         {
             int readCount;

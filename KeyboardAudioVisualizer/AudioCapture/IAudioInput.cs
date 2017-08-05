@@ -1,8 +1,10 @@
-﻿namespace KeyboardAudioVisualizer.AudioCapture
+﻿using System;
+
+namespace KeyboardAudioVisualizer.AudioCapture
 {
     public delegate void AudioData(float[] data, int offset, int count);
 
-    public interface IAudioInput
+    public interface IAudioInput : IDisposable
     {
         int SampleRate { get; }
 

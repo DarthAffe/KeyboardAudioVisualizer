@@ -1,11 +1,12 @@
-﻿using KeyboardAudioVisualizer.AudioCapture;
+﻿using System;
+using KeyboardAudioVisualizer.AudioCapture;
 using KeyboardAudioVisualizer.AudioProcessing.Equalizer;
 using KeyboardAudioVisualizer.AudioProcessing.Spectrum;
 using KeyboardAudioVisualizer.AudioProcessing.VisualizationPRovider;
 
 namespace KeyboardAudioVisualizer.AudioProcessing
 {
-    public class AudioProcessor
+    public class AudioProcessor : IDisposable
     {
         #region Constants
 
@@ -71,6 +72,8 @@ namespace KeyboardAudioVisualizer.AudioProcessing
 
             return sampleSize;
         }
+
+        public void Dispose() => _audioInput.Dispose();
 
         #endregion
     }

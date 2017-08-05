@@ -72,7 +72,12 @@ namespace KeyboardAudioVisualizer
             _configurationWindow.Show();
         }
 
-        private void Exit() => Application.Current.Shutdown();
+        private void Exit()
+        {
+            RGBSurface.Instance.Dispose();
+            AudioProcessor.Instance.Dispose();
+            Application.Current.Shutdown();
+        }
 
         #endregion
     }
