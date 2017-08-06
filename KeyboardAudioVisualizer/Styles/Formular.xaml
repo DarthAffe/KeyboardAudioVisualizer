@@ -1,0 +1,98 @@
+﻿<styles:CachedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                    xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
+                                    xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls">
+
+    <styles:CachedResourceDictionary.MergedDictionaries>
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/FrameworkElement.xaml" />
+    </styles:CachedResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="StyleFormular" 
+           BasedOn="{StaticResource StyleFrameworkElement}"
+           TargetType="{x:Type controls:Formular}">
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="LabelWidth" Value="160" />
+        <Setter Property="ElementSpacing" Value="8" />
+    </Style>
+
+    <Style x:Key="StyleLabelFormular"
+           TargetType="Label">
+        <Setter Property="Foreground" Value="{StaticResource BrushForeground}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeDefault}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontFamily" Value="pack://application:,,,/Resources/#Cinzel" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+
+        <!-- DarthAffe 04.08.2017: Quite a botch, but it works ... -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <TextBlock HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                               VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                               FontFamily="{TemplateBinding FontFamily}"
+                               FontSize="{TemplateBinding FontSize}"
+                               FontStyle="{TemplateBinding FontStyle}"
+                               FontWeight="{TemplateBinding FontWeight}"
+                               Foreground="{TemplateBinding Foreground}"
+                               Text="{TemplateBinding Content}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyleTextBlockFormular"
+           TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource BrushForeground}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeDefault}" />
+        <Setter Property="FontFamily" Value="pack://application:,,,/Resources/#Cinzel" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Left" />
+    </Style>
+
+    <Style x:Key="StyleListBoxItemFormular"
+           TargetType="ListBoxItem">
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="0,2" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyleListBoxFormular"           
+           TargetType="ListBox">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyleListBoxItemFormular}" />
+    </Style>
+
+</styles:CachedResourceDictionary>
+    

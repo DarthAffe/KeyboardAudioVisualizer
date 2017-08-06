@@ -5,7 +5,7 @@ using KeyboardAudioVisualizer.AudioProcessing.Spectrum;
 using KeyboardAudioVisualizer.Configuration;
 using KeyboardAudioVisualizer.Helper;
 
-namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationPRovider
+namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 {
     #region Configuration
 
@@ -76,6 +76,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationPRovider
         private double _scalingValue;
 
         public IEqualizer Equalizer { get; set; }
+        public IConfiguration Configuration => _configuration;
         public float[] VisualizationData { get; private set; }
 
         #endregion

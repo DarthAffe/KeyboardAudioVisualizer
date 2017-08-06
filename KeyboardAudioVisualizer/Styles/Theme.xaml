@@ -3,26 +3,32 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:presentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
     <!-- ### Colors ### -->
-    <Color x:Key="ColorTelegrey">#FFD0D0D0</Color>
+    <Color x:Key="ColorGainsboro">#FFDCDCDC</Color>
     <Color x:Key="ColorJetBlack">#111111</Color>
-    <Color x:Key="ColorJetBlackTransparent">#A0111111</Color>
+    <Color x:Key="ColorJetBlackTransparent">#B8111111</Color>
+    <Color x:Key="ColorJetBlackSuperTransparent">#60111111</Color>
     <Color x:Key="ColorBlackTransparent">#50000000</Color>
     <Color x:Key="ColorBananaYellow">#FFE135</Color>
 
     <!-- ### Brushes ### -->
     <SolidColorBrush x:Key="BrushBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
+    <SolidColorBrush x:Key="BrushForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
 
     <!-- Window -->
     <SolidColorBrush x:Key="BrushWindowBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorBlackTransparent}" />
     <SolidColorBrush x:Key="BrushWindowBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
 
+    <!-- Box -->
+    <SolidColorBrush x:Key="BrushBoxBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
+    <SolidColorBrush x:Key="BrushBoxBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackSuperTransparent}" />
+    
     <!-- ToolTip -->
-    <SolidColorBrush x:Key="BrushTooltipForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorTelegrey}" />
+    <SolidColorBrush x:Key="BrushTooltipForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
     <SolidColorBrush x:Key="BrushTooltipBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
     <SolidColorBrush x:Key="BrushTooltipBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
 
     <!-- Navigation -->
-    <SolidColorBrush x:Key="BrushNavigationItem" presentationOptions:Freeze="True" Color="{StaticResource ColorTelegrey}" />
+    <SolidColorBrush x:Key="BrushNavigationItem" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
     <SolidColorBrush x:Key="BrushNavigationItemBlur" presentationOptions:Freeze="True" Color="{StaticResource ColorBananaYellow}" />
 
 
@@ -31,7 +37,7 @@
 
 
     <!-- ### Fonts ### -->
-    <sys:Double x:Key="FontSizeDefault">13</sys:Double>
+    <sys:Double x:Key="FontSizeDefault">14</sys:Double>
     <sys:Double x:Key="FontSizeTooltip">14</sys:Double>
     <sys:Double x:Key="FontSizeNavigation">28</sys:Double>
 </ResourceDictionary>

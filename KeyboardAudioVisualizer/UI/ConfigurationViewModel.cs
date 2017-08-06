@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Reflection;
 using KeyboardAudioVisualizer.Helper;
 
 namespace KeyboardAudioVisualizer.UI
@@ -6,6 +8,8 @@ namespace KeyboardAudioVisualizer.UI
     public class ConfigurationViewModel
     {
         #region Properties & Fields
+
+        public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
         #endregion
 

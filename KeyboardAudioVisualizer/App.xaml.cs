@@ -51,7 +51,9 @@ namespace KeyboardAudioVisualizer
             {
                 File.WriteAllText("error.log", $"[{DateTime.Now:G}] Exception!\r\n\r\nMessage:\r\n{ex.GetFullMessage()}\r\n\r\nStackTrace:\r\n{ex.StackTrace}\r\n\r\n");
                 MessageBox.Show("An error occured while starting the Keyboard Audio-Visualizer.\r\nPlease double check if SDK-support for your devices is enabled.\r\nMore information can be found in the error.log file in the application directory.", "Can't start Keyboard Audio-Visualizer.");
-                Shutdown();
+
+                try { ApplicationManager.Instance.ExitCommand.Execute(null); }
+                catch { Environment.Exit(0); }
             }
         }
 

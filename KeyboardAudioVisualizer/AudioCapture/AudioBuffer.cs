@@ -1,4 +1,6 @@
-﻿namespace KeyboardAudioVisualizer.AudioCapture
+﻿using System;
+
+namespace KeyboardAudioVisualizer.AudioCapture
 {
     public class AudioBuffer
     {

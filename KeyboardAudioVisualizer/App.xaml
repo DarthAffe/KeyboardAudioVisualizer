@@ -17,7 +17,7 @@
                             MenuActivation="RightClick">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Open configuration" Command="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=OpenConfigurationCommand}" />
+                        <MenuItem Header="Open Configuration" Command="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=OpenConfigurationCommand}" />
                         <MenuItem Header="Exit" Command="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=ExitCommand}" />
                     </ContextMenu>
                 </tb:TaskbarIcon.ContextMenu>

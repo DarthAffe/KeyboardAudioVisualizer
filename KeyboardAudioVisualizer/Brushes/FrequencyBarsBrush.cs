@@ -1,5 +1,5 @@
 ﻿using System;
-using KeyboardAudioVisualizer.AudioProcessing.VisualizationPRovider;
+using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
 using RGB.NET.Brushes;
 using RGB.NET.Brushes.Gradients;
 using RGB.NET.Core;

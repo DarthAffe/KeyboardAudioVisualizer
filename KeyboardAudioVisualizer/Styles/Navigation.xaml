@@ -12,7 +12,7 @@
     <transitions:FadeTransition x:Key="TransitionFade" Duration="0:0:0.200" />
 
     <Style x:Key="StyleTabControlNavigation"
-           TargetType="{x:Type TabControl}">
+           TargetType="TabControl">
 
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Background" Value="Transparent" />
@@ -23,7 +23,7 @@
         <!-- DarthAffe 04.08.2017: The TabControl is a shitty one to style - if unused parts are removed it throws exceptions ... -->
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TabControl}">
+                <ControlTemplate TargetType="TabControl">
                     <Grid ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="ColumnDefinition0" />
@@ -43,6 +43,7 @@
                         <Border x:Name="ContentPanel" 
                                 Grid.Column="0" 
                                 Grid.Row="1" 
+                                Margin="4"
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{TemplateBinding Background}" 
@@ -97,7 +98,7 @@
 
     <Style x:Key="StyleTabItemNavigation" 
            BasedOn="{StaticResource StyleFrameworkElement}"
-           TargetType="{x:Type TabItem}">
+           TargetType="TabItem">
 
         <Setter Property="Height" Value="72" />
         <Setter Property="FontSize" Value="{StaticResource FontSizeNavigation}" />
@@ -105,7 +106,7 @@
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TabItem}">
+                <ControlTemplate TargetType="TabItem">
                     <Border Margin="8,0"
                             Padding="4" 
                             IsHitTestVisible="True"
@@ -171,7 +172,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style BasedOn="{StaticResource StyleTabItemNavigation}" TargetType="{x:Type TabItem}" />
+    <Style BasedOn="{StaticResource StyleTabItemNavigation}" TargetType="TabItem" />
 
 </styles:CachedResourceDictionary>
     

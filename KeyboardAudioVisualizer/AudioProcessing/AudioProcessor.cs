@@ -2,7 +2,7 @@
 using KeyboardAudioVisualizer.AudioCapture;
 using KeyboardAudioVisualizer.AudioProcessing.Equalizer;
 using KeyboardAudioVisualizer.AudioProcessing.Spectrum;
-using KeyboardAudioVisualizer.AudioProcessing.VisualizationPRovider;
+using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
 
 namespace KeyboardAudioVisualizer.AudioProcessing
 {
@@ -22,6 +22,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing
         private IAudioInput _audioInput;
         private ISpectrumProvider _spectrumProvider;
         public IVisualizationProvider PrimaryVisualizationProvider { get; private set; }
+        public IVisualizationProvider SecondaryVisualizationProvider { get; private set; }
 
         #endregion
 
@@ -37,6 +38,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing
         {
             _spectrumProvider.Update();
             PrimaryVisualizationProvider.Update();
+            SecondaryVisualizationProvider.Update();
         }
 
         public static void Initialize()
@@ -59,9 +61,12 @@ namespace KeyboardAudioVisualizer.AudioProcessing
             _spectrumProvider.Initialize();
 
             //TODO DarthAffe 03.08.2017: Initialize correctly; Settings
-            MultiBandEqualizer equalizer = new MultiBandEqualizer { [0] = -5, [1] = -1, [2] = 0, [3] = 2, [4] = 2 };
-            PrimaryVisualizationProvider = new FrequencyBarsVisualizationProvider(new FrequencyBarsVisualizationProviderConfiguration { Scale = 38 }, _spectrumProvider) { Equalizer = equalizer };
+            MultiBandEqualizer equalizer = new MultiBandEqualizer { [0] = -3, [1] = -1, [2] = -1, [3] = 1, [4] = 3 };
+            PrimaryVisualizationProvider = new FrequencyBarsVisualizationProvider(new FrequencyBarsVisualizationProviderConfiguration { Scale = 34 }, _spectrumProvider) { Equalizer = equalizer };
             PrimaryVisualizationProvider.Initialize();
+
+            SecondaryVisualizationProvider = new LevelVisualizationProvider(new LevelVisualizationProviderConfiguration(), _audioBuffer);
+            SecondaryVisualizationProvider.Initialize();
         }
 
         private int CalculateSampleSize(int sampleRate, int maximumUpdateRate)

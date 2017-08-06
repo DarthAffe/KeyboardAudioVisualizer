@@ -6,6 +6,8 @@
                                   xmlns:ui="clr-namespace:KeyboardAudioVisualizer.UI"
                                   xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls"
                                   xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
+                                  xmlns:core="clr-namespace:RGB.NET.Core;assembly=RGB.NET.Core"
+                                  xmlns:audioProcessing="clr-namespace:KeyboardAudioVisualizer.AudioProcessing"
                                   mc:Ignorable="d"
                                   Title="Keyboard Audio-Visualizer # Configuration" 
                                   Icon="pack://application:,,,/KeyboardAudioVisualizer;component/Resources/Icon.ico"
@@ -13,7 +15,12 @@
                                   Width="1280"  Height="720">
 
     <controls:BlurredDecorationWindow.Resources>
-        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Navigation.xaml" />
+        <styles:CachedResourceDictionary>
+            <styles:CachedResourceDictionary.MergedDictionaries>
+                <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Navigation.xaml" />
+                <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/UI/Configuration/FrequencyBarsConfiguration.xaml" />
+            </styles:CachedResourceDictionary.MergedDictionaries>
+        </styles:CachedResourceDictionary>
     </controls:BlurredDecorationWindow.Resources>
 
     <controls:BlurredDecorationWindow.DataContext>
@@ -22,11 +29,59 @@
 
     <TabControl Style="{StaticResource StyleTabControlNavigation}">
         <TabItem Header="Primary">
-            <Border Background="Black"></Border>
+            <DockPanel>
+                <GroupBox DockPanel.Dock="Top">
+                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=PrimaryVisualizationProvider.Configuration}" />
+                </GroupBox>
+
+                <GroupBox Margin="0,8,0,0">
+                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=PrimaryVisualizationProvider}" />
+                </GroupBox>
+            </DockPanel>
         </TabItem>
 
         <TabItem Header="Secondary">
-            <Border Background="White"></Border>
+            <DockPanel>
+                <GroupBox DockPanel.Dock="Top">
+                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=SecondaryVisualizationProvider.Configuration}" />
+                </GroupBox>
+
+                <GroupBox Margin="0,8,0,0">
+                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=SecondaryVisualizationProvider}" />
+                </GroupBox>
+            </DockPanel>
+        </TabItem>
+
+        <TabItem Header="Settings">
+            <GroupBox VerticalAlignment="Top">
+                <controls:Formular>
+                    <controls:Formular.Resources>
+                        <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
+                        <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
+                        <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
+                    </controls:Formular.Resources>
+
+                    <Label controls:Formular.IsLabel="True" Content="Version:" />
+                    <TextBlock Text="{Binding Version}" />
+
+                    <Label controls:Formular.LineBreaks="1" controls:Formular.IsLabel="True" Content="Connected Devices:" />
+                    <ListBox Width="400" ItemsSource="{Binding Source={x:Static core:RGBSurface.Instance}, Path=Devices}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Style="{StaticResource StyleTextBlockFormular}">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat=">  {0} {1} ({2})">
+                                            <Binding Path="DeviceInfo.Manufacturer" />
+                                            <Binding Path="DeviceInfo.Model" />
+                                            <Binding Path="DeviceInfo.DeviceType" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </controls:Formular>
+            </GroupBox>
         </TabItem>
     </TabControl>
 

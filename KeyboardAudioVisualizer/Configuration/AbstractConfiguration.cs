@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace KeyboardAudioVisualizer.Configuration
 {
-    public class AbstractConfiguration : INotifyPropertyChanged
+    public class AbstractConfiguration : IConfiguration, INotifyPropertyChanged
     {
         #region Events
 

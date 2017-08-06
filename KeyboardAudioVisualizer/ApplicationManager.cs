@@ -54,14 +54,61 @@ namespace KeyboardAudioVisualizer
             //surface.LoadDevices(CoolerMasterDeviceProvider.Instance);
 
             ILedGroup background = new ListLedGroup(surface.Leds);
-            background.Brush = new SolidColorBrush(new Color(0, 0, 0));
+            background.Brush = new SolidColorBrush(new Color(96, 0, 0, 0)); //TODO DarthAffe 06.08.2017: A-Channel gives some kind of blur - settings!
 
             //TODO DarthAffe 03.08.2017: Changeable, Settings etc.
             foreach (IRGBDevice device in surface.Devices)
-            {
-                if (device.DeviceInfo.DeviceType == RGBDeviceType.Keyboard)
-                    new ListLedGroup(device).Brush = new FrequencyBarsBrush(AudioProcessor.Instance.PrimaryVisualizationProvider, new RainbowGradient(300, -14));
-            }
+                switch (device.DeviceInfo.DeviceType)
+                {
+                    case RGBDeviceType.Keyboard:
+                        //TODO DarthAffe 05.08.2017: Lighbar-support has to be better in RGB.NET
+                        if (device.DeviceInfo.Model.Equals("K95 RGB Platinum"))
+                        {
+                            ILedGroup lightbarLeft = new ListLedGroup(new CorsairLedId(device, CorsairLedIds.Lightbar1), new CorsairLedId(device, CorsairLedIds.Lightbar2),
+                                                                      new CorsairLedId(device, CorsairLedIds.Lightbar3), new CorsairLedId(device, CorsairLedIds.Lightbar4),
+                                                                      new CorsairLedId(device, CorsairLedIds.Lightbar5), new CorsairLedId(device, CorsairLedIds.Lightbar6),
+                                                                      new CorsairLedId(device, CorsairLedIds.Lightbar7), new CorsairLedId(device, CorsairLedIds.Lightbar8),
+                                                                      new CorsairLedId(device, CorsairLedIds.Lightbar9));
+                            ILedGroup lightbarCenter = new ListLedGroup(new CorsairLedId(device, CorsairLedIds.Lightbar1));
+                            ILedGroup lightbarRight = new ListLedGroup(new CorsairLedId(device, CorsairLedIds.Lightbar11), new CorsairLedId(device, CorsairLedIds.Lightbar12),
+                                                                       new CorsairLedId(device, CorsairLedIds.Lightbar13), new CorsairLedId(device, CorsairLedIds.Lightbar14),
+                                                                       new CorsairLedId(device, CorsairLedIds.Lightbar15), new CorsairLedId(device, CorsairLedIds.Lightbar16),
+                                                                       new CorsairLedId(device, CorsairLedIds.Lightbar17), new CorsairLedId(device, CorsairLedIds.Lightbar18),
+                                                                       new CorsairLedId(device, CorsairLedIds.Lightbar19));
+                            ListLedGroup primary = new ListLedGroup(device);
+                            primary.RemoveLeds(lightbarLeft.GetLeds());
+                            primary.RemoveLeds(lightbarCenter.GetLeds());
+                            primary.RemoveLeds(lightbarRight.GetLeds());
+
+                            IGradient keyboardLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
+                            lightbarLeft.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, keyboardLevelGradient, LevelBarDirection.Left, 0);
+                            lightbarRight.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, keyboardLevelGradient, LevelBarDirection.Right, 1);
+                            lightbarCenter.Brush = new SolidColorBrush(new Color(255, 255, 255)); //TODO DarthAffe 06.08.2017: Insert beat-detetion here!
+
+                            primary.Brush = new FrequencyBarsBrush(AudioProcessor.Instance.PrimaryVisualizationProvider, new RainbowGradient(300, -14));
+                        }
+                        else
+                            new ListLedGroup(device).Brush = new FrequencyBarsBrush(AudioProcessor.Instance.PrimaryVisualizationProvider, new RainbowGradient(300, -14));
+
+                        //{
+                        //    ILedGroup left = new RectangleLedGroup(new Rectangle(device.Location.X, device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
+                        //    ILedGroup right = new RectangleLedGroup(new Rectangle(device.Location.X + (device.Size.Width / 2.0), device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
+
+                        //    IGradient levelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
+                        //    left.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, levelGradient, LevelBarDirection.Left, 0);
+                        //    right.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, levelGradient, LevelBarDirection.Right, 1);
+                        //}
+                        break;
+
+                    case RGBDeviceType.Mousemat:
+                        ILedGroup left = new RectangleLedGroup(new Rectangle(device.Location.X, device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
+                        ILedGroup right = new RectangleLedGroup(new Rectangle(device.Location.X + (device.Size.Width / 2.0), device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
+
+                        IGradient mousematLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
+                        left.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, mousematLevelGradient, LevelBarDirection.Top, 0);
+                        right.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, mousematLevelGradient, LevelBarDirection.Top, 1);
+                        break;
+                }
 
             surface.Updating += args => AudioProcessor.Instance.Update();
         }
