@@ -1,4 +1,5 @@
-﻿using KeyboardAudioVisualizer.AudioCapture;
+﻿using System;
+using KeyboardAudioVisualizer.AudioCapture;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 
@@ -12,21 +13,18 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Spectrum
 
         private float[] _sampleData;
         private double[] _hamming;
+        private Complex32[] _complexBuffer;
 
         private float[] _spectrum;
-        public float[] Spectrum => _spectrum;
-
-        public int SampleRate { get; private set; }
-        public float Resolution { get; private set; }
+        private int _usableDataLength;
 
         #endregion
 
         #region Constructors
 
-        public FourierSpectrumProvider(AudioBuffer audioBuffer, int sampleRate)
+        public FourierSpectrumProvider(AudioBuffer audioBuffer)
         {
             this._audioBuffer = audioBuffer;
-            this.SampleRate = sampleRate;
         }
 
         #endregion
@@ -37,13 +35,15 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Spectrum
         {
             _hamming = Window.Hamming(_audioBuffer.Size);
             _sampleData = new float[_audioBuffer.Size];
-            _spectrum = new float[_audioBuffer.Size / 2];
-            Resolution = (float)SampleRate / (float)_audioBuffer.Size;
+            _complexBuffer = new Complex32[_audioBuffer.Size];
+            _usableDataLength = (_audioBuffer.Size / 2) + 1;
+            _spectrum = new float[_usableDataLength];
         }
 
         public void Update()
         {
             _audioBuffer.CopyMixInto(ref _sampleData, 0);
+
             ApplyHamming(ref _sampleData);
             CreateSpectrum(ref _sampleData);
         }
@@ -56,24 +56,26 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Spectrum
 
         private void CreateSpectrum(ref float[] data)
         {
-            Complex32[] complexData = CreateComplexData(ref data);
-            Fourier.Forward(complexData, FourierOptions.NoScaling);
+            for (int i = 0; i < data.Length; i++)
+                _complexBuffer[i] = new Complex32(data[i], 0);
+
+            Fourier.Forward(_complexBuffer, FourierOptions.NoScaling);
+
             for (int i = 0; i < _spectrum.Length; i++)
             {
-                Complex32 fourierData = complexData[i];
-                _spectrum[i] = (fourierData.Real * fourierData.Real) + (fourierData.Imaginary * fourierData.Imaginary);
+                Complex32 fourierData = _complexBuffer[i];
+                _spectrum[i] = (float)Math.Sqrt(fourierData.Real * fourierData.Real) + (fourierData.Imaginary * fourierData.Imaginary);
             }
         }
 
-        private static Complex32[] CreateComplexData(ref float[] data)
-        {
-            Complex32[] complexData = new Complex32[data.Length];
-            for (int i = 0; i < data.Length; i++)
-                complexData[i] = new Complex32(data[i], 0);
+        public ISpectrum GetLinearSpectrum(int bands = 64, float minFrequency = -1, float maxFrequency = -1) => new LinearSpectrum(_spectrum, bands, minFrequency, maxFrequency);
 
-            return complexData;
-        }
+        public ISpectrum GetLogarithmicSpectrum(int bands = 12, float minFrequency = -1, float maxFrequency = -1) => new LogarithmicSpectrum(_spectrum, bands, minFrequency, maxFrequency);
 
-        #endregion   
+        public ISpectrum GetGammaSpectrum(int bands = 64, float gamma = 2, float minFrequency = -1, float maxFrequency = -1) => new GammaSpectrum(_spectrum, bands, gamma, minFrequency, maxFrequency);
+
+        public ISpectrum GetRawSpectrum() => new RawSpectrumProvider(_spectrum);
+
+        #endregion
     }
 }

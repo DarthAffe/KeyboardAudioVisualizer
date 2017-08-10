@@ -31,7 +31,10 @@ namespace KeyboardAudioVisualizer.AudioCapture
             _capture = new WasapiLoopbackCapture();
             _capture.Initialize();
             _soundInSource = new SoundInSource(_capture) { FillWithZeros = false };
-            _stream = new SingleBlockNotificationStream(_soundInSource.ToStereo().ToSampleSource());
+
+            _stream = _soundInSource.WaveFormat.SampleRate == 44100
+                ? new SingleBlockNotificationStream(_soundInSource.ToStereo().ToSampleSource())
+                : new SingleBlockNotificationStream(_soundInSource.ChangeSampleRate(44100).ToStereo().ToSampleSource());
 
             _soundInSource.DataAvailable += OnSoundDataAvailable;
 

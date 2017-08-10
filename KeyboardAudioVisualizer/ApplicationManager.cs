@@ -44,9 +44,8 @@ namespace KeyboardAudioVisualizer
         public void InitializeDevices()
         {
             RGBSurface surface = RGBSurface.Instance;
-            //surface.Exception += args =>;
 
-            surface.UpdateFrequency = 1 / 30.0; //TODO DarthAffe 03.08.2017: Settings
+            surface.UpdateFrequency = 1 / 40.0; //TODO DarthAffe 03.08.2017: Settings
             surface.UpdateMode = UpdateMode.Continuous;
 
             surface.LoadDevices(CorsairDeviceProvider.Instance);
@@ -54,7 +53,7 @@ namespace KeyboardAudioVisualizer
             //surface.LoadDevices(CoolerMasterDeviceProvider.Instance);
 
             ILedGroup background = new ListLedGroup(surface.Leds);
-            background.Brush = new SolidColorBrush(new Color(96, 0, 0, 0)); //TODO DarthAffe 06.08.2017: A-Channel gives some kind of blur - settings!
+            background.Brush = new SolidColorBrush(new Color(64, 0, 0, 0)); //TODO DarthAffe 06.08.2017: A-Channel gives some kind of blur - settings!
 
             //TODO DarthAffe 03.08.2017: Changeable, Settings etc.
             foreach (IRGBDevice device in surface.Devices)
@@ -89,6 +88,7 @@ namespace KeyboardAudioVisualizer
                         }
                         else
                             new ListLedGroup(device).Brush = new FrequencyBarsBrush(AudioProcessor.Instance.PrimaryVisualizationProvider, new RainbowGradient(300, -14));
+                        //new ListLedGroup(device).Brush = new BeatBrush(AudioProcessor.Instance.PrimaryVisualizationProvider, new Color(255, 255, 255));
 
                         //{
                         //    ILedGroup left = new RectangleLedGroup(new Rectangle(device.Location.X, device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
