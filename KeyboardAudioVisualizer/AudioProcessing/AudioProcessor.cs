@@ -1,6 +1,5 @@
 ﻿using System;
 using KeyboardAudioVisualizer.AudioCapture;
-using KeyboardAudioVisualizer.AudioProcessing.BeatDetection;
 using KeyboardAudioVisualizer.AudioProcessing.Equalizer;
 using KeyboardAudioVisualizer.AudioProcessing.Spectrum;
 using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
@@ -22,7 +21,6 @@ namespace KeyboardAudioVisualizer.AudioProcessing
         private AudioBuffer _audioBuffer;
         private IAudioInput _audioInput;
         private ISpectrumProvider _spectrumProvider;
-        private OnsetDetector _onsetDetector;
 
         public IVisualizationProvider PrimaryVisualizationProvider { get; private set; }
         public IVisualizationProvider SecondaryVisualizationProvider { get; private set; }
@@ -40,7 +38,6 @@ namespace KeyboardAudioVisualizer.AudioProcessing
         public void Update()
         {
             _spectrumProvider.Update();
-            _onsetDetector.Update();
             PrimaryVisualizationProvider.Update();
             SecondaryVisualizationProvider.Update();
         }
@@ -63,9 +60,6 @@ namespace KeyboardAudioVisualizer.AudioProcessing
 
             _spectrumProvider = new FourierSpectrumProvider(_audioBuffer);
             _spectrumProvider.Initialize();
-
-            _onsetDetector = new OnsetDetector(_audioBuffer);
-            _onsetDetector.Initialize();
 
             //TODO DarthAffe 03.08.2017: Initialize correctly; Settings
             MultiBandEqualizer equalizer = new MultiBandEqualizer { [0] = -3, [1] = -1, [2] = 1, [3] = 2, [4] = 3 };

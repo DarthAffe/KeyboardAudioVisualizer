@@ -106,9 +106,6 @@
     <Compile Include="AudioCapture\CSCoreAudioInput.cs" />
     <Compile Include="AudioCapture\IAudioInput.cs" />
     <Compile Include="AudioProcessing\AudioProcessor.cs" />
-    <Compile Include="AudioProcessing\BeatDetection\BTrackBeatDetector.cs" />
-    <Compile Include="AudioProcessing\BeatDetection\CircularBuffer.cs" />
-    <Compile Include="AudioProcessing\BeatDetection\OnsetDetector.cs" />
     <Compile Include="AudioProcessing\Equalizer\IEqualizer.cs" />
     <Compile Include="AudioProcessing\Equalizer\MultiBandEqualizer.cs" />
     <Compile Include="AudioProcessing\IAudioProcessor.cs" />
