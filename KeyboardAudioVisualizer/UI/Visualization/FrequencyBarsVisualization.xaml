@@ -1,0 +1,32 @@
+﻿<styles:CachedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                 xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
+                                 xmlns:visualizationProvider="clr-namespace:KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider"
+                                 xmlns:visualization="clr-namespace:KeyboardAudioVisualizer.UI.Visualization">
+
+    <styles:CachedResourceDictionary.MergedDictionaries>
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/FrameworkElement.xaml" />
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Theme.xaml" />
+    </styles:CachedResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="StyleFrequencyBarsVisualizer" 
+           BasedOn="{StaticResource StyleFrameworkElement}"
+           TargetType="{x:Type visualization:FrequencyBarsVisualizer}">
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="UseLayoutRounding" Value="False" />
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type visualization:FrequencyBarsVisualizer}">
+                    <StackPanel x:Name="PART_BarsPanel" Orientation="Horizontal" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate DataType="{x:Type visualizationProvider:FrequencyBarsVisualizationProvider}">
+        <visualization:FrequencyBarsVisualizer Style="{StaticResource StyleFrequencyBarsVisualizer}" VisualizationProvider="{Binding}" />
+    </DataTemplate>
+
+</styles:CachedResourceDictionary>
+    

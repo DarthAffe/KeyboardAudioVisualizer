@@ -1,20 +1,33 @@
 ﻿<styles:CachedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                                    xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
-                                    xmlns:visualizationPRovider="clr-namespace:KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider"
-                                    xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls">
+                                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                 xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
+                                 xmlns:visualizationProvider="clr-namespace:KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider"
+                                 xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls"
+                                 xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <styles:CachedResourceDictionary.MergedDictionaries>
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/FrameworkElement.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Theme.xaml" />
     </styles:CachedResourceDictionary.MergedDictionaries>
 
-    <DataTemplate DataType="{x:Type visualizationPRovider:FrequencyBarsVisualizationProviderConfiguration}">
+    <DataTemplate DataType="{x:Type visualizationProvider:FrequencyBarsVisualizationProviderConfiguration}">
         <Grid>
             <Grid.Resources>
                 <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
                 <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
                 <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
+
+                <ObjectDataProvider x:Key="SpectrumModes" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type TypeName="visualizationProvider:SpectrumMode"/>
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>
+
+                <ObjectDataProvider x:Key="ValueModes" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type TypeName="visualizationProvider:ValueMode"/>
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>
             </Grid.Resources>
 
             <Grid.ColumnDefinitions>
@@ -26,12 +39,48 @@
             </Grid.ColumnDefinitions>
 
             <controls:Formular Grid.Column="0">
-            </controls:Formular>
+                <Label controls:Formular.IsLabel="True" Content="Spectrum:" />
+                <ComboBox controls:Formular.Fill="True"
+                          ItemsSource="{Binding Source={StaticResource SpectrumModes}}"
+                          SelectedItem="{Binding SpectrumMode}"/>
 
-            <controls:Formular Grid.Column="1">
+                <Label controls:Formular.IsLabel="True" Content="Value:" />
+                <ComboBox controls:Formular.Fill="True"
+                          ItemsSource="{Binding Source={StaticResource ValueModes}}"
+                          SelectedItem="{Binding ValueMode}"/>
+
+                <Label controls:Formular.IsLabel="True" Content="Bars:" />
+                <Slider controls:Formular.Fill="True" Minimum="1" Maximum="96" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                        Value="{Binding Bars}" />
             </controls:Formular>
 
             <controls:Formular Grid.Column="2">
+                <Label controls:Formular.IsLabel="True" Content="Min Freq.:" />
+                <Slider controls:Formular.Fill="True" Minimum="0" Maximum="22100" IsSnapToTickEnabled="True" TickFrequency="10" TickPlacement="None"
+                        Value="{Binding MinFrequency}" />
+
+                <Label controls:Formular.IsLabel="True" Content="Max Freq.:" />
+                <Slider controls:Formular.Fill="True" Minimum="0" Maximum="22100" IsSnapToTickEnabled="True" TickFrequency="10" TickPlacement="None"
+                        Value="{Binding MaxFrequency}" />
+
+                <Label controls:Formular.IsLabel="True" Content="Gamma:" />
+                <Slider controls:Formular.Fill="True" Minimum="1" Maximum="6" IsSnapToTickEnabled="True" TickFrequency="0.25" TickPlacement="BottomRight"
+                        IsEnabled="{Binding SpectrumMode, Converter={StaticResource EqualsToBoolConverter}, ConverterParameter={x:Static visualizationProvider:SpectrumMode.Gamma}}"
+                        Value="{Binding Gamma}" />
+            </controls:Formular>
+
+            <controls:Formular Grid.Column="4">
+                <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Reference:" />
+                <Slider controls:Formular.Fill="True" Minimum="1" Maximum="240" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="None"
+                        Value="{Binding ReferenceLevel}" />
+
+                <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Smoothing:" />
+                <Slider controls:Formular.Fill="True" Minimum="1" Maximum="10" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
+                        Value="{Binding Smoothing}" />
+
+                <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Emphasize:" />
+                <Slider controls:Formular.Fill="True" Minimum="0" Maximum="2" IsSnapToTickEnabled="True" TickFrequency="0.05" TickPlacement="BottomRight"
+                        Value="{Binding EmphasisePeaks}" />
             </controls:Formular>
         </Grid>
     </DataTemplate>

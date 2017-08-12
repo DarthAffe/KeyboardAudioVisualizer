@@ -2,6 +2,7 @@
 using System.Linq;
 using KeyboardAudioVisualizer.AudioCapture;
 using KeyboardAudioVisualizer.Configuration;
+using KeyboardAudioVisualizer.Helper;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 {
@@ -89,7 +90,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
         private void RecalculateConfigValues(string changedPropertyName)
         {
             if ((changedPropertyName == null) || (changedPropertyName == nameof(LevelVisualizationProviderConfiguration.Smoothing)))
-                _smoothingFactor = Math.Log10(_configuration.Smoothing);
+                _smoothingFactor = Math.Log10(MathHelper.Clamp(_configuration.Smoothing, 0.001, 9.5));
 
             if ((changedPropertyName == null) || (changedPropertyName == nameof(LevelVisualizationProviderConfiguration.Scale))
                                               || (changedPropertyName == nameof(LevelVisualizationProviderConfiguration.ConversionMode)))

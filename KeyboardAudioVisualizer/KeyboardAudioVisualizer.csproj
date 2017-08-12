@@ -73,8 +73,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
-    <Reference Include="System.ValueTuple, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -129,6 +129,7 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Controls\Formular.cs" />
     <Compile Include="Controls\ImageButton.cs" />
+    <Compile Include="Converter\EqualsToBoolConverter.cs" />
     <Compile Include="Helper\ActionCommand.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
     <Compile Include="Helper\FrequencyHelper.cs" />
@@ -140,6 +141,9 @@
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\ConfigurationViewModel.cs" />
+    <Compile Include="UI\Visualization\BeatVisualizer.cs" />
+    <Compile Include="UI\Visualization\FrequencyBarsVisualizer.cs" />
+    <Compile Include="UI\Visualization\LevelVisualizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\SerializationHelper.cs" />
@@ -191,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\ImageButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -219,7 +227,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Configuration\BeatConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Configuration\LevelConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Configuration\FrequencyBarsConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Visualization\BeatVisualization.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Visualization\FrequencyBarsVisualization.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Visualization\LevelVisualization.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -229,9 +257,7 @@
     <Resource Include="Resources\close.png" />
     <Resource Include="Resources\minimize.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Visualization\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\RGB.NET.Devices.Corsair.1.0.0\build\net45\RGB.NET.Devices.Corsair.targets" Condition="Exists('..\packages\RGB.NET.Devices.Corsair.1.0.0\build\net45\RGB.NET.Devices.Corsair.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

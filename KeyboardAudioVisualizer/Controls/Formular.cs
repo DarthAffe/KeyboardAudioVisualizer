@@ -77,6 +77,12 @@ namespace KeyboardAudioVisualizer.Controls
         public static void SetRowSpan(DependencyObject element, int value) => element.SetValue(RowSpanProperty, value);
         public static int GetRowSpan(DependencyObject element) => (int)element.GetValue(RowSpanProperty);
 
+        public static readonly DependencyProperty FillProperty = DependencyProperty.RegisterAttached("Fill", typeof(bool), typeof(Formular),
+            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+        public static void SetFill(DependencyObject element, bool value) => element.SetValue(FillProperty, value);
+        public static bool GetFill(DependencyObject element) => (bool)element.GetValue(FillProperty);
+
         // ReSharper restore InconsistentNaming
         #endregion
 
@@ -91,7 +97,7 @@ namespace KeyboardAudioVisualizer.Controls
             foreach (UIElement child in InternalChildren)
             {
                 child.Measure(availableSize);
-                layout.AddElement(child);
+                layout.AddElement(child, 0);
             }
 
             return new Size(layout.Width, layout.Height);
@@ -104,9 +110,9 @@ namespace KeyboardAudioVisualizer.Controls
             FormularLayout layout = new FormularLayout(RowHeight, LabelWidth, ElementSpacing, RowSpacing);
 
             foreach (UIElement child in InternalChildren)
-                child.Arrange(layout.AddElement(child));
+                child.Arrange(layout.AddElement(child, finalSize.Width));
 
-            return new Size(layout.Width, layout.Height);
+            return new Size(finalSize.Width, layout.Height);
         }
 
         #endregion
@@ -146,7 +152,7 @@ namespace KeyboardAudioVisualizer.Controls
 
             #region Methods
 
-            public Rect AddElement(UIElement element)
+            public Rect AddElement(UIElement element, double targetWidth)
             {
                 bool isLabel = GetIsLabel(element);
                 int lineBreaks = GetLineBreaks(element);
@@ -177,9 +183,13 @@ namespace KeyboardAudioVisualizer.Controls
                 if (element is FrameworkElement fe)
                     fe.MaxHeight = height;
 
-                Rect rect = new Rect(new Point(_currentRowWidth, (_rows * _rowHeight) + (_rows * _rowSpacing)), new Size(elementWidth, height));
+                double width = elementWidth;
+                if ((targetWidth >= 1) && GetFill(element))
+                    width = targetWidth - _currentRowWidth;
 
-                _currentRowWidth += elementWidth + _elementSpacing;
+                Rect rect = new Rect(new Point(_currentRowWidth, (_rows * _rowHeight) + (_rows * _rowSpacing)), new Size(width, height));
+
+                _currentRowWidth += width + _elementSpacing;
 
                 return rect;
             }

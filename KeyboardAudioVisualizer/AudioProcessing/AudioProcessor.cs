@@ -8,12 +8,6 @@ namespace KeyboardAudioVisualizer.AudioProcessing
 {
     public class AudioProcessor : IDisposable
     {
-        #region Constants
-
-        private const int MAXIMUM_UPDATE_RATE = 40; // We won't allow to change the FPS beyond this
-
-        #endregion
-
         #region Properties & Fields
 
         public static AudioProcessor Instance { get; private set; }
@@ -24,6 +18,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing
 
         public IVisualizationProvider PrimaryVisualizationProvider { get; private set; }
         public IVisualizationProvider SecondaryVisualizationProvider { get; private set; }
+        public IVisualizationProvider TertiaryVisualizationProvider { get; private set; }
 
         #endregion
 
@@ -38,8 +33,10 @@ namespace KeyboardAudioVisualizer.AudioProcessing
         public void Update()
         {
             _spectrumProvider.Update();
-            PrimaryVisualizationProvider.Update();
-            SecondaryVisualizationProvider.Update();
+
+            PrimaryVisualizationProvider?.Update();
+            SecondaryVisualizationProvider?.Update();
+            TertiaryVisualizationProvider?.Update();
         }
 
         public static void Initialize()
@@ -67,8 +64,11 @@ namespace KeyboardAudioVisualizer.AudioProcessing
             //PrimaryVisualizationProvider = new BeatVisualizationProvider(new BeatVisualizationProviderConfiguration(), _spectrumProvider);
             PrimaryVisualizationProvider.Initialize();
 
-            SecondaryVisualizationProvider = new LevelVisualizationProvider(new LevelVisualizationProviderConfiguration(), _audioBuffer);
+            SecondaryVisualizationProvider = new BeatVisualizationProvider(new BeatVisualizationProviderConfiguration(), _spectrumProvider);
             SecondaryVisualizationProvider.Initialize();
+
+            TertiaryVisualizationProvider = new LevelVisualizationProvider(new LevelVisualizationProviderConfiguration(), _audioBuffer);
+            TertiaryVisualizationProvider.Initialize();
         }
 
         public void Dispose() => _audioInput.Dispose();

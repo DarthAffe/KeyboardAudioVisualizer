@@ -1,0 +1,57 @@
+﻿<styles:CachedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                 xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
+                                 xmlns:visualizationProvider="clr-namespace:KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider"
+                                 xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls"
+                                 xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <styles:CachedResourceDictionary.MergedDictionaries>
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/FrameworkElement.xaml" />
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Theme.xaml" />
+    </styles:CachedResourceDictionary.MergedDictionaries>
+
+    <DataTemplate DataType="{x:Type visualizationProvider:LevelVisualizationProviderConfiguration}">
+        <Grid>
+            <Grid.Resources>
+                <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
+                <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
+                <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
+
+                <ObjectDataProvider x:Key="ConversionModes" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type TypeName="visualizationProvider:ConversionMode"/>
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <controls:Formular Grid.Column="0">
+                <Label controls:Formular.IsLabel="True" Content="Calculation:" />
+                <ComboBox controls:Formular.Fill="True"
+                          ItemsSource="{Binding Source={StaticResource ConversionModes}}"
+                          SelectedItem="{Binding ConversionMode}"/>
+            </controls:Formular>
+
+            <controls:Formular Grid.Column="2">
+                <Label controls:Formular.IsLabel="True" Content="Scale:" />
+                <Slider controls:Formular.Fill="True" Minimum="1" Maximum="10" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
+                        Value="{Binding Scale}" />
+            </controls:Formular>
+
+            <controls:Formular Grid.Column="4">
+                <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Smoothing:" />
+                <Slider controls:Formular.Fill="True" Minimum="1" Maximum="10" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
+                        Value="{Binding Smoothing}" />
+            </controls:Formular>
+        </Grid>
+    </DataTemplate>
+
+</styles:CachedResourceDictionary>
+    

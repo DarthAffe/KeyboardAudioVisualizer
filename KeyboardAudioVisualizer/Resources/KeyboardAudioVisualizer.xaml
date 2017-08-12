@@ -2,7 +2,8 @@
                                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                     xmlns:ui="clr-namespace:KeyboardAudioVisualizer.UI"
                                     xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
-                                    xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls">
+                                    xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls"
+                                    xmlns:converter="clr-namespace:KeyboardAudioVisualizer.Converter">
 
     <styles:CachedResourceDictionary.MergedDictionaries>
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/BlurredDecorationWindow.xaml" />
@@ -10,7 +11,10 @@
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Formular.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/GroupBox.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ToolTip.xaml" />
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ComboBox.xaml" />
     </styles:CachedResourceDictionary.MergedDictionaries>
+
+    <converter:EqualsToBoolConverter x:Key="EqualsToBoolConverter" />
 
     <Style TargetType="{x:Type controls:BlurredDecorationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
     <Style TargetType="{x:Type ui:ConfigurationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
@@ -18,6 +22,7 @@
     <Style TargetType="{x:Type controls:Formular}" BasedOn="{StaticResource StyleFormular}" />
     <Style TargetType="GroupBox" BasedOn="{StaticResource StyleGroupBoxBox}" />
     <Style TargetType="ToolTip" BasedOn="{StaticResource StyleToolTip}" />
+    <Style TargetType="ComboBox" BasedOn="{StaticResource StyleComboBox}" />
 
 </styles:CachedResourceDictionary>
 

@@ -1,5 +1,7 @@
-﻿namespace KeyboardAudioVisualizer.Configuration
+﻿using System.ComponentModel;
+
+namespace KeyboardAudioVisualizer.Configuration
 {
     // DarthAffe 05.08.2017: Marker interface
-    public interface IConfiguration { }
+    public interface IConfiguration : INotifyPropertyChanged { }
 }

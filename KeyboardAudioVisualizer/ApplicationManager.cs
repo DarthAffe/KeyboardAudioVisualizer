@@ -91,12 +91,12 @@ namespace KeyboardAudioVisualizer
                         //new ListLedGroup(device).Brush = new BeatBrush(AudioProcessor.Instance.PrimaryVisualizationProvider, new Color(255, 255, 255));
 
                         //{
-                        //    ILedGroup left = new RectangleLedGroup(new Rectangle(device.Location.X, device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
-                        //    ILedGroup right = new RectangleLedGroup(new Rectangle(device.Location.X + (device.Size.Width / 2.0), device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
+                        //    ILedGroup left1 = new RectangleLedGroup(new Rectangle(device.Location.X, device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
+                        //    ILedGroup right1 = new RectangleLedGroup(new Rectangle(device.Location.X + (device.Size.Width / 2.0), device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
 
                         //    IGradient levelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
-                        //    left.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, levelGradient, LevelBarDirection.Left, 0);
-                        //    right.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, levelGradient, LevelBarDirection.Right, 1);
+                        //    left1.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, levelGradient, LevelBarDirection.Left, 0);
+                        //    right1.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, levelGradient, LevelBarDirection.Right, 1);
                         //}
                         break;
 
@@ -105,8 +105,14 @@ namespace KeyboardAudioVisualizer
                         ILedGroup right = new RectangleLedGroup(new Rectangle(device.Location.X + (device.Size.Width / 2.0), device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
 
                         IGradient mousematLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
-                        left.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, mousematLevelGradient, LevelBarDirection.Top, 0);
-                        right.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, mousematLevelGradient, LevelBarDirection.Top, 1);
+                        left.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, mousematLevelGradient, LevelBarDirection.Top, 0);
+                        right.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, mousematLevelGradient, LevelBarDirection.Top, 1);
+                        break;
+
+                    case RGBDeviceType.Mouse:
+                    case RGBDeviceType.Headset:
+                        ILedGroup deviceGroup = new ListLedGroup(device);
+                        deviceGroup.Brush = new BeatBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, new Color(255, 255, 255));
                         break;
                 }
 

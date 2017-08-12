@@ -19,6 +19,11 @@
             <styles:CachedResourceDictionary.MergedDictionaries>
                 <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Navigation.xaml" />
                 <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/UI/Configuration/FrequencyBarsConfiguration.xaml" />
+                <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/UI/Visualization/FrequencyBarsVisualization.xaml" />
+                <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/UI/Configuration/LevelConfiguration.xaml" />
+                <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/UI/Visualization/LevelVisualization.xaml" />
+                <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/UI/Configuration/BeatConfiguration.xaml" />
+                <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/UI/Visualization/BeatVisualization.xaml" />
             </styles:CachedResourceDictionary.MergedDictionaries>
         </styles:CachedResourceDictionary>
     </controls:BlurredDecorationWindow.Resources>
@@ -28,9 +33,26 @@
     </controls:BlurredDecorationWindow.DataContext>
 
     <TabControl Style="{StaticResource StyleTabControlNavigation}">
-        <TabItem Header="Primary">
+        <TabItem Header="Keyboard">
             <DockPanel>
                 <GroupBox DockPanel.Dock="Top">
+                    <controls:Formular>
+                        <controls:Formular.Resources>
+                            <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
+                            <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
+                            <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
+                        </controls:Formular.Resources>
+
+                        <Label controls:Formular.IsLabel="True" Content="Visualization: " />
+                        <ComboBox controls:Formular.Fill="True" SelectedIndex="0">
+                            <ComboBox.Items>
+                                <ComboBoxItem>Frequency Bars</ComboBoxItem>
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </controls:Formular>
+                </GroupBox>
+
+                <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
                     <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=PrimaryVisualizationProvider.Configuration}" />
                 </GroupBox>
 
@@ -40,14 +62,60 @@
             </DockPanel>
         </TabItem>
 
-        <TabItem Header="Secondary">
-            <DockPanel>
+        <TabItem Header="Mouse/Headset">
+            <DockPanel LastChildFill="False">
                 <GroupBox DockPanel.Dock="Top">
+                    <controls:Formular>
+                        <controls:Formular.Resources>
+                            <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
+                            <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
+                            <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
+                        </controls:Formular.Resources>
+
+                        <Label controls:Formular.IsLabel="True" Content="Visualization: " />
+                        <ComboBox controls:Formular.Fill="True" SelectedIndex="0">
+                            <ComboBox.Items>
+                                <ComboBoxItem>Beat-Detection</ComboBoxItem>
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </controls:Formular>
+                </GroupBox>
+
+                <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
                     <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=SecondaryVisualizationProvider.Configuration}" />
                 </GroupBox>
 
-                <GroupBox Margin="0,8,0,0">
+                <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
                     <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=SecondaryVisualizationProvider}" />
+                </GroupBox>
+            </DockPanel>
+        </TabItem>
+
+        <TabItem Header="Lightbar/Mousemate">
+            <DockPanel LastChildFill="False">
+                <GroupBox DockPanel.Dock="Top">
+                    <controls:Formular>
+                        <controls:Formular.Resources>
+                            <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
+                            <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
+                            <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
+                        </controls:Formular.Resources>
+
+                        <Label controls:Formular.IsLabel="True" Content="Visualization: " />
+                        <ComboBox controls:Formular.Fill="True" SelectedIndex="0">
+                            <ComboBox.Items>
+                                <ComboBoxItem>Level</ComboBoxItem>
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </controls:Formular>
+                </GroupBox>
+
+                <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
+                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=TertiaryVisualizationProvider.Configuration}" />
+                </GroupBox>
+
+                <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
+                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=TertiaryVisualizationProvider}" />
                 </GroupBox>
             </DockPanel>
         </TabItem>
@@ -65,11 +133,11 @@
                         <Label controls:Formular.IsLabel="True" Content="Version:" />
                         <TextBlock Text="{Binding Version}" />
 
-                        <Label controls:Formular.LineBreaks="1" controls:Formular.IsLabel="True" Content="Connected Devices:" />
+                        <Label controls:Formular.LineBreaks="1" controls:Formular.IsLabel="True" Content="Devices:" />
                     </controls:Formular>
 
                     <!-- TODO DarthAffe 05.08.2017: Fix the formular to support that use-case -->
-                    <ItemsControl VerticalAlignment="Top" HorizontalAlignment="Left" Margin="168,-22,0,0" ItemsSource="{Binding Source={x:Static core:RGBSurface.Instance}, Path=Devices}">
+                    <ItemsControl VerticalAlignment="Top" HorizontalAlignment="Left" Margin="120,-22,0,0" ItemsSource="{Binding Source={x:Static core:RGBSurface.Instance}, Path=Devices}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Style="{StaticResource StyleTextBlockFormular}">

@@ -11,9 +11,10 @@
            BasedOn="{StaticResource StyleFrameworkElement}"
            TargetType="{x:Type controls:Formular}">
         <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="LabelWidth" Value="160" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="LabelWidth" Value="112" />
         <Setter Property="ElementSpacing" Value="8" />
+        <Setter Property="RowSpacing" Value="8" />
     </Style>
 
     <Style x:Key="StyleLabelFormular"

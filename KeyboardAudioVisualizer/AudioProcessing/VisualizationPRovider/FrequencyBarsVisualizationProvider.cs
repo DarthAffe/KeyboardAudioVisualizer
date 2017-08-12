@@ -12,14 +12,14 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 
     public class FrequencyBarsVisualizationProviderConfiguration : AbstractConfiguration
     {
-        private ValueMode _valueMode = ValueMode.Max;
+        private ValueMode _valueMode = ValueMode.Sum;
         public ValueMode ValueMode
         {
             get => _valueMode;
             set => SetProperty(ref _valueMode, value);
         }
 
-        private SpectrumMode _spectrumMode = SpectrumMode.Gamma;
+        private SpectrumMode _spectrumMode = SpectrumMode.Logarithmic;
         public SpectrumMode SpectrumMode
         {
             get => _spectrumMode;
@@ -40,15 +40,15 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
             set => SetProperty(ref _smoothing, value);
         }
 
-        private float _minFrequency = 60;
-        public float MinFrequency
+        private double _minFrequency = 60;
+        public double MinFrequency
         {
             get => _minFrequency;
             set => SetProperty(ref _minFrequency, value);
         }
 
-        private float _maxFrequency = 15000;
-        public float MaxFrequency
+        private double _maxFrequency = 15000;
+        public double MaxFrequency
         {
             get => _maxFrequency;
             set => SetProperty(ref _maxFrequency, value);
@@ -61,8 +61,8 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
             set => SetProperty(ref _referenceLevel, value);
         }
 
-        private float _emphasisePeaks = 0.5f;
-        public float EmphasisePeaks
+        private double _emphasisePeaks = 0.5f;
+        public double EmphasisePeaks
         {
             get => _emphasisePeaks;
             set => SetProperty(ref _emphasisePeaks, value);
@@ -147,8 +147,11 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
                 if (_configuration.EmphasisePeaks > 0.001)
                     binPower = Math.Pow(binPower, 1 + _configuration.EmphasisePeaks) * _emphasiseFactor;
 
-                VisualizationData[i] = (float)((VisualizationData[i] * _smoothingFactor) + (binPower * (1.0 - _smoothingFactor)));
-                if (float.IsNaN(VisualizationData[i])) VisualizationData[i] = 0;
+                if (i < VisualizationData.Length)
+                {
+                    VisualizationData[i] = (float)((VisualizationData[i] * _smoothingFactor) + (binPower * (1.0 - _smoothingFactor)));
+                    if (float.IsNaN(VisualizationData[i])) VisualizationData[i] = 0;
+                }
             }
         }
 
@@ -157,11 +160,11 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
             switch (_configuration.SpectrumMode)
             {
                 case SpectrumMode.Gamma:
-                    return _spectrumProvider.GetGammaSpectrum(_configuration.Bars, _configuration.Gamma, _configuration.MinFrequency, _configuration.MaxFrequency);
+                    return _spectrumProvider.GetGammaSpectrum(_configuration.Bars, _configuration.Gamma, (float)_configuration.MinFrequency, (float)_configuration.MaxFrequency);
                 case SpectrumMode.Logarithmic:
-                    return _spectrumProvider.GetLogarithmicSpectrum(_configuration.Bars, _configuration.MinFrequency, _configuration.MaxFrequency);
+                    return _spectrumProvider.GetLogarithmicSpectrum(_configuration.Bars, (float)_configuration.MinFrequency, (float)_configuration.MaxFrequency);
                 case SpectrumMode.Linear:
-                    return _spectrumProvider.GetLinearSpectrum(_configuration.Bars, _configuration.MinFrequency, _configuration.MaxFrequency);
+                    return _spectrumProvider.GetLinearSpectrum(_configuration.Bars, (float)_configuration.MinFrequency, (float)_configuration.MaxFrequency);
                 default:
                     return null;
             }
