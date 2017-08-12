@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using KeyboardAudioVisualizer.Helper;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.Spectrum
 {
@@ -13,21 +11,9 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Spectrum
         protected Band[] Bands { get; set; }
         public int BandCount => Bands.Length;
 
-        //TODO DarthAffe 10.08.2017: Check Frequency-Indexers - they are most likely wrong
         public Band this[int index] => Bands[index];
-        public Band this[float frequency] => Bands[FrequencyHelper.GetIndexOfFrequency(frequency, BandCount)];
-        public Band[] this[float minFrequency, float maxFrequency]
-        {
-            get
-            {
-                int minIndex = FrequencyHelper.GetIndexOfFrequency(minFrequency, BandCount);
-                int maxIndex = FrequencyHelper.GetIndexOfFrequency(maxFrequency, BandCount);
-
-                Band[] result = new Band[maxIndex - minIndex];
-                Array.Copy(Bands, minIndex, result, 0, result.Length);
-                return result;
-            }
-        }
+        public Band this[float frequency] => Bands.FirstOrDefault(band => (band.LowerFrequency <= frequency) && (band.UpperFrequency >= frequency));
+        public Band[] this[float minFrequency, float maxFrequency] => Bands.Where(band => (band.LowerFrequency > minFrequency) && (band.UpperFrequency < maxFrequency)).ToArray();
 
         #endregion
 
