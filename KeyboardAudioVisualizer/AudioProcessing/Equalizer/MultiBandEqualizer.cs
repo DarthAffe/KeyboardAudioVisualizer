@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
@@ -8,20 +7,9 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
     {
         #region Properties & Fields
 
+        public ObservableCollection<EqualizerBand> Bands { get; } = new ObservableCollection<EqualizerBand>();
+
         private float[] _values;
-
-        private readonly List<Band> _bands = new List<Band>();
-
-        public int Bands => _bands.Count;
-        public float this[int band]
-        {
-            get => _bands[band].Value;
-            set
-            {
-                _bands[band].Value = value;
-                RecalculateValues();
-            }
-        }
 
         public bool IsEnabled { get; set; } = true;
 
@@ -29,24 +17,24 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
 
         #region Constructors
 
-        public MultiBandEqualizer(int bands = 5)
+        public MultiBandEqualizer()
         {
-            if (bands < 2) throw new ArgumentOutOfRangeException(nameof(bands), "There must be at least two bands for an working equalizer!");
-
-            float reference = (float)Math.Log(bands);
-
-            for (int i = bands - 1; i >= 0; i--)
-            {
-                Band band = new Band((reference - (float)Math.Log(i + 1)) / reference);
-                _bands.Add(band);
-            }
-
-            CalculateValues(1);
+            AddBand(0, 0, true);
+            AddBand(1, 0, true);
         }
 
         #endregion
 
         #region Methods
+
+        public void AddBand(float frequency, float modification, bool isFixedFrequency = false)
+        {
+            EqualizerBand band = new EqualizerBand(frequency, modification, isFixedFrequency);
+            band.PropertyChanged += (sender, args) => InvalidateCache();
+            Bands.Add(band);
+
+            InvalidateCache();
+        }
 
         public float[] CalculateValues(int values)
         {
@@ -55,7 +43,6 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
                 _values = new float[values];
                 RecalculateValues();
             }
-
             return _values;
         }
 
@@ -65,40 +52,15 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
             for (int i = 0; i < _values.Length; i++)
             {
                 float offset = (i / width);
-
-                Band bandBefore = _bands.Last(n => n.Offset <= offset);
-                Band bandAfter = _bands.First(n => n.Offset >= offset);
-
+                EqualizerBand bandBefore = Bands.Last(n => n.Offset <= offset);
+                EqualizerBand bandAfter = Bands.First(n => n.Offset >= offset);
                 offset = bandAfter.Offset <= 0 ? 0 : (offset - bandBefore.Offset) / (bandAfter.Offset - bandBefore.Offset);
-
                 float value = (float)((3.0 * (offset * offset)) - (2.0 * (offset * offset * offset)));
                 _values[i] = bandBefore.Value + (value * (bandAfter.Value - bandBefore.Value));
             }
         }
 
-        #endregion
-
-        #region Data
-
-        private class Band
-        {
-            #region Properties & Fields
-
-            public float Offset { get; set; }
-            public float Value { get; set; }
-
-            #endregion
-
-            #region Constructors
-
-            public Band(float offset, float value = 0)
-            {
-                this.Offset = offset;
-                this.Value = value;
-            }
-
-            #endregion
-        }
+        private void InvalidateCache() => _values = null;
 
         #endregion
     }

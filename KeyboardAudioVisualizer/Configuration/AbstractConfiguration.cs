@@ -1,20 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.Configuration
 {
-    public class AbstractConfiguration : IConfiguration, INotifyPropertyChanged
+    public class AbstractConfiguration : AbstractBindable, IConfiguration, INotifyPropertyChanged
     {
-        #region Events
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
         #region Methods
 
-        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        protected override bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if ((typeof(T) == typeof(double)) || (typeof(T) == typeof(float)))
             {
@@ -30,8 +25,6 @@ namespace KeyboardAudioVisualizer.Configuration
             OnPropertyChanged(propertyName);
             return true;
         }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         #endregion
     }

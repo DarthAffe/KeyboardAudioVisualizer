@@ -127,22 +127,16 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
             ISpectrum spectrum = GetSpectrum();
             if (spectrum == null) return;
 
+            float[] equalizerValues = Equalizer?.IsEnabled == true ? Equalizer.CalculateValues(spectrum.BandCount) : null;
+
             for (int i = 0; i < spectrum.BandCount; i++)
             {
                 double binPower = Math.Max(0, 20 * Math.Log10(GetBandValue(spectrum[i])));
 
-                //TODO DarthAffe 10.08.2017: Rewrite Equalizer
-                //if (Equalizer?.IsEnabled == true)
-                //{
-                //    float value = Equalizer.CalculateValues(VisualizationData.Length)[i];
-                //    if (Math.Abs(value) > 0.000001)
-                //    {
-                //        bool lower = value < 0;
-                //        value = 1 + (value * value);
-                //        binPower *= lower ? 1f / value : value;
-                //    }
-                //}
+                if (equalizerValues != null)
+                    binPower += equalizerValues[i];
 
+                binPower = Math.Max(0, binPower);
                 binPower /= _configuration.ReferenceLevel;
                 if (_configuration.EmphasisePeaks > 0.001)
                     binPower = Math.Pow(binPower, 1 + _configuration.EmphasisePeaks) * _emphasiseFactor;

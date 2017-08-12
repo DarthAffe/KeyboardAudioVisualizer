@@ -2,10 +2,11 @@
 using System.Diagnostics;
 using System.Reflection;
 using KeyboardAudioVisualizer.Helper;
+using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.UI
 {
-    public class ConfigurationViewModel
+    public class ConfigurationViewModel : AbstractBindable
     {
         #region Properties & Fields
 

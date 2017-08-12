@@ -23,7 +23,7 @@
     <!-- Box -->
     <SolidColorBrush x:Key="BrushBoxBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
     <SolidColorBrush x:Key="BrushBoxBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackSuperTransparent}" />
-    
+
     <!-- ToolTip -->
     <SolidColorBrush x:Key="BrushTooltipForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
     <SolidColorBrush x:Key="BrushTooltipBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
@@ -34,10 +34,15 @@
     <SolidColorBrush x:Key="BrushComboBoxBackgroundPopup" presentationOptions:Freeze="True" Color="{StaticResource ColorBuckinghamGray}" />
     <SolidColorBrush x:Key="BrushComboBoxBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
     <SolidColorBrush x:Key="BrushComboBoxHover" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
-    
+
     <!-- Navigation -->
     <SolidColorBrush x:Key="BrushNavigationItem" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
     <SolidColorBrush x:Key="BrushNavigationItemBlur" presentationOptions:Freeze="True" Color="{StaticResource ColorBananaYellow}" />
+
+    <!-- Equalizer -->
+    <SolidColorBrush x:Key="BrushEqualizerForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
+    <SolidColorBrush x:Key="BrushEqualizerBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorBuckinghamGrayTransparent}" />
+    <SolidColorBrush x:Key="BrushEqualizerBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
 
 
     <!-- ### Border'n'stuff ### -->

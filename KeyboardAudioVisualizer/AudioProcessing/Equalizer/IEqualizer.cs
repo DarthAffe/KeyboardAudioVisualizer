@@ -1,8 +1,13 @@
-﻿namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
+﻿using System.Collections.ObjectModel;
+
+namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
 {
     public interface IEqualizer
     {
         bool IsEnabled { get; set; }
-        float[] CalculateValues(int values);
+
+        ObservableCollection<EqualizerBand> Bands { get; }
+        
+        float[] CalculateValues(int count);
     }
 }

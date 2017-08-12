@@ -11,6 +11,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Spectrum
 
         public float LowerFrequency { get; }
         public float UpperFrequency { get; }
+        public float CenterFrequency { get; }
 
         private float? _average = null;
         public float Average => _average ?? (_average = _data.Average()).Value;
@@ -35,6 +36,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Spectrum
         {
             this.LowerFrequency = lowerFrequency;
             this.UpperFrequency = upperFrequency;
+            this.CenterFrequency = (LowerFrequency + UpperFrequency) / 2f; //TODO DarthAffe 12.08.2017: Is this valid for logarithmic scaling?
             this._data = data;
 
             _resolution = (UpperFrequency - LowerFrequency) / data.Length;

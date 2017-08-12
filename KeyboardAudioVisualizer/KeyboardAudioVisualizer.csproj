@@ -106,6 +106,7 @@
     <Compile Include="AudioCapture\CSCoreAudioInput.cs" />
     <Compile Include="AudioCapture\IAudioInput.cs" />
     <Compile Include="AudioProcessing\AudioProcessor.cs" />
+    <Compile Include="AudioProcessing\Equalizer\EqualizerBand.cs" />
     <Compile Include="AudioProcessing\Equalizer\IEqualizer.cs" />
     <Compile Include="AudioProcessing\Equalizer\MultiBandEqualizer.cs" />
     <Compile Include="AudioProcessing\IAudioProcessor.cs" />
@@ -129,7 +130,10 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Controls\Formular.cs" />
     <Compile Include="Controls\ImageButton.cs" />
+    <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\EqualsToBoolConverter.cs" />
+    <Compile Include="Converter\ValueToPosYConverter.cs" />
+    <Compile Include="Converter\OffsetToPosXConverter.cs" />
     <Compile Include="Helper\ActionCommand.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
     <Compile Include="Helper\FrequencyHelper.cs" />
@@ -142,6 +146,7 @@
     </Compile>
     <Compile Include="UI\ConfigurationViewModel.cs" />
     <Compile Include="UI\Visualization\BeatVisualizer.cs" />
+    <Compile Include="UI\Visualization\EqualizerVisualizer.cs" />
     <Compile Include="UI\Visualization\FrequencyBarsVisualizer.cs" />
     <Compile Include="UI\Visualization\LevelVisualizer.cs" />
   </ItemGroup>

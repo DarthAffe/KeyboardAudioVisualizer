@@ -41,7 +41,7 @@
 
             <controls:Formular Grid.Column="2">
                 <Label controls:Formular.IsLabel="True" Content="Scale:" />
-                <Slider controls:Formular.Fill="True" Minimum="1" Maximum="10" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
+                <Slider controls:Formular.Fill="True" Minimum="1" Maximum="20" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
                         Value="{Binding Scale}" />
             </controls:Formular>
 

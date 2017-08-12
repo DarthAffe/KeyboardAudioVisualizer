@@ -15,6 +15,7 @@
     </styles:CachedResourceDictionary.MergedDictionaries>
 
     <converter:EqualsToBoolConverter x:Key="EqualsToBoolConverter" />
+    <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
     <Style TargetType="{x:Type controls:BlurredDecorationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
     <Style TargetType="{x:Type ui:ConfigurationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />

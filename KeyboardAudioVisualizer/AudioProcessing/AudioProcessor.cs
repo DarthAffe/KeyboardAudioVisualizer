@@ -59,7 +59,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing
             _spectrumProvider.Initialize();
 
             //TODO DarthAffe 03.08.2017: Initialize correctly; Settings
-            MultiBandEqualizer equalizer = new MultiBandEqualizer { [0] = -3, [1] = -1, [2] = 1, [3] = 2, [4] = 3 };
+            MultiBandEqualizer equalizer = new MultiBandEqualizer();
             PrimaryVisualizationProvider = new FrequencyBarsVisualizationProvider(new FrequencyBarsVisualizationProviderConfiguration(), _spectrumProvider) { Equalizer = equalizer };
             //PrimaryVisualizationProvider = new BeatVisualizationProvider(new BeatVisualizationProviderConfiguration(), _spectrumProvider);
             PrimaryVisualizationProvider.Initialize();
