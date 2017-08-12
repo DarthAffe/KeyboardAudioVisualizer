@@ -61,14 +61,14 @@ namespace KeyboardAudioVisualizer
                 {
                     case RGBDeviceType.Keyboard:
                         //TODO DarthAffe 05.08.2017: Lighbar-support has to be better in RGB.NET
-                        if (device.DeviceInfo.Model.Equals("K95 RGB Platinum"))
+                        if (device[new CorsairLedId(device, CorsairLedIds.Lightbar1)] != null)
                         {
                             ILedGroup lightbarLeft = new ListLedGroup(new CorsairLedId(device, CorsairLedIds.Lightbar1), new CorsairLedId(device, CorsairLedIds.Lightbar2),
                                                                       new CorsairLedId(device, CorsairLedIds.Lightbar3), new CorsairLedId(device, CorsairLedIds.Lightbar4),
                                                                       new CorsairLedId(device, CorsairLedIds.Lightbar5), new CorsairLedId(device, CorsairLedIds.Lightbar6),
                                                                       new CorsairLedId(device, CorsairLedIds.Lightbar7), new CorsairLedId(device, CorsairLedIds.Lightbar8),
                                                                       new CorsairLedId(device, CorsairLedIds.Lightbar9));
-                            ILedGroup lightbarCenter = new ListLedGroup(new CorsairLedId(device, CorsairLedIds.Lightbar1));
+                            ILedGroup lightbarCenter = new ListLedGroup(new CorsairLedId(device, CorsairLedIds.Lightbar10));
                             ILedGroup lightbarRight = new ListLedGroup(new CorsairLedId(device, CorsairLedIds.Lightbar11), new CorsairLedId(device, CorsairLedIds.Lightbar12),
                                                                        new CorsairLedId(device, CorsairLedIds.Lightbar13), new CorsairLedId(device, CorsairLedIds.Lightbar14),
                                                                        new CorsairLedId(device, CorsairLedIds.Lightbar15), new CorsairLedId(device, CorsairLedIds.Lightbar16),
@@ -80,9 +80,9 @@ namespace KeyboardAudioVisualizer
                             primary.RemoveLeds(lightbarRight.GetLeds());
 
                             IGradient keyboardLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
-                            lightbarLeft.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, keyboardLevelGradient, LevelBarDirection.Left, 0);
-                            lightbarRight.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, keyboardLevelGradient, LevelBarDirection.Right, 1);
-                            lightbarCenter.Brush = new SolidColorBrush(new Color(255, 255, 255)); //TODO DarthAffe 06.08.2017: Insert beat-detetion here!
+                            lightbarLeft.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, keyboardLevelGradient, LevelBarDirection.Left, 0);
+                            lightbarRight.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, keyboardLevelGradient, LevelBarDirection.Right, 1);
+                            lightbarCenter.Brush = new BeatBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, new Color(255, 255, 255));
 
                             primary.Brush = new FrequencyBarsBrush(AudioProcessor.Instance.PrimaryVisualizationProvider, new RainbowGradient(300, -14));
                         }
@@ -95,8 +95,8 @@ namespace KeyboardAudioVisualizer
                         //    ILedGroup right1 = new RectangleLedGroup(new Rectangle(device.Location.X + (device.Size.Width / 2.0), device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
 
                         //    IGradient levelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
-                        //    left1.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, levelGradient, LevelBarDirection.Left, 0);
-                        //    right1.Brush = new LevelBarBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, levelGradient, LevelBarDirection.Right, 1);
+                        //    left1.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, levelGradient, LevelBarDirection.Left, 0);
+                        //    right1.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, levelGradient, LevelBarDirection.Right, 1);
                         //}
                         break;
 
