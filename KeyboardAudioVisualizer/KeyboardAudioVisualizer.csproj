@@ -131,13 +131,15 @@
     <Compile Include="Controls\Formular.cs" />
     <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converter\EqualizerBandsToPointsConverter.cs" />
     <Compile Include="Converter\EqualsToBoolConverter.cs" />
-    <Compile Include="Converter\ValueToPosYConverter.cs" />
     <Compile Include="Converter\OffsetToPosXConverter.cs" />
+    <Compile Include="Converter\ValueToPosYConverter.cs" />
     <Compile Include="Helper\ActionCommand.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
     <Compile Include="Helper\FrequencyHelper.cs" />
     <Compile Include="Helper\MathHelper.cs" />
+    <Compile Include="Helper\WPFHelper.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Controls\BlurredDecorationWindow.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
@@ -245,6 +247,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Visualization\BeatVisualization.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Visualization\EqualizerVisualization.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

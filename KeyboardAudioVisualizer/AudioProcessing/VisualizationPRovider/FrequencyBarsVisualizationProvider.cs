@@ -2,6 +2,7 @@
 using KeyboardAudioVisualizer.AudioProcessing.Equalizer;
 using KeyboardAudioVisualizer.AudioProcessing.Spectrum;
 using KeyboardAudioVisualizer.Configuration;
+using KeyboardAudioVisualizer.Helper;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 {
@@ -131,10 +132,21 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 
             for (int i = 0; i < spectrum.BandCount; i++)
             {
-                double binPower = Math.Max(0, 20 * Math.Log10(GetBandValue(spectrum[i])));
+                double binPower = GetBandValue(spectrum[i]);
 
                 if (equalizerValues != null)
-                    binPower += equalizerValues[i];
+                {
+                    float equalizerValue = equalizerValues[i];
+                    equalizerValue *= 10; //TODO DarthAffe 13.08.2017: Equalizer-Scale through setting?
+                    if (Math.Abs(equalizerValue) > 0.000001)
+                    {
+                        bool lower = equalizerValue < 0;
+                        equalizerValue = 1 + (equalizerValue * equalizerValue);
+                        binPower *= lower ? 1f / equalizerValue : equalizerValue;
+                    }
+                }
+
+                binPower = Math.Max(0, 20 * Math.Log10(binPower));
 
                 binPower = Math.Max(0, binPower);
                 binPower /= _configuration.ReferenceLevel;

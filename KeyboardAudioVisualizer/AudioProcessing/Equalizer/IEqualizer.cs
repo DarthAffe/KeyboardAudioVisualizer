@@ -9,5 +9,8 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
         ObservableCollection<EqualizerBand> Bands { get; }
         
         float[] CalculateValues(int count);
+
+        EqualizerBand AddBand(float offset, float modification);
+        void RemoveBandBand(EqualizerBand band);
     }
 }

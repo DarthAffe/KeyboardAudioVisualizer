@@ -1,15 +1,18 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
 {
-    public class MultiBandEqualizer : IEqualizer
+    public class MultiBandEqualizer : AbstractBindable, IEqualizer
     {
         #region Properties & Fields
 
         public ObservableCollection<EqualizerBand> Bands { get; } = new ObservableCollection<EqualizerBand>();
 
-        private float[] _values;
+        private readonly Dictionary<int, float[]> _values = new Dictionary<int, float[]>();
 
         public bool IsEnabled { get; set; } = true;
 
@@ -27,40 +30,64 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
 
         #region Methods
 
-        public void AddBand(float frequency, float modification, bool isFixedFrequency = false)
+        public EqualizerBand AddBand(float offset, float modification) => AddBand(offset, modification, false);
+
+        public EqualizerBand AddBand(float offset, float modification, bool isFixedFrequency)
         {
-            EqualizerBand band = new EqualizerBand(frequency, modification, isFixedFrequency);
+            EqualizerBand band = new EqualizerBand(offset, modification, isFixedFrequency);
             band.PropertyChanged += (sender, args) => InvalidateCache();
             Bands.Add(band);
 
             InvalidateCache();
+
+            return band;
         }
 
-        public float[] CalculateValues(int values)
+        public void RemoveBandBand(EqualizerBand band)
         {
-            if ((_values == null) || (_values.Length != values))
+            if (!band.IsFixedOffset)
+                Bands.Remove(band);
+
+            InvalidateCache();
+        }
+
+        public float[] CalculateValues(int count)
+        {
+            if (!_values.TryGetValue(count, out float[] values))
             {
-                _values = new float[values];
-                RecalculateValues();
+                values = RecalculateValues(count);
+                _values[count] = values;
             }
-            return _values;
+            return values;
         }
 
-        private void RecalculateValues()
+        private float[] RecalculateValues(int count)
         {
-            float width = _values.Length;
-            for (int i = 0; i < _values.Length; i++)
+            float[] values = new float[count];
+
+            List<EqualizerBand> orderedBands = Bands.OrderBy(x => x.Offset).ToList();
+
+            for (int i = 0; i < count; i++)
             {
-                float offset = (i / width);
-                EqualizerBand bandBefore = Bands.Last(n => n.Offset <= offset);
-                EqualizerBand bandAfter = Bands.First(n => n.Offset >= offset);
-                offset = bandAfter.Offset <= 0 ? 0 : (offset - bandBefore.Offset) / (bandAfter.Offset - bandBefore.Offset);
+                float offset = (i / (float)count);
+                EqualizerBand bandBefore = orderedBands.Last(n => n.Offset <= offset);
+                EqualizerBand bandAfter = orderedBands.First(n => n.Offset >= offset);
+                offset = (bandAfter.Offset <= 0) || (Math.Abs(bandAfter.Offset - bandBefore.Offset) < 0.0001)
+                    ? 0 : (offset - bandBefore.Offset) / (bandAfter.Offset - bandBefore.Offset);
                 float value = (float)((3.0 * (offset * offset)) - (2.0 * (offset * offset * offset)));
-                _values[i] = bandBefore.Value + (value * (bandAfter.Value - bandBefore.Value));
+                values[i] = bandBefore.Value + (value * (bandAfter.Value - bandBefore.Value));
             }
+
+            return values;
         }
 
-        private void InvalidateCache() => _values = null;
+        private void InvalidateCache()
+        {
+            _values.Clear();
+
+            // ReSharper disable once ExplicitCallerInfoArgument
+            OnPropertyChanged(nameof(Bands));
+        }
 
         #endregion
     }

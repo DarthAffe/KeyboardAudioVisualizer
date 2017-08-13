@@ -1,10 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using KeyboardAudioVisualizer.AudioProcessing.Equalizer;
+using KeyboardAudioVisualizer.Helper;
 
 namespace KeyboardAudioVisualizer.UI.Visualization
 {
-    //[TemplatePart(Name = "PART_Grips", Type = typeof(Canvas))]
+    [TemplatePart(Name = "PART_Grips", Type = typeof(ItemsControl))]
     public class EqualizerVisualizer : Control
     {
         #region DependencyProperties
@@ -19,82 +22,103 @@ namespace KeyboardAudioVisualizer.UI.Visualization
             set => SetValue(EqualizerProperty, value);
         }
 
-        public static readonly DependencyProperty ReferenceLevelProperty = DependencyProperty.Register(
-            "ReferenceLevel", typeof(double), typeof(EqualizerVisualizer), new PropertyMetadata(default(double)));
-
-        public double ReferenceLevel
-        {
-            get => (double)GetValue(ReferenceLevelProperty);
-            set => SetValue(ReferenceLevelProperty, value);
-        }
-
         // ReSharper restore InconsistentNaming
         #endregion
 
         #region Properties & Fields
 
-        //private Canvas _canvas;
+        private ItemsControl _grips;
+        private EqualizerBand _draggingBand;
 
         #endregion
 
         #region Constructors
 
-        //public EqualizerVisualizer()
-        //{
-        //    SizeChanged += (sender, args) => Update();
-        //    Update();
-        //}
 
         #endregion
 
         #region Methods
 
-        //public override void OnApplyTemplate()
-        //{
-        //    base.OnApplyTemplate();
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
 
-        //    _canvas = GetTemplateChild("PART_Grips") as Canvas;
-        //}
+            _grips = GetTemplateChild("PART_Grips") as ItemsControl;
+        }
 
-        //private static void EqualizerChanged(DependencyObject dependencyObject,
-        //    DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        //{
-        //    EqualizerVisualizer visualizer = dependencyObject as EqualizerVisualizer;
-        //    if (visualizer == null) return;
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
 
-        //    void BandsChanged(object sender, NotifyCollectionChangedEventArgs args) => visualizer.Update();
+            EqualizerBand band = GetClickedBand();
+            if (band != null)
+                _draggingBand = band;
+        }
 
-        //    if (dependencyPropertyChangedEventArgs.OldValue is IEqualizer oldEqualizer)
-        //        oldEqualizer.Bands.CollectionChanged -= BandsChanged;
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
 
-        //    if (dependencyPropertyChangedEventArgs.NewValue is IEqualizer newEqualizer)
-        //        newEqualizer.Bands.CollectionChanged += BandsChanged;
-        //}
+            _draggingBand = null;
+        }
 
-        //private void Update()
-        //{
-        //    if (_canvas == null) return;
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
 
-        //    void OnBandChanged(object sender, PropertyChangedEventArgs args) => Update();
+            _draggingBand = null;
+        }
 
-        //    foreach (object child in _canvas.Children)
-        //    {
-        //        EqualizerBand band = (child as ContentControl)?.Content as EqualizerBand;
-        //        if (band == null) continue;
-        //        band.PropertyChanged -= OnBandChanged;
-        //    }
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
 
-        //    _canvas.Children.Clear();
+            if (_draggingBand == null) return;
 
-        //    foreach (EqualizerBand band in Equalizer.Bands)
-        //    {
-        //        ContentControl ctrl = new ContentControl();
+            UpdateBand(_draggingBand, e.GetPosition(_grips));
+        }
 
-        //        ctrl.Content = band;
+        protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseRightButtonDown(e);
 
-        //        _canvas.Children.Add(ctrl);
-        //    }
-        //}
+            if (_grips == null) return;
+
+            EqualizerBand band = GetClickedBand();
+            if (band == null)
+            {
+                EqualizerBand newBand = Equalizer.AddBand(0, 0);
+                UpdateBand(newBand, e.GetPosition(_grips));
+            }
+            else
+                Equalizer.RemoveBandBand(band);
+        }
+
+        private void UpdateBand(EqualizerBand band, Point position)
+        {
+            double halfHeight = _grips.ActualHeight / 2.0;
+
+            band.Offset = (float)(position.X / _grips.ActualWidth);
+            band.Value = (float)(-(position.Y - halfHeight) / halfHeight);
+        }
+
+        private EqualizerBand GetClickedBand()
+        {
+            ItemsPresenter itemsPresenter = _grips.GetVisualChild<ItemsPresenter>();
+            if (itemsPresenter == null) return null;
+
+            Panel panel = VisualTreeHelper.GetChild(itemsPresenter, 0) as Panel;
+            if (panel == null) return null;
+
+            foreach (UIElement element in panel.Children)
+                if (element.IsMouseOver)
+                {
+                    EqualizerBand band = ((element as ContentPresenter)?.Content as EqualizerBand);
+                    if (band != null) return band;
+                }
+
+            return null;
+        }
 
         #endregion
     }

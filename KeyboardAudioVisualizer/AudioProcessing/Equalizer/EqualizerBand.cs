@@ -1,4 +1,5 @@
-﻿using RGB.NET.Core;
+﻿using KeyboardAudioVisualizer.Helper;
+using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
 {
@@ -13,7 +14,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
             set
             {
                 if (!IsFixedOffset)
-                    SetProperty(ref _offset, value);
+                    SetProperty(ref _offset, float.IsNaN(value) ? 0 : MathHelper.Clamp(value, 0, 1));
             }
         }
 
@@ -21,7 +22,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
         public float Value
         {
             get => _value;
-            set => SetProperty(ref _value, value);
+            set => SetProperty(ref _value, float.IsNaN(value) ? 0 : MathHelper.Clamp(value, -1, 1));
         }
 
         public bool IsFixedOffset { get; }
