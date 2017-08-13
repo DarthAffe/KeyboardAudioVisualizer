@@ -100,13 +100,13 @@ namespace KeyboardAudioVisualizer
                         //}
                         break;
 
-                    case RGBDeviceType.Mousemat:
+                    case RGBDeviceType.Mousepad:
                         ILedGroup left = new RectangleLedGroup(new Rectangle(device.Location.X, device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
                         ILedGroup right = new RectangleLedGroup(new Rectangle(device.Location.X + (device.Size.Width / 2.0), device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
 
-                        IGradient mousematLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
-                        left.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, mousematLevelGradient, LevelBarDirection.Top, 0);
-                        right.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, mousematLevelGradient, LevelBarDirection.Top, 1);
+                        IGradient mousepadLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
+                        left.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, mousepadLevelGradient, LevelBarDirection.Top, 0);
+                        right.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, mousepadLevelGradient, LevelBarDirection.Top, 1);
                         break;
 
                     case RGBDeviceType.Mouse:

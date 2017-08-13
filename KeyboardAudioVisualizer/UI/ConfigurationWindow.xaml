@@ -91,7 +91,7 @@
             </DockPanel>
         </TabItem>
 
-        <TabItem Header="Lightbar/Mousemate">
+        <TabItem Header="Lightbar/Mousepad">
             <DockPanel LastChildFill="False">
                 <GroupBox DockPanel.Dock="Top">
                     <controls:Formular>
