@@ -10,7 +10,9 @@ namespace KeyboardAudioVisualizer.Converter
     {
         #region Methods
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => (value as bool?) == true ? Visibility.Visible : Visibility.Collapsed;
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            => (value as bool?) == true ? Visibility.Visible
+            : (string.Equals(parameter?.ToString(), "true", StringComparison.OrdinalIgnoreCase) ? Visibility.Hidden : Visibility.Collapsed);
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value as Visibility? == Visibility.Visible;
 

@@ -29,11 +29,18 @@
     <SolidColorBrush x:Key="BrushTooltipBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
     <SolidColorBrush x:Key="BrushTooltipBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
 
+    <!-- GroupBox -->
     <SolidColorBrush x:Key="BrushComboBoxForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
     <SolidColorBrush x:Key="BrushComboBoxBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorBuckinghamGrayTransparent}" />
     <SolidColorBrush x:Key="BrushComboBoxBackgroundPopup" presentationOptions:Freeze="True" Color="{StaticResource ColorBuckinghamGray}" />
     <SolidColorBrush x:Key="BrushComboBoxBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
     <SolidColorBrush x:Key="BrushComboBoxHover" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
+
+    <!-- Button -->
+    <SolidColorBrush x:Key="BrushButtonForeground" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />
+    <SolidColorBrush x:Key="BrushButtonBackground" presentationOptions:Freeze="True" Color="{StaticResource ColorBuckinghamGrayTransparent}" />
+    <SolidColorBrush x:Key="BrushButtonBorder" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlackTransparent}" />
+    <SolidColorBrush x:Key="BrushButtonHover" presentationOptions:Freeze="True" Color="{StaticResource ColorJetBlack}" />
 
     <!-- Navigation -->
     <SolidColorBrush x:Key="BrushNavigationItem" presentationOptions:Freeze="True" Color="{StaticResource ColorGainsboro}" />

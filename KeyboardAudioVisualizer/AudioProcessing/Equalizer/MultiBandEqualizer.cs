@@ -14,7 +14,12 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
 
         private readonly Dictionary<int, float[]> _values = new Dictionary<int, float[]>();
 
-        public bool IsEnabled { get; set; } = true;
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get => _isEnabled;
+            set => SetProperty(ref _isEnabled, value);
+        }
 
         #endregion
 
@@ -22,8 +27,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
 
         public MultiBandEqualizer()
         {
-            AddBand(0, 0, true);
-            AddBand(1, 0, true);
+            Reset();
         }
 
         #endregion
@@ -51,6 +55,13 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
             InvalidateCache();
         }
 
+        public void Reset()
+        {
+            Bands.Clear();
+            AddBand(0, 0, true);
+            AddBand(1, 0, true);
+        }
+
         public float[] CalculateValues(int count)
         {
             if (!_values.TryGetValue(count, out float[] values))
@@ -66,6 +77,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
             float[] values = new float[count];
 
             List<EqualizerBand> orderedBands = Bands.OrderBy(x => x.Offset).ToList();
+            if (orderedBands.Count < 2) return values;
 
             for (int i = 0; i < count; i++)
             {

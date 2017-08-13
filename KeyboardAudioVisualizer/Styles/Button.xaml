@@ -1,0 +1,41 @@
+﻿<styles:CachedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                    xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles">
+
+    <styles:CachedResourceDictionary.MergedDictionaries>
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/FrameworkElement.xaml" />
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Theme.xaml" />
+    </styles:CachedResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="StyleButton" 
+           BasedOn="{StaticResource StyleFrameworkElement}"
+           TargetType="Button">
+        <Setter Property="Foreground" Value="{StaticResource BrushButtonForeground}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeDefault}" />
+        <Setter Property="FontFamily" Value="pack://application:,,,/Resources/#Cinzel" />
+        <Setter Property="Background" Value="{StaticResource BrushButtonBackground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrushButtonBorder}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Padding" Value="4,2" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            Background="{TemplateBinding Background}">
+                        <ContentPresenter Margin="{TemplateBinding Padding}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrushButtonHover}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</styles:CachedResourceDictionary>
+    

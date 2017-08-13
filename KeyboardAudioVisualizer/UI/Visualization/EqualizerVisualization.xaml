@@ -23,100 +23,90 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type visualization:EqualizerVisualizer}">
-                    <Grid x:Name="Container" Background="Transparent">
-                        <Polyline x:Name="PART_Line" Stroke="White" StrokeThickness="2" StrokeLineJoin="Round">
-                            <Polyline.Points>
-                                <MultiBinding Converter="{StaticResource EqualizerBandsToPointsConverter}" ConverterParameter="120">
-                                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Equalizer" />
-                                    <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Equalizer.Bands" />
-                                    <Binding Path="ActualWidth" ElementName="Container" />
-                                    <Binding Path="ActualHeight" ElementName="Container" />
-                                </MultiBinding>
-                            </Polyline.Points>
-                        </Polyline>
+                    <Grid>
+                        <Grid x:Name="Container" Background="Transparent"
+                              Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Equalizer.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Polyline x:Name="PART_Line" Stroke="White" StrokeThickness="2" StrokeLineJoin="Round">
+                                <Polyline.Points>
+                                    <MultiBinding Converter="{StaticResource EqualizerBandsToPointsConverter}" ConverterParameter="120">
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Equalizer" />
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="Equalizer.Bands" />
+                                        <Binding Path="ActualWidth" ElementName="Container" />
+                                        <Binding Path="ActualHeight" ElementName="Container" />
+                                    </MultiBinding>
+                                </Polyline.Points>
+                            </Polyline>
 
-                        <ItemsControl x:Name="PART_Grips" Opacity="0"
-                                      Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Equalizer.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"
-                                      ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Equalizer.Bands}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <Canvas />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
+                            <ItemsControl x:Name="PART_Grips" Opacity="0"
+                                          ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Equalizer.Bands}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
 
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="equalizer:EqualizerBand">
-                                    <Border Width="24" Height="24" CornerRadius="12"
-                                            BorderThickness="3" BorderBrush="{StaticResource BrushEqualizerBorder}"
-                                            Background="{StaticResource BrushEqualizerBackground}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="equalizer:EqualizerBand">
+                                        <Border Width="24" Height="24" CornerRadius="12"
+                                                BorderThickness="3" BorderBrush="{StaticResource BrushEqualizerBorder}"
+                                                Background="{StaticResource BrushEqualizerBackground}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
 
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ContentPresenter">
-                                    <Setter Property="Canvas.Left">
-                                        <Setter.Value>
-                                            <MultiBinding Converter="{StaticResource OffsetToPosXConverter}" ConverterParameter="12">
-                                                <Binding Path="Offset" />
-                                                <Binding Path="ActualWidth" ElementName="PART_Grips" />
-                                            </MultiBinding>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="Canvas.Top">
-                                        <Setter.Value>
-                                            <MultiBinding Converter="{StaticResource ValueToPosYConverter}" ConverterParameter="12">
-                                                <Binding Path="Value" />
-                                                <Binding Path="ActualHeight" ElementName="PART_Grips" />
-                                            </MultiBinding>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>
-                        </ItemsControl>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Canvas.Left">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource OffsetToPosXConverter}" ConverterParameter="12">
+                                                    <Binding Path="Offset" />
+                                                    <Binding Path="ActualWidth" ElementName="PART_Grips" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Canvas.Top">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource ValueToPosYConverter}" ConverterParameter="12">
+                                                    <Binding Path="Value" />
+                                                    <Binding Path="ActualHeight" ElementName="PART_Grips" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                            </ItemsControl>
+                        </Grid>
+
+                        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left"
+                                    Margin="0,-4,0,0" Orientation="Horizontal">
+                            <CheckBox VerticalAlignment="Center" Content="Enable Equalizer"
+                                      Foreground="{StaticResource BrushForeground}"
+                                      IsChecked="{Binding Path=Equalizer.IsEnabled, RelativeSource={RelativeSource TemplatedParent}}" />
+
+                            <Button VerticalAlignment="Center" Margin="12,0,0,0" 
+                                    Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Equalizer.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"
+                                    Content="Reset" Command="{TemplateBinding ResetCommand}" />
+                        </StackPanel>
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
-                                <!--<Condition Binding="{Binding Path=Equalizer.IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type visualization:EqualizerVisualizer}}}" Value="True" />-->
-                            </MultiDataTrigger.Conditions>
-                            <MultiDataTrigger.EnterActions>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Duration="0:0:0.2" To="1"
                                                          Storyboard.TargetName="PART_Grips" Storyboard.TargetProperty="Opacity" />
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </MultiDataTrigger.EnterActions>
-                            <MultiDataTrigger.ExitActions>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Duration="0:0:0.25" To="0"
                                                          Storyboard.TargetName="PART_Grips" Storyboard.TargetProperty="Opacity" />
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </MultiDataTrigger.ExitActions>
-                        </MultiDataTrigger>
-
-                        <!--<DataTrigger Binding="{Binding Path=Equalizer.IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type visualization:EqualizerVisualizer}}}" Value="False">
-                            <DataTrigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="0:0:0.2" To="1"
-                                                         Storyboard.TargetName="PART_Line" Storyboard.TargetProperty="Opacity" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                            <DataTrigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="0:0:0.25" To="0"
-                                                         Storyboard.TargetName="PART_Line" Storyboard.TargetProperty="Opacity" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.ExitActions>
-                        </DataTrigger>-->
+                            </Trigger.ExitActions>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

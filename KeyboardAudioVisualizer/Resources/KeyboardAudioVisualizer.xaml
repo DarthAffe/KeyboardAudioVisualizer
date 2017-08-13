@@ -12,6 +12,7 @@
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/GroupBox.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ToolTip.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ComboBox.xaml" />
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Button.xaml" />
     </styles:CachedResourceDictionary.MergedDictionaries>
 
     <converter:EqualsToBoolConverter x:Key="EqualsToBoolConverter" />
@@ -24,6 +25,7 @@
     <Style TargetType="GroupBox" BasedOn="{StaticResource StyleGroupBoxBox}" />
     <Style TargetType="ToolTip" BasedOn="{StaticResource StyleToolTip}" />
     <Style TargetType="ComboBox" BasedOn="{StaticResource StyleComboBox}" />
+    <Style TargetType="Button" BasedOn="{StaticResource StyleButton}" />
 
 </styles:CachedResourceDictionary>
 

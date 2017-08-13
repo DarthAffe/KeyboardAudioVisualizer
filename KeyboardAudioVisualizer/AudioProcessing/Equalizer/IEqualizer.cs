@@ -12,5 +12,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
 
         EqualizerBand AddBand(float offset, float modification);
         void RemoveBandBand(EqualizerBand band);
+
+        void Reset();
     }
 }

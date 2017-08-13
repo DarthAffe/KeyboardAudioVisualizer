@@ -22,6 +22,15 @@ namespace KeyboardAudioVisualizer.UI.Visualization
             set => SetValue(EqualizerProperty, value);
         }
 
+        public static readonly DependencyProperty ResetCommandProperty = DependencyProperty.Register(
+            "ResetCommand", typeof(ICommand), typeof(EqualizerVisualizer), new PropertyMetadata(null));
+
+        public ICommand ResetCommand
+        {
+            get => (ICommand)GetValue(ResetCommandProperty);
+            set => SetValue(ResetCommandProperty, value);
+        }
+
         // ReSharper restore InconsistentNaming
         #endregion
 
@@ -34,6 +43,10 @@ namespace KeyboardAudioVisualizer.UI.Visualization
 
         #region Constructors
 
+        public EqualizerVisualizer()
+        {
+            ResetCommand = new ActionCommand(() => Equalizer?.Reset());
+        }
 
         #endregion
 
