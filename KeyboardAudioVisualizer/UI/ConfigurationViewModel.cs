@@ -17,7 +17,9 @@ namespace KeyboardAudioVisualizer.UI
             get => 1.0 / RGBSurface.Instance.UpdateFrequency;
             set
             {
-                RGBSurface.Instance.UpdateFrequency = 1.0 / MathHelper.Clamp(value, 1, 40);
+                double val = MathHelper.Clamp(value, 1, 40);
+                ApplicationManager.Instance.Settings.UpdateRate = val;
+                RGBSurface.Instance.UpdateFrequency = 1.0 / val;
                 OnPropertyChanged();
             }
         }

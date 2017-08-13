@@ -7,7 +7,9 @@ using KeyboardAudioVisualizer.UI;
 using RGB.NET.Brushes;
 using RGB.NET.Brushes.Gradients;
 using RGB.NET.Core;
+using RGB.NET.Devices.CoolerMaster;
 using RGB.NET.Devices.Corsair;
+using RGB.NET.Devices.Logitech;
 using RGB.NET.Groups;
 
 namespace KeyboardAudioVisualizer
@@ -46,12 +48,12 @@ namespace KeyboardAudioVisualizer
         {
             RGBSurface surface = RGBSurface.Instance;
 
-            surface.UpdateFrequency = 1 / 40.0; //TODO DarthAffe 03.08.2017: Settings
+            surface.UpdateFrequency = 1 / MathHelper.Clamp(Settings.UpdateRate, 1, 40);
             surface.UpdateMode = UpdateMode.Continuous;
 
             surface.LoadDevices(CorsairDeviceProvider.Instance);
-            //surface.LoadDevices(LogitechDeviceProvider.Instance);
-            //surface.LoadDevices(CoolerMasterDeviceProvider.Instance);
+            surface.LoadDevices(LogitechDeviceProvider.Instance);
+            surface.LoadDevices(CoolerMasterDeviceProvider.Instance);
 
             ILedGroup background = new ListLedGroup(surface.Leds);
             background.Brush = new SolidColorBrush(new Color(64, 0, 0, 0)); //TODO DarthAffe 06.08.2017: A-Channel gives some kind of blur - settings!
