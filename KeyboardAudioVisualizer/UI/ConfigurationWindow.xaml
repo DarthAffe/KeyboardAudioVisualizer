@@ -123,18 +123,32 @@
         <TabItem Header="Settings">
             <GroupBox VerticalAlignment="Top">
                 <StackPanel Orientation="Vertical">
-                    <controls:Formular>
-                        <controls:Formular.Resources>
+                    <Grid>
+                        <Grid.Resources>
                             <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
                             <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
                             <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
-                        </controls:Formular.Resources>
+                        </Grid.Resources>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                        <Label controls:Formular.IsLabel="True" Content="Version:" />
-                        <TextBlock Text="{Binding Version}" />
+                        <controls:Formular Grid.Column="0">
+                            <Label controls:Formular.IsLabel="True" Content="Version:" />
+                            <TextBlock Text="{Binding Version}" />
 
-                        <Label controls:Formular.LineBreaks="1" controls:Formular.IsLabel="True" Content="Devices:" />
-                    </controls:Formular>
+                            <Label controls:Formular.IsLabel="True" Content="Update-Rate" />
+                            <Slider Minimum="1" Maximum="40" controls:Formular.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                    Value="{Binding UpdateRate}" />
+
+                            <Label controls:Formular.LineBreaks="1" controls:Formular.IsLabel="True" Content="Devices:" />
+                        </controls:Formular>
+                    </Grid>
 
                     <!-- TODO DarthAffe 05.08.2017: Fix the formular to support that use-case -->
                     <ItemsControl VerticalAlignment="Top" HorizontalAlignment="Left" Margin="120,-22,0,0" ItemsSource="{Binding Source={x:Static core:RGBSurface.Instance}, Path=Devices}">

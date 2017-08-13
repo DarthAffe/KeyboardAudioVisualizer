@@ -12,6 +12,16 @@ namespace KeyboardAudioVisualizer.UI
 
         public Version Version => Assembly.GetEntryAssembly().GetName().Version;
 
+        public double UpdateRate
+        {
+            get => 1.0 / RGBSurface.Instance.UpdateFrequency;
+            set
+            {
+                RGBSurface.Instance.UpdateFrequency = 1.0 / MathHelper.Clamp(value, 1, 40);
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Commands
