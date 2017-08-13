@@ -29,7 +29,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
             set => SetProperty(ref _smoothing, value);
         }
 
-        private double _scale = 5;
+        private double _scale = 8;
         public double Scale
         {
             get => _scale;
