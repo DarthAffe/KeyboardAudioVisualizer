@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
 using KeyboardAudioVisualizer.AudioProcessing;
+using KeyboardAudioVisualizer.Configuration;
 using KeyboardAudioVisualizer.Helper;
 
 namespace KeyboardAudioVisualizer

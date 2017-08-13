@@ -58,16 +58,20 @@ namespace KeyboardAudioVisualizer.AudioProcessing
             _spectrumProvider = new FourierSpectrumProvider(_audioBuffer);
             _spectrumProvider.Initialize();
 
-            //TODO DarthAffe 03.08.2017: Initialize correctly; Settings
-            MultiBandEqualizer equalizer = new MultiBandEqualizer { IsEnabled = false };
-            PrimaryVisualizationProvider = new FrequencyBarsVisualizationProvider(new FrequencyBarsVisualizationProviderConfiguration(), _spectrumProvider) { Equalizer = equalizer };
+            //TODO DarthAffe 13.08.2017: Refactore Settings-stuff to work with multiple providers
+
+            MultiBandEqualizer equalizer = new MultiBandEqualizer();
+            ApplicationManager.Instance.Settings.EqualizerConfiguration.LoadInto(equalizer);
+            equalizer.PropertyChanged += (sender, args) => ApplicationManager.Instance.Settings.EqualizerConfiguration.SaveFrom(equalizer);
+
+            PrimaryVisualizationProvider = new FrequencyBarsVisualizationProvider(ApplicationManager.Instance.Settings.FrequencyBarsVisualizationProviderConfiguration, _spectrumProvider) { Equalizer = equalizer };
             //PrimaryVisualizationProvider = new BeatVisualizationProvider(new BeatVisualizationProviderConfiguration(), _spectrumProvider);
             PrimaryVisualizationProvider.Initialize();
 
-            SecondaryVisualizationProvider = new BeatVisualizationProvider(new BeatVisualizationProviderConfiguration(), _spectrumProvider);
+            SecondaryVisualizationProvider = new BeatVisualizationProvider(ApplicationManager.Instance.Settings.BeatVisualizationProviderConfiguration, _spectrumProvider);
             SecondaryVisualizationProvider.Initialize();
 
-            TertiaryVisualizationProvider = new LevelVisualizationProvider(new LevelVisualizationProviderConfiguration(), _audioBuffer);
+            TertiaryVisualizationProvider = new LevelVisualizationProvider(ApplicationManager.Instance.Settings.LevelVisualizationProviderConfiguration, _audioBuffer);
             TertiaryVisualizationProvider.Initialize();
         }
 

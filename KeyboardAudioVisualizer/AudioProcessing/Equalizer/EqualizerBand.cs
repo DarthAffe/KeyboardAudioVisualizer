@@ -25,11 +25,13 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Equalizer
             set => SetProperty(ref _value, float.IsNaN(value) ? 0 : MathHelper.Clamp(value, -1, 1));
         }
 
-        public bool IsFixedOffset { get; }
+        public bool IsFixedOffset { get; set; }
 
         #endregion
 
         #region Constructors
+
+        public EqualizerBand() : this(0) { }
 
         public EqualizerBand(float offset, float value = 0, bool fixedOffset = false)
         {

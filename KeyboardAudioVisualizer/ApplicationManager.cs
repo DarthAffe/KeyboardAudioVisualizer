@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using KeyboardAudioVisualizer.AudioProcessing;
 using KeyboardAudioVisualizer.Brushes;
+using KeyboardAudioVisualizer.Configuration;
 using KeyboardAudioVisualizer.Helper;
 using KeyboardAudioVisualizer.UI;
 using RGB.NET.Brushes;

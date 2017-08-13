@@ -127,6 +127,7 @@
     <Compile Include="Brushes\FrequencyBarsBrush.cs" />
     <Compile Include="Brushes\LevelBarBrush.cs" />
     <Compile Include="Configuration\AbstractConfiguration.cs" />
+    <Compile Include="Configuration\EqualizerConfiguration.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Controls\Formular.cs" />
     <Compile Include="Controls\ImageButton.cs" />
@@ -140,7 +141,7 @@
     <Compile Include="Helper\FrequencyHelper.cs" />
     <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="Helper\WPFHelper.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Controls\BlurredDecorationWindow.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
     <Compile Include="UI\ConfigurationWindow.xaml.cs">
