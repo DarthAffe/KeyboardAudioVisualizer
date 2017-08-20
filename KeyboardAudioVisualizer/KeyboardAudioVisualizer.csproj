@@ -66,8 +66,14 @@
     <Reference Include="RGB.NET.Devices.Logitech, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RGB.NET.Devices.Logitech.1.0.0\lib\net45\RGB.NET.Devices.Logitech.dll</HintPath>
     </Reference>
+    <Reference Include="RGB.NET.Devices.Novation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RGB.NET.Devices.Novation.1.0.0\lib\net45\RGB.NET.Devices.Novation.dll</HintPath>
+    </Reference>
     <Reference Include="RGB.NET.Groups, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RGB.NET.Groups.1.0.0\lib\net45\RGB.NET.Groups.dll</HintPath>
+    </Reference>
+    <Reference Include="Sanford.Multimedia.Midi, Version=6.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sanford.Multimedia.Midi.6.4.1\lib\net20\Sanford.Multimedia.Midi.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
