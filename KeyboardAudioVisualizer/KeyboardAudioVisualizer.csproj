@@ -129,9 +129,9 @@
     <Compile Include="AudioProcessing\VisualizationProvider\IVisualizationProvider.cs" />
     <Compile Include="AudioProcessing\VisualizationProvider\LevelVisualizationProvider.cs" />
     <Compile Include="AudioProcessing\Spectrum\RawSpectrumProvider.cs" />
-    <Compile Include="Brushes\BeatBrush.cs" />
-    <Compile Include="Brushes\FrequencyBarsBrush.cs" />
-    <Compile Include="Brushes\LevelBarBrush.cs" />
+    <Compile Include="Decorators\BeatDecorator.cs" />
+    <Compile Include="Decorators\FrequencyBarsDecorator.cs" />
+    <Compile Include="Decorators\LevelBarDecorator.cs" />
     <Compile Include="Configuration\AbstractConfiguration.cs" />
     <Compile Include="Configuration\EqualizerConfiguration.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />

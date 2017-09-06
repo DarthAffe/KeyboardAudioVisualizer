@@ -1,11 +1,9 @@
 ﻿using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
-using RGB.NET.Brushes;
-using RGB.NET.Brushes.Gradients;
 using RGB.NET.Core;
 
-namespace KeyboardAudioVisualizer.Brushes
+namespace KeyboardAudioVisualizer.Decorators
 {
-    public class LevelBarBrush : LinearGradientBrush
+    public class LevelBarDecorator : AbstractDecorator, IBrushDecorator
     {
         #region Properties & Fields
 
@@ -17,8 +15,7 @@ namespace KeyboardAudioVisualizer.Brushes
 
         #region Constructors
 
-        public LevelBarBrush(IVisualizationProvider visualizationProvider, IGradient gradient, LevelBarDirection direction, int dataIndex)
-            : base(gradient)
+        public LevelBarDecorator(IVisualizationProvider visualizationProvider, LevelBarDirection direction, int dataIndex)
         {
             this._visualizationProvider = visualizationProvider;
             this.Direction = direction;
@@ -29,10 +26,12 @@ namespace KeyboardAudioVisualizer.Brushes
 
         #region Methods
 
-        protected override Color GetColorAtPoint(Rectangle rectangle, BrushRenderTarget renderTarget)
+        public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color)
         {
             double offset = CalculateOffset(rectangle, renderTarget);
-            return offset < _visualizationProvider.VisualizationData[DataIndex] ? Gradient.GetColor(offset) : Color.Transparent;
+
+            if (offset >= _visualizationProvider.VisualizationData[DataIndex])
+                color.A = 0;
         }
 
         private double CalculateOffset(Rectangle rectangle, BrushRenderTarget renderTarget)

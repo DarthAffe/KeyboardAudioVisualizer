@@ -1,14 +1,12 @@
 ﻿using System;
 using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
-using RGB.NET.Brushes;
-using RGB.NET.Brushes.Gradients;
 using RGB.NET.Core;
 using Color = RGB.NET.Core.Color;
 using Rectangle = RGB.NET.Core.Rectangle;
 
-namespace KeyboardAudioVisualizer.Brushes
+namespace KeyboardAudioVisualizer.Decorators
 {
-    public class FrequencyBarsBrush : LinearGradientBrush
+    public class FrequencyBarsDecorator : AbstractDecorator, IBrushDecorator
     {
         #region Properties & Fields
 
@@ -18,8 +16,7 @@ namespace KeyboardAudioVisualizer.Brushes
 
         #region Constructors
 
-        public FrequencyBarsBrush(IVisualizationProvider visualizationProvider, IGradient gradient)
-            : base(gradient)
+        public FrequencyBarsDecorator(IVisualizationProvider visualizationProvider)
         {
             this._visualizationProvider = visualizationProvider;
         }
@@ -28,13 +25,14 @@ namespace KeyboardAudioVisualizer.Brushes
 
         #region Methods
 
-        protected override Color GetColorAtPoint(Rectangle rectangle, BrushRenderTarget renderTarget)
+        public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color)
         {
             int barSampleIndex = (int)Math.Floor(_visualizationProvider.VisualizationData.Length * (renderTarget.Point.X / (rectangle.Location.X + rectangle.Size.Width)));
             double curBarHeight = 1.0 - Math.Max(0f, _visualizationProvider.VisualizationData[barSampleIndex]);
             double verticalPos = (renderTarget.Point.Y / rectangle.Size.Height);
 
-            return curBarHeight <= verticalPos ? base.GetColorAtPoint(rectangle, renderTarget) : Color.Transparent;
+            if (curBarHeight > verticalPos)
+                color.A = 0;
         }
 
         #endregion

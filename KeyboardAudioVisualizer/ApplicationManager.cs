@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using KeyboardAudioVisualizer.AudioProcessing;
-using KeyboardAudioVisualizer.Brushes;
 using KeyboardAudioVisualizer.Configuration;
+using KeyboardAudioVisualizer.Decorators;
 using KeyboardAudioVisualizer.Helper;
 using KeyboardAudioVisualizer.UI;
 using RGB.NET.Brushes;
@@ -12,6 +12,7 @@ using RGB.NET.Devices.Corsair;
 using RGB.NET.Devices.Corsair.SpecialParts;
 using RGB.NET.Devices.Logitech;
 using RGB.NET.Groups;
+using Point = RGB.NET.Core.Point;
 
 namespace KeyboardAudioVisualizer
 {
@@ -65,26 +66,30 @@ namespace KeyboardAudioVisualizer
                 {
                     case RGBDeviceType.Keyboard:
                     case RGBDeviceType.LedMatrix:
+                        ListLedGroup primary = new ListLedGroup(device);
+
                         LightbarSpecialPart lightbar = device.GetSpecialDevicePart<LightbarSpecialPart>();
                         if (lightbar != null)
                         {
-                            ListLedGroup primary = new ListLedGroup(device);
                             primary.RemoveLeds(lightbar.Leds);
-                            primary.Brush = new FrequencyBarsBrush(AudioProcessor.Instance.PrimaryVisualizationProvider, new RainbowGradient(300, -14));
 
                             IGradient keyboardLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
 
                             ILedGroup lightbarLeft = new ListLedGroup(lightbar.Left);
-                            lightbarLeft.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, keyboardLevelGradient, LevelBarDirection.Left, 0);
+                            lightbarLeft.Brush = new LinearGradientBrush(keyboardLevelGradient);
+                            lightbarLeft.Brush.AddDecorator(new LevelBarDecorator(AudioProcessor.Instance.TertiaryVisualizationProvider, LevelBarDirection.Left, 0));
 
                             ILedGroup lightbarRight = new ListLedGroup(lightbar.Right);
-                            lightbarRight.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, keyboardLevelGradient, LevelBarDirection.Right, 1);
+                            lightbarRight.Brush = new LinearGradientBrush(keyboardLevelGradient);
+                            lightbarRight.Brush.AddDecorator(new LevelBarDecorator(AudioProcessor.Instance.TertiaryVisualizationProvider, LevelBarDirection.Right, 1));
 
                             ILedGroup lightbarCenter = new ListLedGroup(lightbar.Center);
-                            lightbarCenter.Brush = new BeatBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, new Color(255, 255, 255));
+                            lightbarCenter.Brush = new SolidColorBrush(new Color(255, 255, 255));
+                            lightbarCenter.Brush.AddDecorator(new BeatDecorator(AudioProcessor.Instance.SecondaryVisualizationProvider));
                         }
-                        else
-                            new ListLedGroup(device).Brush = new FrequencyBarsBrush(AudioProcessor.Instance.PrimaryVisualizationProvider, new RainbowGradient(300, -14));
+
+                        primary.Brush = new LinearGradientBrush(new RainbowGradient(300, -14));
+                        primary.Brush.AddDecorator(new FrequencyBarsDecorator(AudioProcessor.Instance.PrimaryVisualizationProvider));
                         break;
 
                     case RGBDeviceType.Mousepad:
@@ -93,16 +98,19 @@ namespace KeyboardAudioVisualizer
                         IGradient mousepadLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
 
                         ILedGroup left = new RectangleLedGroup(new Rectangle(device.Location.X, device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
-                        left.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, mousepadLevelGradient, LevelBarDirection.Top, 0);
+                        left.Brush = new LinearGradientBrush(new Point(0.5, 1), new Point(0.5, 0), mousepadLevelGradient);
+                        left.Brush.AddDecorator(new LevelBarDecorator(AudioProcessor.Instance.TertiaryVisualizationProvider, LevelBarDirection.Top, 0));
 
                         ILedGroup right = new RectangleLedGroup(new Rectangle(device.Location.X + (device.Size.Width / 2.0), device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
-                        right.Brush = new LevelBarBrush(AudioProcessor.Instance.TertiaryVisualizationProvider, mousepadLevelGradient, LevelBarDirection.Top, 1);
+                        right.Brush = new LinearGradientBrush(new Point(0.5, 1), new Point(0.5, 0), mousepadLevelGradient);
+                        right.Brush.AddDecorator(new LevelBarDecorator(AudioProcessor.Instance.TertiaryVisualizationProvider, LevelBarDirection.Top, 1));
                         break;
 
                     case RGBDeviceType.Mouse:
                     case RGBDeviceType.Headset:
                         ILedGroup deviceGroup = new ListLedGroup(device);
-                        deviceGroup.Brush = new BeatBrush(AudioProcessor.Instance.SecondaryVisualizationProvider, new Color(255, 255, 255));
+                        deviceGroup.Brush = new SolidColorBrush(new Color(255, 255, 255));
+                        deviceGroup.Brush.AddDecorator(new BeatDecorator(AudioProcessor.Instance.SecondaryVisualizationProvider));
                         break;
                 }
 

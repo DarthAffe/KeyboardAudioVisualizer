@@ -1,34 +1,30 @@
 ﻿using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
 using RGB.NET.Core;
 
-namespace KeyboardAudioVisualizer.Brushes
+namespace KeyboardAudioVisualizer.Decorators
 {
-    public class BeatBrush : AbstractBrush
+    public class BeatDecorator : AbstractDecorator, IBrushDecorator
     {
         #region Properties & Fields
 
         private readonly IVisualizationProvider _visualizationProvider;
-        private readonly Color _color;
 
         #endregion
 
         #region Constructors
 
-        public BeatBrush(IVisualizationProvider visualizationProvider, Color color)
+        public BeatDecorator(IVisualizationProvider visualizationProvider)
         {
             this._visualizationProvider = visualizationProvider;
-            this._color = color;
         }
 
         #endregion
 
         #region Methods
 
-        protected override Color GetColorAtPoint(Rectangle rectangle, BrushRenderTarget renderTarget)
+        public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color)
         {
-            Color color = new Color(_color);
             color.APercent *= _visualizationProvider.VisualizationData[0];
-            return color;
         }
 
         #endregion
