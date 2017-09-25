@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
 using KeyboardAudioVisualizer.AudioProcessing;
 using KeyboardAudioVisualizer.Configuration;
 using KeyboardAudioVisualizer.Helper;
+using Newtonsoft.Json;
 
 namespace KeyboardAudioVisualizer
 {
@@ -12,17 +14,13 @@ namespace KeyboardAudioVisualizer
     {
         #region Constants
 
-        private const string PATH_SETTINGS = "Settings.xml";
+        private const string PATH_SETTINGS = "Settings.json";
 
         #endregion
 
         #region Properties & Fields
 
         private TaskbarIcon _taskbarIcon;
-
-        #endregion
-
-        #region Constructors
 
         #endregion
 
@@ -37,7 +35,14 @@ namespace KeyboardAudioVisualizer
                 _taskbarIcon = (TaskbarIcon)FindResource("TaskbarIcon");
                 _taskbarIcon.DoubleClickCommand = ApplicationManager.Instance.OpenConfigurationCommand;
 
-                Settings settings = SerializationHelper.LoadObjectFromFile<Settings>(PATH_SETTINGS);
+                //Settings settings = SerializationHelper.LoadObjectFromFile<Settings>(PATH_SETTINGS);
+                Settings settings = null;
+                try { settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(PATH_SETTINGS)); }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    /* File doesn't exist or is corrupt - just create a new one. */
+                }
                 if (settings == null)
                 {
                     settings = new Settings();
@@ -45,7 +50,7 @@ namespace KeyboardAudioVisualizer
                 }
                 ApplicationManager.Instance.Settings = settings;
 
-                AudioProcessor.Initialize();
+                AudioVisualizationFactory.Initialize();
                 ApplicationManager.Instance.InitializeDevices();
             }
             catch (Exception ex)
@@ -62,7 +67,7 @@ namespace KeyboardAudioVisualizer
         {
             base.OnExit(e);
 
-            SerializationHelper.SaveObjectToFile(ApplicationManager.Instance.Settings, PATH_SETTINGS);
+            File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings));
         }
 
         #endregion

@@ -1,5 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using KeyboardAudioVisualizer.AudioProcessing;
+using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
 using KeyboardAudioVisualizer.Configuration;
 using KeyboardAudioVisualizer.Decorators;
 using KeyboardAudioVisualizer.Helper;
@@ -13,11 +17,15 @@ using RGB.NET.Devices.Corsair.SpecialParts;
 using RGB.NET.Devices.Logitech;
 using RGB.NET.Groups;
 using Point = RGB.NET.Core.Point;
+using GetDecoratorFunc = System.Func<KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider.VisualizationType, KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider.IVisualizationProvider, RGB.NET.Core.IBrushDecorator>;
 
 namespace KeyboardAudioVisualizer
 {
     public class ApplicationManager
     {
+        #region Constants
+        #endregion
+
         #region Properties & Fields
 
         public static ApplicationManager Instance { get; } = new ApplicationManager();
@@ -25,6 +33,10 @@ namespace KeyboardAudioVisualizer
         private ConfigurationWindow _configurationWindow;
 
         public Settings Settings { get; set; }
+
+        public ObservableDictionary<VisualizationIndex, IVisualizationProvider> Visualizations { get; } = new ObservableDictionary<VisualizationIndex, IVisualizationProvider>();
+
+        private readonly Dictionary<VisualizationIndex, IEnumerable<(ILedGroup group, GetDecoratorFunc getDecoratorFunc)>> _groups = new Dictionary<VisualizationIndex, IEnumerable<(ILedGroup group, GetDecoratorFunc getDecoratorFunc)>>();
 
         #endregion
 
@@ -50,7 +62,7 @@ namespace KeyboardAudioVisualizer
         {
             RGBSurface surface = RGBSurface.Instance;
 
-            surface.UpdateFrequency = 1 / MathHelper.Clamp(Settings.UpdateRate, 1, 40);
+            surface.UpdateFrequency = 1.0 / MathHelper.Clamp(Settings.UpdateRate, 1, 40);
             surface.UpdateMode = UpdateMode.Continuous;
 
             surface.LoadDevices(CorsairDeviceProvider.Instance);
@@ -60,8 +72,10 @@ namespace KeyboardAudioVisualizer
             ILedGroup background = new ListLedGroup(surface.Leds);
             background.Brush = new SolidColorBrush(new Color(64, 0, 0, 0)); //TODO DarthAffe 06.08.2017: A-Channel gives some kind of blur - settings!
 
-            //TODO DarthAffe 03.08.2017: Changeable, Settings etc.
-            foreach (IRGBDevice device in surface.Devices)
+            List<(ILedGroup, GetDecoratorFunc)> primaryGroups = new List<(ILedGroup, GetDecoratorFunc)>();
+            List<(ILedGroup, GetDecoratorFunc)> secondaryGroups = new List<(ILedGroup, GetDecoratorFunc)>();
+            List<(ILedGroup, GetDecoratorFunc)> tertiaryGroups = new List<(ILedGroup, GetDecoratorFunc)>();
+            foreach (IRGBDevice device in RGBSurface.Instance.Devices)
                 switch (device.DeviceInfo.DeviceType)
                 {
                     case RGBDeviceType.Keyboard:
@@ -77,44 +91,84 @@ namespace KeyboardAudioVisualizer
 
                             ILedGroup lightbarLeft = new ListLedGroup(lightbar.Left);
                             lightbarLeft.Brush = new LinearGradientBrush(keyboardLevelGradient);
-                            lightbarLeft.Brush.AddDecorator(new LevelBarDecorator(AudioProcessor.Instance.TertiaryVisualizationProvider, LevelBarDirection.Left, 0));
+                            tertiaryGroups.Add((lightbarLeft, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Left, 0)));
 
                             ILedGroup lightbarRight = new ListLedGroup(lightbar.Right);
                             lightbarRight.Brush = new LinearGradientBrush(keyboardLevelGradient);
-                            lightbarRight.Brush.AddDecorator(new LevelBarDecorator(AudioProcessor.Instance.TertiaryVisualizationProvider, LevelBarDirection.Right, 1));
+                            tertiaryGroups.Add((lightbarRight, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Right, 1)));
 
                             ILedGroup lightbarCenter = new ListLedGroup(lightbar.Center);
                             lightbarCenter.Brush = new SolidColorBrush(new Color(255, 255, 255));
-                            lightbarCenter.Brush.AddDecorator(new BeatDecorator(AudioProcessor.Instance.SecondaryVisualizationProvider));
+                            secondaryGroups.Add((lightbarCenter, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer)));
                         }
 
                         primary.Brush = new LinearGradientBrush(new RainbowGradient(300, -14));
-                        primary.Brush.AddDecorator(new FrequencyBarsDecorator(AudioProcessor.Instance.PrimaryVisualizationProvider));
+                        primaryGroups.Add((primary, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Horizontal)));
                         break;
 
                     case RGBDeviceType.Mousepad:
                     case RGBDeviceType.LedStripe:
-
                         IGradient mousepadLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
 
                         ILedGroup left = new RectangleLedGroup(new Rectangle(device.Location.X, device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
                         left.Brush = new LinearGradientBrush(new Point(0.5, 1), new Point(0.5, 0), mousepadLevelGradient);
-                        left.Brush.AddDecorator(new LevelBarDecorator(AudioProcessor.Instance.TertiaryVisualizationProvider, LevelBarDirection.Top, 0));
+                        tertiaryGroups.Add((left, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Top, 0)));
 
                         ILedGroup right = new RectangleLedGroup(new Rectangle(device.Location.X + (device.Size.Width / 2.0), device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
                         right.Brush = new LinearGradientBrush(new Point(0.5, 1), new Point(0.5, 0), mousepadLevelGradient);
-                        right.Brush.AddDecorator(new LevelBarDecorator(AudioProcessor.Instance.TertiaryVisualizationProvider, LevelBarDirection.Top, 1));
+                        tertiaryGroups.Add((right, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Top, 1)));
                         break;
 
                     case RGBDeviceType.Mouse:
                     case RGBDeviceType.Headset:
                         ILedGroup deviceGroup = new ListLedGroup(device);
                         deviceGroup.Brush = new SolidColorBrush(new Color(255, 255, 255));
-                        deviceGroup.Brush.AddDecorator(new BeatDecorator(AudioProcessor.Instance.SecondaryVisualizationProvider));
+                        secondaryGroups.Add((deviceGroup, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer)));
                         break;
                 }
 
-            surface.Updating += args => AudioProcessor.Instance.Update();
+            _groups[VisualizationIndex.Primary] = primaryGroups;
+            _groups[VisualizationIndex.Secondary] = secondaryGroups;
+            _groups[VisualizationIndex.Tertiary] = tertiaryGroups;
+
+            ApplyVisualization(VisualizationIndex.Primary, Settings[VisualizationIndex.Primary].SelectedVisualization);
+            ApplyVisualization(VisualizationIndex.Secondary, Settings[VisualizationIndex.Secondary].SelectedVisualization);
+            ApplyVisualization(VisualizationIndex.Tertiary, Settings[VisualizationIndex.Tertiary].SelectedVisualization);
+
+            surface.Updating += args => AudioVisualizationFactory.Instance.Update();
+        }
+
+        //TODO DarthAffe 12.09.2017: This is just a big mess - is this worth to rework before arge?
+        public void ApplyVisualization(VisualizationIndex visualizationIndex, VisualizationType visualizationType)
+        {
+            IVisualizationProvider visualizer = AudioVisualizationFactory.Instance.CreateVisualizationProvider(visualizationIndex, visualizationType);
+            Visualizations[visualizationIndex] = visualizer;
+
+            foreach ((ILedGroup group, GetDecoratorFunc getDecoratorFunc) in _groups[visualizationIndex])
+            {
+                group.Brush.RemoveAllDecorators();
+
+                if (visualizer != null)
+                {
+                    IBrushDecorator decorator = getDecoratorFunc(visualizationType, visualizer);
+                    if (decorator != null)
+                        group.Brush.AddDecorator(decorator);
+                }
+            }
+        }
+
+        private IBrushDecorator CreateDecorator(VisualizationType visualizationType, IVisualizationProvider visualizationProvider, LevelBarDirection direction = LevelBarDirection.Top, int dataIndex = 0)
+        {
+            if (visualizationType == VisualizationType.FrequencyBars)
+                return new FrequencyBarsDecorator(visualizationProvider);
+
+            if (visualizationType == VisualizationType.Level)
+                return new LevelBarDecorator(visualizationProvider, direction, dataIndex);
+
+            if (visualizationType == VisualizationType.Beat)
+                return new BeatDecorator(visualizationProvider);
+
+            return null;
         }
 
         private void OpenConfiguration()
@@ -125,8 +179,8 @@ namespace KeyboardAudioVisualizer
 
         private void Exit()
         {
-            RGBSurface.Instance.Dispose();
-            AudioProcessor.Instance.Dispose();
+            RGBSurface.Instance?.Dispose();
+            AudioVisualizationFactory.Instance?.Dispose();
             Application.Current.Shutdown();
         }
 

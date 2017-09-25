@@ -7,6 +7,17 @@ namespace KeyboardAudioVisualizer.Configuration
 {
     public class AbstractConfiguration : AbstractBindable, IConfiguration, INotifyPropertyChanged
     {
+        #region Properties & Fields
+
+        private IBrush _brush;
+        public IBrush Brush
+        {
+            get => _brush;
+            set => SetProperty(ref _brush, value);
+        }
+
+        #endregion
+
         #region Methods
 
         protected override bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

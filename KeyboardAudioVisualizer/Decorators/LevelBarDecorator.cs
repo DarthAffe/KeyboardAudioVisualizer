@@ -3,7 +3,7 @@ using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.Decorators
 {
-    public class LevelBarDecorator : AbstractDecorator, IBrushDecorator
+    public class LevelBarDecorator : AbstractUpdateAwareDecorator, IBrushDecorator
     {
         #region Properties & Fields
 
@@ -26,12 +26,32 @@ namespace KeyboardAudioVisualizer.Decorators
 
         #region Methods
 
+        protected override void Update(double deltaTime) => _visualizationProvider.Update();
+
         public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color)
         {
             double offset = CalculateOffset(rectangle, renderTarget);
 
-            if (offset >= _visualizationProvider.VisualizationData[DataIndex])
-                color.A = 0;
+            if (Direction == LevelBarDirection.Horizontal)
+            {
+                if (offset < 0)
+                {
+                    offset = (-offset * 2);
+                    if (offset >= _visualizationProvider.VisualizationData[0])
+                        color.A = 0;
+                }
+                else
+                {
+                    offset *= 2;
+                    if (offset >= _visualizationProvider.VisualizationData[1])
+                        color.A = 0;
+                }
+            }
+            else
+            {
+                if (offset >= _visualizationProvider.VisualizationData[DataIndex])
+                    color.A = 0;
+            }
         }
 
         private double CalculateOffset(Rectangle rectangle, BrushRenderTarget renderTarget)
@@ -50,6 +70,9 @@ namespace KeyboardAudioVisualizer.Decorators
                 case LevelBarDirection.Bottom:
                     return renderTarget.Rectangle.Center.Y / rectangle.Size.Height;
 
+                case LevelBarDirection.Horizontal:
+                    return (renderTarget.Rectangle.Center.X / rectangle.Size.Width) - 0.5;
+
                 default:
                     return -1;
             }
@@ -62,7 +85,10 @@ namespace KeyboardAudioVisualizer.Decorators
 
     public enum LevelBarDirection
     {
-        Left, Right, Top, Bottom
+        Left, Right, Top, Bottom,
+
+        //HACK DarthAffe 12.09.2017: Just a bad workaround ...
+        Horizontal
     }
 
     #endregion

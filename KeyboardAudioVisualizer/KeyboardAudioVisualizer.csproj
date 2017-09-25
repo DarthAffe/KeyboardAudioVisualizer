@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -34,6 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
@@ -47,6 +49,9 @@
     </Reference>
     <Reference Include="MathNet.Numerics, Version=3.20.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MathNet.Numerics.3.20.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RGB.NET.Brushes">
       <HintPath>..\packages\RGB.NET.Brushes.1.0.0\lib\net45\RGB.NET.Brushes.dll</HintPath>
@@ -108,10 +113,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ApplicationManager.cs" />
+    <Compile Include="Attributes\DisplayNameAttribute.cs" />
+    <Compile Include="Attributes\VisualizerForAttribute.cs" />
     <Compile Include="AudioCapture\AudioBuffer.cs" />
     <Compile Include="AudioCapture\CSCoreAudioInput.cs" />
     <Compile Include="AudioCapture\IAudioInput.cs" />
-    <Compile Include="AudioProcessing\AudioProcessor.cs" />
+    <Compile Include="AudioProcessing\AbstractAudioProcessor.cs" />
+    <Compile Include="AudioProcessing\AudioVisualizationFactory.cs" />
     <Compile Include="AudioProcessing\Equalizer\EqualizerBand.cs" />
     <Compile Include="AudioProcessing\Equalizer\IEqualizer.cs" />
     <Compile Include="AudioProcessing\Equalizer\MultiBandEqualizer.cs" />
@@ -129,6 +137,10 @@
     <Compile Include="AudioProcessing\VisualizationProvider\IVisualizationProvider.cs" />
     <Compile Include="AudioProcessing\VisualizationProvider\LevelVisualizationProvider.cs" />
     <Compile Include="AudioProcessing\Spectrum\RawSpectrumProvider.cs" />
+    <Compile Include="AudioProcessing\VisualizationProvider\VisualizationType.cs" />
+    <Compile Include="Converter\VisualizationProviderDisplayNameConverter.cs" />
+    <Compile Include="Converter\VisualizationToLastChildFillConverter.cs" />
+    <Compile Include="Converter\VisualizationTypeSelectableConverter.cs" />
     <Compile Include="Decorators\BeatDecorator.cs" />
     <Compile Include="Decorators\FrequencyBarsDecorator.cs" />
     <Compile Include="Decorators\LevelBarDecorator.cs" />
@@ -143,12 +155,16 @@
     <Compile Include="Converter\OffsetToPosXConverter.cs" />
     <Compile Include="Converter\ValueToPosYConverter.cs" />
     <Compile Include="Helper\ActionCommand.cs" />
+    <Compile Include="Helper\EnumExtension.cs" />
     <Compile Include="Helper\ExceptionExtension.cs" />
     <Compile Include="Helper\FrequencyHelper.cs" />
     <Compile Include="Helper\MathHelper.cs" />
+    <Compile Include="Helper\ObservableDictionary.cs" />
+    <Compile Include="Helper\VisualizationIndex.cs" />
     <Compile Include="Helper\WPFHelper.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Controls\BlurredDecorationWindow.cs" />
+    <Compile Include="Legacy\Settings.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
     <Compile Include="UI\ConfigurationWindow.xaml.cs">
       <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
@@ -160,7 +176,7 @@
     <Compile Include="UI\Visualization\LevelVisualizer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper\SerializationHelper.cs" />
+    <Compile Include="Legacy\SerializationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

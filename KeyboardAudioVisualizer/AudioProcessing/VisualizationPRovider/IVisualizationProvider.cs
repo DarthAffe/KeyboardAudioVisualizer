@@ -2,9 +2,12 @@
 
 namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 {
-    public interface IVisualizationProvider : IAudioProcessor
+    public interface IVisualizationProvider
     {
         IConfiguration Configuration { get; }
         float[] VisualizationData { get; }
+
+        void Initialize();
+        void Update();
     }
 }

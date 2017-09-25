@@ -3,6 +3,7 @@ using System.Linq;
 using KeyboardAudioVisualizer.AudioCapture;
 using KeyboardAudioVisualizer.Configuration;
 using KeyboardAudioVisualizer.Helper;
+using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 {
@@ -46,7 +47,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 
     #endregion
 
-    public class LevelVisualizationProvider : IVisualizationProvider
+    public class LevelVisualizationProvider : AbstractAudioProcessor, IVisualizationProvider
     {
         #region Properties & Fields
 
@@ -61,6 +62,10 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 
         public IConfiguration Configuration => _configuration;
         public float[] VisualizationData { get; } = new float[3];
+
+        public string DisplayName => "Level";
+
+        public RGBDeviceType VisualizerFor => RGBDeviceType.Keyboard | RGBDeviceType.LedMatrix | RGBDeviceType.LedStripe | RGBDeviceType.Mousepad;
 
         #endregion
 
@@ -78,7 +83,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 
         #region Methods
 
-        public void Initialize()
+        public override void Initialize()
         {
             _sampleDataLeft = new float[_audioBuffer.Size];
             _sampleDataRight = new float[_audioBuffer.Size];
@@ -112,7 +117,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
             }
         }
 
-        public void Update()
+        public override void Update()
         {
             _audioBuffer.CopyLeftInto(ref _sampleDataLeft, 0);
             _audioBuffer.CopyRightInto(ref _sampleDataRight, 0);

@@ -2,7 +2,7 @@
 using KeyboardAudioVisualizer.AudioProcessing.Equalizer;
 using KeyboardAudioVisualizer.AudioProcessing.Spectrum;
 using KeyboardAudioVisualizer.Configuration;
-using KeyboardAudioVisualizer.Helper;
+using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 {
@@ -79,7 +79,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 
     #endregion
 
-    public class FrequencyBarsVisualizationProvider : IVisualizationProvider
+    public class FrequencyBarsVisualizationProvider : AbstractAudioProcessor, IVisualizationProvider
     {
         #region Properties & Fields
 
@@ -92,6 +92,9 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
         public IEqualizer Equalizer { get; set; }
         public IConfiguration Configuration => _configuration;
         public float[] VisualizationData { get; private set; }
+
+        public string DisplayName => "Spectrometer";
+        public RGBDeviceType VisualizerFor => RGBDeviceType.Keyboard | RGBDeviceType.LedMatrix;
 
         #endregion
 
@@ -109,7 +112,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 
         #region Methods
 
-        public void Initialize() => RecalculateConfigValues(null);
+        public override void Initialize() => RecalculateConfigValues(null);
 
         private void RecalculateConfigValues(string changedPropertyName)
         {
@@ -123,7 +126,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
                 _emphasiseFactor = (0.75 * (1 + _configuration.EmphasisePeaks));
         }
 
-        public void Update()
+        public override void Update()
         {
             ISpectrum spectrum = GetSpectrum();
             if (spectrum == null) return;

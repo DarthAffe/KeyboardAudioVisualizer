@@ -5,7 +5,7 @@ using MathNet.Numerics.IntegralTransforms;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.Spectrum
 {
-    public class FourierSpectrumProvider : ISpectrumProvider
+    public class FourierSpectrumProvider : AbstractAudioProcessor, ISpectrumProvider
     {
         #region Properties & Fields
 
@@ -31,7 +31,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Spectrum
 
         #region Methods
 
-        public void Initialize()
+        public override void Initialize()
         {
             _hamming = Window.Hamming(_audioBuffer.Size);
             _sampleData = new float[_audioBuffer.Size];
@@ -40,7 +40,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.Spectrum
             _spectrum = new float[_usableDataLength];
         }
 
-        public void Update()
+        public override void Update()
         {
             _audioBuffer.CopyMixInto(ref _sampleData, 0);
 

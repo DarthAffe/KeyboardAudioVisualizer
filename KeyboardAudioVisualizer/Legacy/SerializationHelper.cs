@@ -2,7 +2,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace KeyboardAudioVisualizer.Helper
+namespace KeyboardAudioVisualizer.Legacy
 {
     public static class SerializationHelper
     {

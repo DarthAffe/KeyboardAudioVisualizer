@@ -10,6 +10,8 @@ namespace KeyboardAudioVisualizer.Helper
         {
             if (ex == null) return string.Empty;
 
+            message += ex.Message;
+
             if (ex.InnerException != null)
                 message += "\r\nInnerException: " + GetFullMessage(ex.InnerException);
 

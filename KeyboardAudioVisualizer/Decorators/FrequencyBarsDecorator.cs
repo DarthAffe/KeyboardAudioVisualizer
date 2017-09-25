@@ -6,7 +6,7 @@ using Rectangle = RGB.NET.Core.Rectangle;
 
 namespace KeyboardAudioVisualizer.Decorators
 {
-    public class FrequencyBarsDecorator : AbstractDecorator, IBrushDecorator
+    public class FrequencyBarsDecorator : AbstractUpdateAwareDecorator, IBrushDecorator
     {
         #region Properties & Fields
 
@@ -25,9 +25,11 @@ namespace KeyboardAudioVisualizer.Decorators
 
         #region Methods
 
+        protected override void Update(double deltaTime) => _visualizationProvider.Update();
+
         public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color)
         {
-            int barSampleIndex = (int)Math.Floor(_visualizationProvider.VisualizationData.Length * (renderTarget.Point.X / (rectangle.Location.X + rectangle.Size.Width)));
+            int barSampleIndex = Math.Min(_visualizationProvider.VisualizationData.Length, (int)Math.Floor(_visualizationProvider.VisualizationData.Length * (renderTarget.Point.X / (rectangle.Location.X + rectangle.Size.Width))));
             double curBarHeight = 1.0 - Math.Max(0f, _visualizationProvider.VisualizationData[barSampleIndex]);
             double verticalPos = (renderTarget.Point.Y / rectangle.Size.Height);
 

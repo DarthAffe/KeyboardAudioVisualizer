@@ -7,7 +7,12 @@
                                   xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls"
                                   xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
                                   xmlns:core="clr-namespace:RGB.NET.Core;assembly=RGB.NET.Core"
+                                  xmlns:keyboardAudioVisualizer="clr-namespace:KeyboardAudioVisualizer"
                                   xmlns:audioProcessing="clr-namespace:KeyboardAudioVisualizer.AudioProcessing"
+                                  xmlns:converter="clr-namespace:KeyboardAudioVisualizer.Converter"
+                                  xmlns:visualizationProvider="clr-namespace:KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider"
+                                  xmlns:helper="clr-namespace:KeyboardAudioVisualizer.Helper"
+                                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
                                   mc:Ignorable="d"
                                   Title="Keyboard Audio-Visualizer # Configuration" 
                                   Icon="pack://application:,,,/KeyboardAudioVisualizer;component/Resources/Icon.ico"
@@ -25,6 +30,20 @@
                 <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/UI/Configuration/BeatConfiguration.xaml" />
                 <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/UI/Visualization/BeatVisualization.xaml" />
             </styles:CachedResourceDictionary.MergedDictionaries>
+
+            <converter:VisualizationTypeSelectableConverter x:Key="VisualizationProviderSelectableConverter" />
+            <converter:VisualizationProviderDisplayNameConverter x:Key="VisualizationProviderDisplayNameConverter" />
+            <converter:VisualizationToLastChildFillConverter x:Key="VisualizationToLastChildFillConverter" />
+
+            <DataTemplate x:Key="DataTemplateVisualizationSelection" DataType="{x:Type visualizationProvider:VisualizationType}">
+                <TextBlock Text="{Binding Converter={StaticResource VisualizationProviderDisplayNameConverter}}" />
+            </DataTemplate>
+            
+            <ObjectDataProvider x:Key="DataProviderVisualizationTypes" ObjectType="{x:Type sys:Enum}" MethodName="GetValues">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="visualizationProvider:VisualizationType" />
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
         </styles:CachedResourceDictionary>
     </controls:BlurredDecorationWindow.Resources>
 
@@ -34,7 +53,7 @@
 
     <TabControl Style="{StaticResource StyleTabControlNavigation}">
         <TabItem Header="Keyboard">
-            <DockPanel>
+            <DockPanel LastChildFill="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Primary], Converter={StaticResource VisualizationToLastChildFillConverter}}">
                 <GroupBox DockPanel.Dock="Top">
                     <controls:Formular>
                         <controls:Formular.Resources>
@@ -44,26 +63,26 @@
                         </controls:Formular.Resources>
 
                         <Label controls:Formular.IsLabel="True" Content="Visualization: " />
-                        <ComboBox controls:Formular.Fill="True" SelectedIndex="0">
-                            <ComboBox.Items>
-                                <ComboBoxItem>Frequency Bars</ComboBoxItem>
-                            </ComboBox.Items>
-                        </ComboBox>
+                        <ComboBox controls:Formular.Fill="True" SelectedIndex="0" 
+                                  ItemTemplate="{StaticResource DataTemplateVisualizationSelection}"
+                                  ItemsSource="{Binding Source={StaticResource DataProviderVisualizationTypes},
+                                                        Converter={StaticResource VisualizationProviderSelectableConverter}, ConverterParameter={x:Static core:RGBDeviceType.Keyboard}}"
+                                  SelectedItem="{Binding SelectedPrimaryVisualization}" />
                     </controls:Formular>
                 </GroupBox>
 
                 <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
-                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=PrimaryVisualizationProvider.Configuration}" />
+                    <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Primary].Configuration}" />
                 </GroupBox>
 
-                <GroupBox Margin="0,8,0,0">
-                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=PrimaryVisualizationProvider}" />
+                <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
+                    <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Primary]}" />
                 </GroupBox>
             </DockPanel>
         </TabItem>
 
         <TabItem Header="Mouse/Headset">
-            <DockPanel LastChildFill="False">
+            <DockPanel LastChildFill="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Secondary], Converter={StaticResource VisualizationToLastChildFillConverter}}">
                 <GroupBox DockPanel.Dock="Top">
                     <controls:Formular>
                         <controls:Formular.Resources>
@@ -73,26 +92,26 @@
                         </controls:Formular.Resources>
 
                         <Label controls:Formular.IsLabel="True" Content="Visualization: " />
-                        <ComboBox controls:Formular.Fill="True" SelectedIndex="0">
-                            <ComboBox.Items>
-                                <ComboBoxItem>Beat-Detection</ComboBoxItem>
-                            </ComboBox.Items>
-                        </ComboBox>
+                        <ComboBox controls:Formular.Fill="True" SelectedIndex="0" 
+                                  ItemTemplate="{StaticResource DataTemplateVisualizationSelection}"
+                                  ItemsSource="{Binding Source={StaticResource DataProviderVisualizationTypes},
+                                                        Converter={StaticResource VisualizationProviderSelectableConverter}, ConverterParameter={x:Static core:RGBDeviceType.Mouse}}"
+                                  SelectedItem="{Binding SelectedSecondaryVisualization}" />
                     </controls:Formular>
                 </GroupBox>
 
                 <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
-                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=SecondaryVisualizationProvider.Configuration}" />
+                    <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Secondary].Configuration}" />
                 </GroupBox>
 
                 <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
-                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=SecondaryVisualizationProvider}" />
+                    <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Secondary]}" />
                 </GroupBox>
             </DockPanel>
         </TabItem>
 
         <TabItem Header="Lightbar/Mousepad">
-            <DockPanel LastChildFill="False">
+            <DockPanel LastChildFill="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Tertiary], Converter={StaticResource VisualizationToLastChildFillConverter}}">
                 <GroupBox DockPanel.Dock="Top">
                     <controls:Formular>
                         <controls:Formular.Resources>
@@ -102,20 +121,20 @@
                         </controls:Formular.Resources>
 
                         <Label controls:Formular.IsLabel="True" Content="Visualization: " />
-                        <ComboBox controls:Formular.Fill="True" SelectedIndex="0">
-                            <ComboBox.Items>
-                                <ComboBoxItem>Level</ComboBoxItem>
-                            </ComboBox.Items>
-                        </ComboBox>
+                        <ComboBox controls:Formular.Fill="True" SelectedIndex="0" 
+                                  ItemTemplate="{StaticResource DataTemplateVisualizationSelection}"
+                                  ItemsSource="{Binding Source={StaticResource DataProviderVisualizationTypes},
+                                                        Converter={StaticResource VisualizationProviderSelectableConverter}, ConverterParameter={x:Static core:RGBDeviceType.Mousepad}}"
+                                  SelectedItem="{Binding SelectedTertiaryVisualization}" />
                     </controls:Formular>
                 </GroupBox>
 
                 <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
-                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=TertiaryVisualizationProvider.Configuration}" />
+                    <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Tertiary].Configuration}" />
                 </GroupBox>
 
                 <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
-                    <ContentControl Content="{Binding Source={x:Static audioProcessing:AudioProcessor.Instance}, Path=TertiaryVisualizationProvider}" />
+                    <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Tertiary]}" />
                 </GroupBox>
             </DockPanel>
         </TabItem>
@@ -129,7 +148,7 @@
                             <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
                             <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
                         </Grid.Resources>
-                        
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="8" />

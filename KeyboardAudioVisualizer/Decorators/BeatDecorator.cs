@@ -3,7 +3,7 @@ using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.Decorators
 {
-    public class BeatDecorator : AbstractDecorator, IBrushDecorator
+    public class BeatDecorator : AbstractUpdateAwareDecorator, IBrushDecorator
     {
         #region Properties & Fields
 
@@ -21,6 +21,8 @@ namespace KeyboardAudioVisualizer.Decorators
         #endregion
 
         #region Methods
+
+        protected override void Update(double deltaTime) => _visualizationProvider.Update();
 
         public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color)
         {

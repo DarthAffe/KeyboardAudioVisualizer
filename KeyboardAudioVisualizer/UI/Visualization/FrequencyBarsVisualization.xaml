@@ -30,7 +30,7 @@
     </Style>
 
     <DataTemplate DataType="{x:Type visualizationProvider:FrequencyBarsVisualizationProvider}">
-        <Grid>
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <visualization:FrequencyBarsVisualizer Style="{StaticResource StyleFrequencyBarsVisualizer}" VisualizationProvider="{Binding}" />
             <visualization:EqualizerVisualizer Style="{StaticResource StyleEqualizerVisualizer}" Equalizer="{Binding Equalizer}" />
         </Grid>

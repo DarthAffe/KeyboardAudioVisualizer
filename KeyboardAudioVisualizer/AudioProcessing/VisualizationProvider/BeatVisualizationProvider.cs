@@ -3,6 +3,7 @@ using System.Linq;
 using KeyboardAudioVisualizer.AudioProcessing.Spectrum;
 using KeyboardAudioVisualizer.Configuration;
 using KeyboardAudioVisualizer.Helper;
+using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 {
@@ -16,7 +17,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
     #endregion
 
     // Port of https://github.com/kctess5/Processing-Beat-Detection
-    public class BeatVisualizationProvider : IVisualizationProvider
+    public class BeatVisualizationProvider : AbstractAudioProcessor, IVisualizationProvider
     {
         #region Properties & Fields
 
@@ -61,6 +62,9 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
         public IConfiguration Configuration => _configuration;
         public float[] VisualizationData { get; } = new float[1];
 
+        public string DisplayName => "Beat";
+        public RGBDeviceType VisualizerFor => (RGBDeviceType)0xFF;
+
         #endregion
 
         #region Constructors
@@ -75,7 +79,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 
         #region Methods
 
-        public void Initialize()
+        public override void Initialize()
         {
             _deltaArray = new float[_deltaArraySamples][];
             for (int i = 0; i < _deltaArray.Length; i++)
@@ -100,7 +104,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
             _beatAverage = new float[_beatAverageSamples];
         }
 
-        public void Update()
+        public override void Update()
         {
             ISpectrum spectrum = _specturProvider.GetLogarithmicSpectrum(60, minFrequency: 60);
 

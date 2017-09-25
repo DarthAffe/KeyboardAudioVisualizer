@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel;
+using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.Configuration
 {
-    // DarthAffe 05.08.2017: Marker interface
-    public interface IConfiguration : INotifyPropertyChanged { }
+    public interface IConfiguration : INotifyPropertyChanged
+    {
+        IBrush Brush { get; set; }
+    }
 }

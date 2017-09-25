@@ -88,6 +88,8 @@ namespace KeyboardAudioVisualizer.UI.Visualization
             if (_panel == null) return;
 
             _panel.Children.Clear();
+            if (VisualizationProvider == null) return;
+
             _bars = new Rectangle[((FrequencyBarsVisualizationProviderConfiguration)VisualizationProvider.Configuration).Bars];
 
             for (int i = 0; i < _bars.Length; i++)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
 using KeyboardAudioVisualizer.Helper;
 using RGB.NET.Core;
 
@@ -21,6 +22,36 @@ namespace KeyboardAudioVisualizer.UI
                 ApplicationManager.Instance.Settings.UpdateRate = val;
                 RGBSurface.Instance.UpdateFrequency = 1.0 / val;
                 OnPropertyChanged();
+            }
+        }
+
+        public VisualizationType SelectedPrimaryVisualization
+        {
+            get => ApplicationManager.Instance.Settings[VisualizationIndex.Primary].SelectedVisualization;
+            set
+            {
+                ApplicationManager.Instance.Settings[VisualizationIndex.Primary].SelectedVisualization = value;
+                ApplicationManager.Instance.ApplyVisualization(VisualizationIndex.Primary, value);
+            }
+        }
+
+        public VisualizationType SelectedSecondaryVisualization
+        {
+            get => ApplicationManager.Instance.Settings[VisualizationIndex.Secondary].SelectedVisualization;
+            set
+            {
+                ApplicationManager.Instance.Settings[VisualizationIndex.Secondary].SelectedVisualization = value;
+                ApplicationManager.Instance.ApplyVisualization(VisualizationIndex.Secondary, value);
+            }
+        }
+
+        public VisualizationType SelectedTertiaryVisualization
+        {
+            get => ApplicationManager.Instance.Settings[VisualizationIndex.Tertiary].SelectedVisualization;
+            set
+            {
+                ApplicationManager.Instance.Settings[VisualizationIndex.Tertiary].SelectedVisualization = value;
+                ApplicationManager.Instance.ApplyVisualization(VisualizationIndex.Tertiary, value);
             }
         }
 
