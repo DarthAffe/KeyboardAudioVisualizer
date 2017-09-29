@@ -3,7 +3,8 @@
                                  xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
                                  xmlns:visualizationProvider="clr-namespace:KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider"
                                  xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls"
-                                 xmlns:system="clr-namespace:System;assembly=mscorlib">
+                                 xmlns:system="clr-namespace:System;assembly=mscorlib"
+                                 xmlns:attached="clr-namespace:KeyboardAudioVisualizer.Attached">
 
     <styles:CachedResourceDictionary.MergedDictionaries>
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/FrameworkElement.xaml" />
@@ -61,11 +62,13 @@
                 <Label controls:Formular.IsLabel="True" Content="Min Freq.:" />
                 <Slider controls:Formular.Fill="True" Minimum="0" Maximum="22100" IsSnapToTickEnabled="True" TickFrequency="10" TickPlacement="None"
                         Value="{Binding MinFrequency}"
+                        attached:SliderValue.Unit="Hz"
                         ToolTip="The minimum frequency used in the graph." />
 
                 <Label controls:Formular.IsLabel="True" Content="Max Freq.:" />
                 <Slider controls:Formular.Fill="True" Minimum="0" Maximum="22100" IsSnapToTickEnabled="True" TickFrequency="10" TickPlacement="None"
                         Value="{Binding MaxFrequency}"
+                        attached:SliderValue.Unit="Hz"
                         ToolTip="The maximum frequency used in the graph." />
 
                 <Label controls:Formular.IsLabel="True" Content="Gamma:" />
@@ -79,6 +82,7 @@
                 <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Reference:" />
                 <Slider controls:Formular.Fill="True" Minimum="1" Maximum="240" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="None"
                         Value="{Binding ReferenceLevel}"
+                        attached:SliderValue.Unit="dB"
                         ToolTip="The reference value used to calculate the power of each bar.&#x0a;(You can read this as 'scaling')" />
 
                 <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Smoothing:" />

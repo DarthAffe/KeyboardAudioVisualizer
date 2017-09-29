@@ -1,15 +1,24 @@
 ﻿<styles:CachedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                                    xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles">
+                                    xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
+                                    xmlns:attached="clr-namespace:KeyboardAudioVisualizer.Attached">
 
     <styles:CachedResourceDictionary.MergedDictionaries>
-        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/FrameworkElement.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Theme.xaml" />
     </styles:CachedResourceDictionary.MergedDictionaries>
 
     <Style x:Key="StyleSlider" 
            BasedOn="{StaticResource {x:Type Slider}}"
            TargetType="Slider">
+        
+        <!-- ReSharper disable Xaml.RedundantStyledValue -  -->
+        <Setter Property="attached:SliderValue.IsShown" Value="True" />
+        <Setter Property="attached:SliderValue.Background" Value="{StaticResource BrushTooltipBackground}" />
+        <Setter Property="attached:SliderValue.BorderBrush" Value="{StaticResource BrushTooltipBorder}" />
+        <Setter Property="attached:SliderValue.Foreground" Value="{StaticResource BrushTooltipForeground}" />
+        <Setter Property="attached:SliderValue.FontSize" Value="{StaticResource FontSizeTooltip}" />
+        <Setter Property="attached:SliderValue.Font" Value="pack://application:,,,/Resources/#Cinzel" />
+        <!-- ReSharper restore Xaml.RedundantStyledValue -->
 
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
