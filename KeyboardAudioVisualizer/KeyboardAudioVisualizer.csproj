@@ -164,6 +164,7 @@
     <Compile Include="Helper\WPFHelper.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Controls\BlurredDecorationWindow.cs" />
+    <Compile Include="Legacy\ConfigurationMigrator.cs" />
     <Compile Include="Legacy\Settings.cs" />
     <Compile Include="Styles\CachedResourceDictionary.cs" />
     <Compile Include="UI\ConfigurationWindow.xaml.cs">

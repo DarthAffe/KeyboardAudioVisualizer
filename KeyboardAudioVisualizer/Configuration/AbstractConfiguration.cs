@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Xml.Serialization;
 using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.Configuration
@@ -10,6 +11,7 @@ namespace KeyboardAudioVisualizer.Configuration
         #region Properties & Fields
 
         private IBrush _brush;
+        [XmlIgnore]
         public IBrush Brush
         {
             get => _brush;

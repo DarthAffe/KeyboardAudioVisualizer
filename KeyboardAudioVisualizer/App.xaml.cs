@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
 using KeyboardAudioVisualizer.AudioProcessing;
-using KeyboardAudioVisualizer.Configuration;
 using KeyboardAudioVisualizer.Helper;
+using KeyboardAudioVisualizer.Legacy;
 using Newtonsoft.Json;
+using Settings = KeyboardAudioVisualizer.Configuration.Settings;
 
 namespace KeyboardAudioVisualizer
 {
@@ -43,6 +43,10 @@ namespace KeyboardAudioVisualizer
                     Console.WriteLine(ex.Message);
                     /* File doesn't exist or is corrupt - just create a new one. */
                 }
+
+                if (settings == null)
+                    settings = ConfigurationMigrator.MigrateOldConfig();
+
                 if (settings == null)
                 {
                     settings = new Settings();
@@ -68,6 +72,7 @@ namespace KeyboardAudioVisualizer
             base.OnExit(e);
 
             File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings));
+            ConfigurationMigrator.CleanupOldConfigs();
         }
 
         #endregion
