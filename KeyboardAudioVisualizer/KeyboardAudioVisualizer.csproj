@@ -234,6 +234,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\ImageButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
