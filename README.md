@@ -7,10 +7,13 @@ It's colorful - I like it!
 ## Visualizations
 #### Keyboard
 - **"Frequency Bars"** - Simple spectrum visualizer.
+- **"Level"** - Shows the overall volume.
+- **"Beat detection"** - Pulses to the beat of the music. (This isn't working really well right now, depending on the music. But in general not satisfying, sorry.)
 #### Mouse/Headset
 - **"Beat detection"** - Pulses to the beat of the music. (This isn't working really well right now, depending on the music. But in general not satisfying, sorry.)
 #### Mousepad/Lightbar (K95 Platinum)
- - **"Level"** - Shows the overall volume.
+- **"Level"** - Shows the overall volume.
+- **"Beat detection"** - Pulses to the beat of the music. (This isn't working really well right now, depending on the music. But in general not satisfying, sorry.)
 
 ## Supported devices
 - All Corsair RGB-devices.
@@ -19,21 +22,21 @@ It's colorful - I like it!
 
 ## Settings
 #### Frequency Bars
-- **Spectrum:** The way the spectrum is grouped together. Values are:
+- **Spectrum:** The way the spectrum is grouped together. Values are: _(default: Logarithmic)_
   - **_Linear_**: Each bar represents the same range of frequencies. Most of the time this doesn't look good since low frequencies are underrepresented.
   - **_Logarithmic_**: The higher the frequencies get the wider the range of grouped frequencies. This is close to the way humans perceive sound and therfore most of the time looks quite good as long as the range of used frequencies is big enough.
   - **_Gamma_**: While Gamma-correction is known from image-processing it still applies quite well to audio-data, grouping not as extreme as logarithmic but still better than linear. The used Gamma-value can be configured.
-- **Value:** The way the value of a frequency bar is determined. Values are:
+- **Value:** The way the value of a frequency bar is determined. Values are: _(default: Sum)_
   - **_Sum_**: Sums the power of all frequencies grouped in the bar using all available data. Combining this with logarithmic grouping gives the most realistic representation.
   - **_Max_**: Uses the maximum value in each group making sure peaks are caught well. This works quite good with gamma-grouping.
   - **_Average_**: Uses the average of all frequencies grouped in the bar. This smooths out the whole graph quite a lot.
-- **Bars:** The number of bars used to represent the spectrum.
-- **Min Freq.:** The minimum frequency used in the graph. This value shouldn't be modified.
-- **Max Freq.:** The maximum frequency used in the graph. This value can be lowered to increase the value of lower frequencies. Using high values might lead to death bars if the audio is mastered with an low-pass filter cutting high frequencies.
-- **Gamma:** The correction value used for gamma-grouping (disabled if any other grouping is selected). High values lead to a stronger compression of high frequencies.
-- **Reference:** The reference value used to calculate the power of each bar. Adjust this to your audio volume. Low volume -> low reference, high volume -> higher reference.
-- **Smoothing:** Smooths the graph to prevent flickering. Low values will cause a hectic fast plot, high values a slow one without peaks.
-- **Emphasize:** Emphasizes peaks. The higher the value, the bigger the difference between a "loud-bar" and a "quite-bar".
+- **Bars:** The number of bars used to represent the spectrum. _(default: 48)_
+- **Min Freq.:** The minimum frequency used in the graph. This value shouldn't be modified. _(default: 60)_
+- **Max Freq.:** The maximum frequency used in the graph. This value can be lowered to increase the value of lower frequencies. Using high values might lead to death bars if the audio is mastered with an low-pass filter cutting high frequencies. _(default: 15000)_
+- **Gamma:** The correction value used for gamma-grouping (disabled if any other grouping is selected). High values lead to a stronger compression of high frequencies. _(default: 2)_
+- **Reference:** The reference value used to calculate the power of each bar. Adjust this to your audio volume. Low volume -> low reference, high volume -> higher reference. _(default: 90)_
+- **Smoothing:** Smooths the graph to prevent flickering. Low values will cause a hectic fast plot, high values a slow one without peaks. _(default: 3)_
+- **Emphasize:** Emphasizes peaks. The higher the value, the bigger the difference between a "loud-bar" and a "quite-bar". _(default: 0.5)_
    
 **Equalizer**   
 Allows to finetune the graph by slective increasing/decresing the value.
@@ -45,8 +48,8 @@ Existing pivots can be deleted by rightclicking on them or moved by leftclicking
 _No configuration right now_
 
 #### Level
-- **Calculation:** Defines how the RMS of the audio is plotted. Values are _Linear_, _Logarithmic_ and _Exponential_. The used range of the plott increases in that order (exponential has the widest range of peaks).
+- **Calculation:** Defines how the RMS of the audio is plotted. Values are _Linear_, _Logarithmic_ and _Exponential_. The used range of the plott increases in that order (exponential has the widest range of peaks). _(default: Logarithmic)_
 
-- **Scale:** Scales the whole graph. Use this to to fit your audio volume.
+- **Scale:** Scales the whole graph. Use this to to fit your audio volume. _(default: 3)_
 
-- **Smoothing:** Smooths the plot to prevent flickering. Low values will cause a hectic fast plot, high values a slow one without peaks.
+- **Smoothing:** Smooths the plot to prevent flickering. Low values will cause a hectic fast plot, high values a slow one without peaks. _(default: 8)_
