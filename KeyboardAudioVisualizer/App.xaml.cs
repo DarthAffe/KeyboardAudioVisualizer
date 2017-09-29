@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using Hardcodet.Wpf.TaskbarNotification;
 using KeyboardAudioVisualizer.AudioProcessing;
 using KeyboardAudioVisualizer.Helper;
@@ -32,6 +33,8 @@ namespace KeyboardAudioVisualizer
 
             try
             {
+                ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
+
                 _taskbarIcon = (TaskbarIcon)FindResource("TaskbarIcon");
                 _taskbarIcon.DoubleClickCommand = ApplicationManager.Instance.OpenConfigurationCommand;
 

@@ -80,7 +80,8 @@
                                     Margin="0,-4,0,0" Orientation="Horizontal">
                             <CheckBox VerticalAlignment="Center" Content="Enable Equalizer"
                                       Foreground="{StaticResource BrushForeground}"
-                                      IsChecked="{Binding Path=Equalizer.IsEnabled, RelativeSource={RelativeSource TemplatedParent}}" />
+                                      IsChecked="{Binding Path=Equalizer.IsEnabled, RelativeSource={RelativeSource TemplatedParent}}"
+                                      ToolTip="Enables the Equalizer.&#x0a;The Equalier Allows to finetune the graph by slective increasing/decresing the value.&#x0a;You can add new pivots by rightclicking on the visualization-window.&#x0a;Existing pivots can be deleted by rightclicking on them or moved by leftclicking and dragging around." />
 
                             <Button VerticalAlignment="Center" Margin="12,0,0,0" 
                                     Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Equalizer.IsEnabled, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"

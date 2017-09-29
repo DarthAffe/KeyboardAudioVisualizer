@@ -8,7 +8,6 @@
                                   xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles"
                                   xmlns:core="clr-namespace:RGB.NET.Core;assembly=RGB.NET.Core"
                                   xmlns:keyboardAudioVisualizer="clr-namespace:KeyboardAudioVisualizer"
-                                  xmlns:audioProcessing="clr-namespace:KeyboardAudioVisualizer.AudioProcessing"
                                   xmlns:converter="clr-namespace:KeyboardAudioVisualizer.Converter"
                                   xmlns:visualizationProvider="clr-namespace:KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider"
                                   xmlns:helper="clr-namespace:KeyboardAudioVisualizer.Helper"
@@ -67,7 +66,8 @@
                                   ItemTemplate="{StaticResource DataTemplateVisualizationSelection}"
                                   ItemsSource="{Binding Source={StaticResource DataProviderVisualizationTypes},
                                                         Converter={StaticResource VisualizationProviderSelectableConverter}, ConverterParameter={x:Static core:RGBDeviceType.Keyboard}}"
-                                  SelectedItem="{Binding SelectedPrimaryVisualization}" />
+                                  SelectedItem="{Binding SelectedPrimaryVisualization}"
+                                  ToolTip="The visualization shown on the device.&#x0a; - Frequency Bars: Shows vertical bars representing the frequencies of the song.&#x0a; - Level: Shows two horizontal bars representing the loudness of the song (left and right).&#x0a; - Beat: Shows a flash to the beat of the song (this doesn't work too well right now :()" />
                     </controls:Formular>
                 </GroupBox>
 
@@ -163,7 +163,8 @@
 
                             <Label controls:Formular.IsLabel="True" Content="Update-Rate" />
                             <Slider Minimum="1" Maximum="40" controls:Formular.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
-                                    Value="{Binding UpdateRate}" />
+                                    Value="{Binding UpdateRate}"
+                                    ToolTip="Defines how fast the data is updated.&#x0a;Low values can reduce CPU-usage but will cause stuttering." />
 
                             <Label controls:Formular.LineBreaks="1" controls:Formular.IsLabel="True" Content="Devices:" />
                         </controls:Formular>

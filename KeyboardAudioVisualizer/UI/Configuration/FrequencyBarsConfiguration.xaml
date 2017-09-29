@@ -42,45 +42,54 @@
                 <Label controls:Formular.IsLabel="True" Content="Spectrum:" />
                 <ComboBox controls:Formular.Fill="True"
                           ItemsSource="{Binding Source={StaticResource SpectrumModes}}"
-                          SelectedItem="{Binding SpectrumMode}"/>
+                          SelectedItem="{Binding SpectrumMode}"
+                          ToolTip="Defines how the spectrum is grouped together.&#x0a; - Linear: Each bar represents the same range of frequencies.&#x0a; - Logarithmic: The higher the frequencies get the wider the range of grouped frequencies.&#x0a; - Gamma: Uses a configurable Gamma-Value to group the frequencies." />
 
                 <Label controls:Formular.IsLabel="True" Content="Value:" />
                 <ComboBox controls:Formular.Fill="True"
                           ItemsSource="{Binding Source={StaticResource ValueModes}}"
-                          SelectedItem="{Binding ValueMode}"/>
+                          SelectedItem="{Binding ValueMode}"
+                          ToolTip="Defines how the value of a bar is calculated.&#x0a; - Sum: Sums the power of all frequencies grouped in the bar using all available data.&#x0a; - Max: Uses the maximum value in each group making sure peaks are caught well.&#x0a; - Average: Uses the average of all frequencies grouped in the bar. " />
 
                 <Label controls:Formular.IsLabel="True" Content="Bars:" />
                 <Slider controls:Formular.Fill="True" Minimum="1" Maximum="96" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
-                        Value="{Binding Bars}" />
+                        Value="{Binding Bars}"
+                        ToolTip="The number of bars used to represent the spectrum.." />
             </controls:Formular>
 
             <controls:Formular Grid.Column="2">
                 <Label controls:Formular.IsLabel="True" Content="Min Freq.:" />
                 <Slider controls:Formular.Fill="True" Minimum="0" Maximum="22100" IsSnapToTickEnabled="True" TickFrequency="10" TickPlacement="None"
-                        Value="{Binding MinFrequency}" />
+                        Value="{Binding MinFrequency}"
+                        ToolTip="The minimum frequency used in the graph." />
 
                 <Label controls:Formular.IsLabel="True" Content="Max Freq.:" />
                 <Slider controls:Formular.Fill="True" Minimum="0" Maximum="22100" IsSnapToTickEnabled="True" TickFrequency="10" TickPlacement="None"
-                        Value="{Binding MaxFrequency}" />
+                        Value="{Binding MaxFrequency}"
+                        ToolTip="The maximum frequency used in the graph." />
 
                 <Label controls:Formular.IsLabel="True" Content="Gamma:" />
                 <Slider controls:Formular.Fill="True" Minimum="1" Maximum="6" IsSnapToTickEnabled="True" TickFrequency="0.25" TickPlacement="BottomRight"
                         IsEnabled="{Binding SpectrumMode, Converter={StaticResource EqualsToBoolConverter}, ConverterParameter={x:Static visualizationProvider:SpectrumMode.Gamma}}"
-                        Value="{Binding Gamma}" />
+                        Value="{Binding Gamma}"
+                        ToolTip="Only used if 'Gamma' is selected as spectrum!&#x0a;Higher values cause more compression of high frequencies." />
             </controls:Formular>
 
             <controls:Formular Grid.Column="4">
                 <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Reference:" />
                 <Slider controls:Formular.Fill="True" Minimum="1" Maximum="240" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="None"
-                        Value="{Binding ReferenceLevel}" />
+                        Value="{Binding ReferenceLevel}"
+                        ToolTip="The reference value used to calculate the power of each bar.&#x0a;(You can read this as 'scaling')" />
 
                 <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Smoothing:" />
                 <Slider controls:Formular.Fill="True" Minimum="1" Maximum="10" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
-                        Value="{Binding Smoothing}" />
+                        Value="{Binding Smoothing}"
+                        ToolTip="Smooths the graph to prevent flickering.&#x0a;Low values will cause a hectic fast plot, high values a slow one without peaks." />
 
                 <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Emphasize:" />
                 <Slider controls:Formular.Fill="True" Minimum="0" Maximum="2" IsSnapToTickEnabled="True" TickFrequency="0.05" TickPlacement="BottomRight"
-                        Value="{Binding EmphasisePeaks}" />
+                        Value="{Binding EmphasisePeaks}"
+                        ToolTip="Emphasizes peaks. The higher the value, the bigger the difference between a 'loud-bar' and a 'quite-bar'." />
             </controls:Formular>
         </Grid>
     </DataTemplate>

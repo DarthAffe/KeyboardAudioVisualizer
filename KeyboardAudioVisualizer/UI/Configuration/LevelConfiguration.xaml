@@ -36,19 +36,22 @@
                 <Label controls:Formular.IsLabel="True" Content="Calculation:" />
                 <ComboBox controls:Formular.Fill="True"
                           ItemsSource="{Binding Source={StaticResource ConversionModes}}"
-                          SelectedItem="{Binding ConversionMode}"/>
+                          SelectedItem="{Binding ConversionMode}"
+                          ToolTip="Defines how the RMS of the audio is plotted.&#x0a;Exponential has the widest range of peaks while linear has the least." />
             </controls:Formular>
 
             <controls:Formular Grid.Column="2">
                 <Label controls:Formular.IsLabel="True" Content="Scale:" />
                 <Slider controls:Formular.Fill="True" Minimum="1" Maximum="20" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
-                        Value="{Binding Scale}" />
+                        Value="{Binding Scale}"
+                        ToolTip="Scales the whole graph." />
             </controls:Formular>
 
             <controls:Formular Grid.Column="4">
                 <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Smoothing:" />
                 <Slider controls:Formular.Fill="True" Minimum="1" Maximum="10" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
-                        Value="{Binding Smoothing}" />
+                        Value="{Binding Smoothing}"
+                        ToolTip="Smooths the plot to prevent flickering.&#x0a;Low values will cause a hectic fast plot, high values a slow one without peaks." />
             </controls:Formular>
         </Grid>
     </DataTemplate>
