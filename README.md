@@ -23,14 +23,14 @@ It's colorful - I like it!
   - **_Linear_**: Each bar represents the same range of frequencies. Most of the time this doesn't look good since low frequencies are underrepresented.
   - **_Logarithmic_**: The higher the frequencies get the wider the range of grouped frequencies. This is close to the way humans perceive sound and therfore most of the time looks quite good as long as the range of used frequencies is big enough.
   - **_Gamma_**: While Gamma-correction is known from image-processing it still applies quite well to audio-data, grouping not as extreme as logarithmic but still better than linear. The used Gamma-value can be configured.
-- **Value:** The way the valkue of a frequency bar is determined. Values are:
+- **Value:** The way the value of a frequency bar is determined. Values are:
   - **_Sum_**: Sums the power of all frequencies grouped in the bar using all available data. Combining this with logarithmic grouping gives the most realistic representation.
   - **_Max_**: Uses the maximum value in each group making sure peaks are caught well. This works quite good with gamma-grouping.
   - **_Average_**: Uses the average of all frequencies grouped in the bar. This smooths out the whole graph quite a lot.
 - **Bars:** The number of bars used to represent the spectrum.
 - **Min Freq.:** The minimum frequency used in the graph. This value shouldn't be modified.
 - **Max Freq.:** The maximum frequency used in the graph. This value can be lowered to increase the value of lower frequencies. Using high values might lead to death bars if the audio is mastered with an low-pass filter cutting high frequencies.
-- **Gamma:** The correction value used for gamma-grouping (disabled if any other grouping is selected). High values lead to a stronger dompression of high frequencies.
+- **Gamma:** The correction value used for gamma-grouping (disabled if any other grouping is selected). High values lead to a stronger compression of high frequencies.
 - **Reference:** The reference value used to calculate the power of each bar. Adjust this to your audio volume. Low volume -> low reference, high volume -> higher reference.
 - **Smoothing:** Smooths the graph to prevent flickering. Low values will cause a hectic fast plot, high values a slow one without peaks.
 - **Emphasize:** Emphasizes peaks. The higher the value, the bigger the difference between a "loud-bar" and a "quite-bar".
