@@ -1,4 +1,5 @@
 ﻿using CSCore;
+using CSCore.CoreAudioAPI;
 using CSCore.SoundIn;
 using CSCore.Streams;
 
@@ -28,7 +29,11 @@ namespace KeyboardAudioVisualizer.AudioCapture
 
         public void Initialize()
         {
-            _capture = new WasapiLoopbackCapture();
+            MMDevice captureDevice = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Render, Role.Console);
+            WaveFormat deviceFormat = captureDevice.DeviceFormat;
+            _capture = new WasapiLoopbackCapture(100, new WaveFormat(deviceFormat.SampleRate, deviceFormat.BitsPerSample, deviceFormat.Channels <= 2 ? deviceFormat.Channels : 2));
+
+            //_capture = new WasapiLoopbackCapture();
             _capture.Initialize();
             _soundInSource = new SoundInSource(_capture) { FillWithZeros = false };
 
