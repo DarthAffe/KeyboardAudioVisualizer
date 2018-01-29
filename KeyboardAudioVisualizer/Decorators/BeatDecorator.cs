@@ -24,11 +24,8 @@ namespace KeyboardAudioVisualizer.Decorators
 
         protected override void Update(double deltaTime) => _visualizationProvider.Update();
 
-        public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color)
-        {
-            color.APercent *= _visualizationProvider.VisualizationData[0];
-        }
-
         #endregion
+
+        public Color ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, Color color) => color.SetAPercent(color.APercent * _visualizationProvider.VisualizationData[0]);
     }
 }

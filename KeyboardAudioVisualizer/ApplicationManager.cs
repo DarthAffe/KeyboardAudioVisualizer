@@ -11,8 +11,9 @@ using RGB.NET.Brushes.Gradients;
 using RGB.NET.Core;
 using RGB.NET.Devices.CoolerMaster;
 using RGB.NET.Devices.Corsair;
-using RGB.NET.Devices.Corsair.SpecialParts;
 using RGB.NET.Devices.Logitech;
+using RGB.NET.Devices.Novation;
+using RGB.NET.Devices.Razer;
 using RGB.NET.Groups;
 using Point = RGB.NET.Core.Point;
 using GetDecoratorFunc = System.Func<KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider.VisualizationType, KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider.IVisualizationProvider, RGB.NET.Core.IBrushDecorator>;
@@ -63,11 +64,13 @@ namespace KeyboardAudioVisualizer
             surface.UpdateFrequency = 1.0 / MathHelper.Clamp(Settings.UpdateRate, 1, 40);
             surface.UpdateMode = UpdateMode.Continuous;
 
-            surface.LoadDevices(CorsairDeviceProvider.Instance);
-            surface.LoadDevices(LogitechDeviceProvider.Instance);
-            surface.LoadDevices(CoolerMasterDeviceProvider.Instance);
+            LoadDevices(surface, CorsairDeviceProvider.Instance);
+            LoadDevices(surface, CoolerMasterDeviceProvider.Instance);
+            LoadDevices(surface, NovationDeviceProvider.Instance);
+            LoadDevices(surface, RazerDeviceProvider.Instance);
+            LoadDevices(surface, LogitechDeviceProvider.Instance);
 
-            surface.AlignDevies();
+            surface.AlignDevices();
 
             ILedGroup background = new ListLedGroup(surface.Leds);
             background.Brush = new SolidColorBrush(new Color(64, 0, 0, 0)); //TODO DarthAffe 06.08.2017: A-Channel gives some kind of blur - settings!
@@ -136,6 +139,13 @@ namespace KeyboardAudioVisualizer
             ApplyVisualization(VisualizationIndex.Tertiary, Settings[VisualizationIndex.Tertiary].SelectedVisualization);
 
             surface.Updating += args => AudioVisualizationFactory.Instance.Update();
+        }
+
+        private void LoadDevices(RGBSurface surface, IRGBDeviceProvider deviceProvider)
+        {
+            surface.LoadDevices(deviceProvider, RGBDeviceType.Keyboard | RGBDeviceType.LedMatrix
+                                              | RGBDeviceType.Mousepad | RGBDeviceType.LedStripe
+                                              | RGBDeviceType.Mouse | RGBDeviceType.Headset);
         }
 
         //TODO DarthAffe 12.09.2017: This is just a big mess - is this worth to rework before arge?

@@ -28,7 +28,7 @@ namespace KeyboardAudioVisualizer.Decorators
 
         protected override void Update(double deltaTime) => _visualizationProvider.Update();
 
-        public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color)
+        public Color ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, Color color)
         {
             double offset = CalculateOffset(rectangle, renderTarget);
 
@@ -38,20 +38,22 @@ namespace KeyboardAudioVisualizer.Decorators
                 {
                     offset = (-offset * 2);
                     if (offset >= _visualizationProvider.VisualizationData[0])
-                        color.A = 0;
+                        return color.SetA(0);
                 }
                 else
                 {
                     offset *= 2;
                     if (offset >= _visualizationProvider.VisualizationData[1])
-                        color.A = 0;
+                        return color.SetA(0);
                 }
             }
             else
             {
                 if (offset >= _visualizationProvider.VisualizationData[DataIndex])
-                    color.A = 0;
+                    return color.SetA(0);
             }
+
+            return color;
         }
 
         private double CalculateOffset(Rectangle rectangle, BrushRenderTarget renderTarget)

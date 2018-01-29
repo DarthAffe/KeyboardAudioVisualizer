@@ -27,14 +27,13 @@ namespace KeyboardAudioVisualizer.Decorators
 
         protected override void Update(double deltaTime) => _visualizationProvider.Update();
 
-        public void ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, ref Color color)
+        public Color ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, Color color)
         {
             int barSampleIndex = Math.Min(_visualizationProvider.VisualizationData.Length, (int)Math.Floor(_visualizationProvider.VisualizationData.Length * (renderTarget.Point.X / (rectangle.Location.X + rectangle.Size.Width))));
             double curBarHeight = 1.0 - Math.Max(0f, _visualizationProvider.VisualizationData[barSampleIndex]);
             double verticalPos = (renderTarget.Point.Y / rectangle.Size.Height);
 
-            if (curBarHeight > verticalPos)
-                color.A = 0;
+            return curBarHeight > verticalPos ? color.SetA(0) : color;
         }
 
         #endregion
