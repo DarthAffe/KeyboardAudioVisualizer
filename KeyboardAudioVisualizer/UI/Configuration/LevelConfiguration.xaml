@@ -13,9 +13,9 @@
     <DataTemplate DataType="{x:Type visualizationProvider:LevelVisualizationProviderConfiguration}">
         <Grid>
             <Grid.Resources>
-                <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
-                <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
-                <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
+                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
+                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="TextBlock" />
+                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="ListBox" />
 
                 <ObjectDataProvider x:Key="ConversionModes" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
                     <ObjectDataProvider.MethodParameters>
@@ -32,27 +32,27 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <controls:Formular Grid.Column="0">
-                <Label controls:Formular.IsLabel="True" Content="Calculation:" />
-                <ComboBox controls:Formular.Fill="True"
+            <controls:Form Grid.Column="0">
+                <Label controls:Form.IsLabel="True" Content="Calculation:" />
+                <ComboBox controls:Form.Fill="True"
                           ItemsSource="{Binding Source={StaticResource ConversionModes}}"
                           SelectedItem="{Binding ConversionMode}"
                           ToolTip="Defines how the RMS of the audio is plotted.&#x0a;Exponential has the widest range of peaks while linear has the least." />
-            </controls:Formular>
+            </controls:Form>
 
-            <controls:Formular Grid.Column="2">
-                <Label controls:Formular.IsLabel="True" Content="Scale:" />
-                <Slider controls:Formular.Fill="True" Minimum="1" Maximum="20" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
+            <controls:Form Grid.Column="2">
+                <Label controls:Form.IsLabel="True" Content="Scale:" />
+                <Slider controls:Form.Fill="True" Minimum="1" Maximum="20" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
                         Value="{Binding Scale}"
                         ToolTip="Scales the whole graph." />
-            </controls:Formular>
+            </controls:Form>
 
-            <controls:Formular Grid.Column="4">
-                <Label controls:Formular.IsLabel="True" controls:Formular.LineBreaks="1" Content="Smoothing:" />
-                <Slider controls:Formular.Fill="True" Minimum="1" Maximum="10" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
+            <controls:Form Grid.Column="4">
+                <Label controls:Form.IsLabel="True" controls:Form.LineBreaks="1" Content="Smoothing:" />
+                <Slider controls:Form.Fill="True" Minimum="1" Maximum="10" IsSnapToTickEnabled="True" TickFrequency="0.5" TickPlacement="BottomRight"
                         Value="{Binding Smoothing}"
                         ToolTip="Smooths the plot to prevent flickering.&#x0a;Low values will cause a hectic fast plot, high values a slow one without peaks." />
-            </controls:Formular>
+            </controls:Form>
         </Grid>
     </DataTemplate>
 

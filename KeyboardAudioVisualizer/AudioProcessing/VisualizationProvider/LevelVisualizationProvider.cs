@@ -3,7 +3,6 @@ using System.Linq;
 using KeyboardAudioVisualizer.AudioCapture;
 using KeyboardAudioVisualizer.Configuration;
 using KeyboardAudioVisualizer.Helper;
-using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 {
@@ -62,10 +61,6 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 
         public IConfiguration Configuration => _configuration;
         public float[] VisualizationData { get; } = new float[3];
-
-        public string DisplayName => "Level";
-
-        public RGBDeviceType VisualizerFor => RGBDeviceType.Keyboard | RGBDeviceType.LedMatrix | RGBDeviceType.LedStripe | RGBDeviceType.Mousepad;
 
         #endregion
 

@@ -4,12 +4,12 @@ using System.Windows.Controls;
 
 namespace KeyboardAudioVisualizer.Controls
 {
-    public class Formular : Panel
+    public class Form : Panel
     {
         #region DependencyProperties
         // ReSharper disable InconsistentNaming
 
-        public static readonly DependencyProperty RowHeightProperty = DependencyProperty.Register("RowHeight", typeof(double), typeof(Formular),
+        public static readonly DependencyProperty RowHeightProperty = DependencyProperty.Register("RowHeight", typeof(double), typeof(Form),
             new FrameworkPropertyMetadata(24.0, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public double RowHeight
@@ -22,7 +22,7 @@ namespace KeyboardAudioVisualizer.Controls
             }
         }
 
-        public static readonly DependencyProperty LabelWidthProperty = DependencyProperty.Register("LabelWidth", typeof(double), typeof(Formular),
+        public static readonly DependencyProperty LabelWidthProperty = DependencyProperty.Register("LabelWidth", typeof(double), typeof(Form),
             new FrameworkPropertyMetadata(100.0, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public double LabelWidth
@@ -35,7 +35,7 @@ namespace KeyboardAudioVisualizer.Controls
             }
         }
 
-        public static readonly DependencyProperty ElementSpacingProperty = DependencyProperty.Register("ElementSpacing", typeof(double), typeof(Formular),
+        public static readonly DependencyProperty ElementSpacingProperty = DependencyProperty.Register("ElementSpacing", typeof(double), typeof(Form),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public double ElementSpacing
@@ -44,7 +44,7 @@ namespace KeyboardAudioVisualizer.Controls
             set => SetValue(ElementSpacingProperty, value);
         }
 
-        public static readonly DependencyProperty RowSpacingProperty = DependencyProperty.Register("RowSpacing", typeof(double), typeof(Formular),
+        public static readonly DependencyProperty RowSpacingProperty = DependencyProperty.Register("RowSpacing", typeof(double), typeof(Form),
             new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public double RowSpacing
@@ -59,25 +59,25 @@ namespace KeyboardAudioVisualizer.Controls
         #region AttachedProperties
         // ReSharper disable InconsistentNaming
 
-        public static readonly DependencyProperty IsLabelProperty = DependencyProperty.RegisterAttached("IsLabel", typeof(bool), typeof(Formular),
+        public static readonly DependencyProperty IsLabelProperty = DependencyProperty.RegisterAttached("IsLabel", typeof(bool), typeof(Form),
             new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static void SetIsLabel(UIElement element, bool value) => element.SetValue(IsLabelProperty, value);
         public static bool GetIsLabel(UIElement element) => (bool)element.GetValue(IsLabelProperty);
 
-        public static readonly DependencyProperty LineBreaksProperty = DependencyProperty.RegisterAttached("LineBreaks", typeof(int), typeof(Formular),
+        public static readonly DependencyProperty LineBreaksProperty = DependencyProperty.RegisterAttached("LineBreaks", typeof(int), typeof(Form),
             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static void SetLineBreaks(UIElement element, int value) => element.SetValue(LineBreaksProperty, value);
         public static int GetLineBreaks(UIElement element) => (int)element.GetValue(LineBreaksProperty);
 
-        public static readonly DependencyProperty RowSpanProperty = DependencyProperty.RegisterAttached("RowSpan", typeof(int), typeof(Formular),
+        public static readonly DependencyProperty RowSpanProperty = DependencyProperty.RegisterAttached("RowSpan", typeof(int), typeof(Form),
             new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static void SetRowSpan(DependencyObject element, int value) => element.SetValue(RowSpanProperty, value);
         public static int GetRowSpan(DependencyObject element) => (int)element.GetValue(RowSpanProperty);
 
-        public static readonly DependencyProperty FillProperty = DependencyProperty.RegisterAttached("Fill", typeof(bool), typeof(Formular),
+        public static readonly DependencyProperty FillProperty = DependencyProperty.RegisterAttached("Fill", typeof(bool), typeof(Form),
             new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static void SetFill(DependencyObject element, bool value) => element.SetValue(FillProperty, value);
@@ -92,7 +92,7 @@ namespace KeyboardAudioVisualizer.Controls
         {
             if (InternalChildren.Count == 0) return new Size(0, 0);
 
-            FormularLayout layout = new FormularLayout(RowHeight, LabelWidth, ElementSpacing, RowSpacing);
+            FormLayout layout = new FormLayout(RowHeight, LabelWidth, ElementSpacing, RowSpacing);
 
             foreach (UIElement child in InternalChildren)
             {
@@ -107,7 +107,7 @@ namespace KeyboardAudioVisualizer.Controls
         {
             if (InternalChildren.Count == 0) return new Size(0, 0);
 
-            FormularLayout layout = new FormularLayout(RowHeight, LabelWidth, ElementSpacing, RowSpacing);
+            FormLayout layout = new FormLayout(RowHeight, LabelWidth, ElementSpacing, RowSpacing);
 
             foreach (UIElement child in InternalChildren)
                 child.Arrange(layout.AddElement(child, finalSize.Width));
@@ -119,7 +119,7 @@ namespace KeyboardAudioVisualizer.Controls
 
         #region Data
 
-        private class FormularLayout
+        private class FormLayout
         {
             #region Properties & Fields
 
@@ -140,7 +140,7 @@ namespace KeyboardAudioVisualizer.Controls
 
             #region Constructors
 
-            public FormularLayout(double rowHeight, double labelWidth, double elementSpacing, double rowSpacing)
+            public FormLayout(double rowHeight, double labelWidth, double elementSpacing, double rowSpacing)
             {
                 this._rowHeight = rowHeight;
                 this._labelWidth = labelWidth;

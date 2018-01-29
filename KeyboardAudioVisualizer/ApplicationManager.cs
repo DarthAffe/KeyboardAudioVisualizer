@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Windows;
 using KeyboardAudioVisualizer.AudioProcessing;
 using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
@@ -69,6 +67,8 @@ namespace KeyboardAudioVisualizer
             surface.LoadDevices(LogitechDeviceProvider.Instance);
             surface.LoadDevices(CoolerMasterDeviceProvider.Instance);
 
+            surface.AlignDevies();
+
             ILedGroup background = new ListLedGroup(surface.Leds);
             background.Brush = new SolidColorBrush(new Color(64, 0, 0, 0)); //TODO DarthAffe 06.08.2017: A-Channel gives some kind of blur - settings!
 
@@ -90,7 +90,7 @@ namespace KeyboardAudioVisualizer
                             IGradient keyboardLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
 
                             ILedGroup lightbarLeft = new ListLedGroup(lightbar.Left);
-                            lightbarLeft.Brush = new LinearGradientBrush(keyboardLevelGradient);
+                            lightbarLeft.Brush = new LinearGradientBrush(new Point(1.0, 0.5), new Point(0.0, 0.5), keyboardLevelGradient);
                             tertiaryGroups.Add((lightbarLeft, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Left, 0)));
 
                             ILedGroup lightbarRight = new ListLedGroup(lightbar.Right);

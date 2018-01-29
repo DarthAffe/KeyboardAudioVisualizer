@@ -149,7 +149,7 @@
     <Compile Include="Configuration\AbstractConfiguration.cs" />
     <Compile Include="Configuration\EqualizerConfiguration.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
-    <Compile Include="Controls\Formular.cs" />
+    <Compile Include="Controls\Form.cs" />
     <Compile Include="Controls\ImageButton.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\EqualizerBandsToPointsConverter.cs" />
@@ -162,6 +162,7 @@
     <Compile Include="Helper\FrequencyHelper.cs" />
     <Compile Include="Helper\MathHelper.cs" />
     <Compile Include="Helper\ObservableDictionary.cs" />
+    <Compile Include="Helper\RingBuffer.cs" />
     <Compile Include="Helper\VisualizationIndex.cs" />
     <Compile Include="Helper\WPFHelper.cs" />
     <Compile Include="Configuration\Settings.cs" />
@@ -256,7 +257,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\Formular.xaml">
+    <Page Include="Styles\Form.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

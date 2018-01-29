@@ -13,14 +13,14 @@
     <DataTemplate DataType="{x:Type visualizationProvider:BeatVisualizationProviderConfiguration}">
         <Grid>
             <Grid.Resources>
-                <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
-                <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
-                <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
+                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
+                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="TextBlock" />
+                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="ListBox" />
             </Grid.Resources>
 
-            <controls:Formular LabelWidth="240">
-                <Label controls:Formular.IsLabel="True" Content="No configuration available ..." />
-            </controls:Formular>
+            <controls:Form LabelWidth="240">
+                <Label controls:Form.IsLabel="True" Content="No configuration available ..." />
+            </controls:Form>
 
         </Grid>
     </DataTemplate>

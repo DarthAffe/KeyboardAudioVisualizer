@@ -8,7 +8,7 @@
     <styles:CachedResourceDictionary.MergedDictionaries>
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/BlurredDecorationWindow.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ImageButton.xaml" />
-        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Formular.xaml" />
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Form.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/GroupBox.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ToolTip.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ComboBox.xaml" />
@@ -22,7 +22,7 @@
     <Style TargetType="{x:Type controls:BlurredDecorationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
     <Style TargetType="{x:Type ui:ConfigurationWindow}" BasedOn="{StaticResource StyleBlurredDecorationWindow}" />
     <Style TargetType="{x:Type controls:ImageButton}" BasedOn="{StaticResource StyleImageButton}" />
-    <Style TargetType="{x:Type controls:Formular}" BasedOn="{StaticResource StyleFormular}" />
+    <Style TargetType="{x:Type controls:Form}" BasedOn="{StaticResource StyleForm}" />
     <Style TargetType="GroupBox" BasedOn="{StaticResource StyleGroupBoxBox}" />
     <Style TargetType="ToolTip" BasedOn="{StaticResource StyleToolTip}" />
     <Style TargetType="ComboBox" BasedOn="{StaticResource StyleComboBox}" />

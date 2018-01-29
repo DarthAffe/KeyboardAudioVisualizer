@@ -2,7 +2,6 @@
 using KeyboardAudioVisualizer.AudioProcessing.Equalizer;
 using KeyboardAudioVisualizer.AudioProcessing.Spectrum;
 using KeyboardAudioVisualizer.Configuration;
-using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 {
@@ -92,9 +91,6 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
         public IEqualizer Equalizer { get; set; }
         public IConfiguration Configuration => _configuration;
         public float[] VisualizationData { get; private set; }
-
-        public string DisplayName => "Spectrometer";
-        public RGBDeviceType VisualizerFor => RGBDeviceType.Keyboard | RGBDeviceType.LedMatrix;
 
         #endregion
 

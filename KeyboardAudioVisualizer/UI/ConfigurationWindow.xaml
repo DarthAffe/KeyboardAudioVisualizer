@@ -56,21 +56,21 @@
             <AdornerDecorator>
                 <DockPanel LastChildFill="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Primary], Converter={StaticResource VisualizationToLastChildFillConverter}}">
                     <GroupBox DockPanel.Dock="Top">
-                        <controls:Formular>
-                            <controls:Formular.Resources>
-                                <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
-                                <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
-                                <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
-                            </controls:Formular.Resources>
+                        <controls:Form>
+                            <controls:Form.Resources>
+                                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
+                                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="TextBlock" />
+                                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="ListBox" />
+                            </controls:Form.Resources>
 
-                            <Label controls:Formular.IsLabel="True" Content="Visualization: " />
-                            <ComboBox controls:Formular.Fill="True" SelectedIndex="0" 
+                            <Label controls:Form.IsLabel="True" Content="Visualization: " />
+                            <ComboBox controls:Form.Fill="True" SelectedIndex="0" 
                                       ItemTemplate="{StaticResource DataTemplateVisualizationSelection}"
                                       ItemsSource="{Binding Source={StaticResource DataProviderVisualizationTypes},
                                                             Converter={StaticResource VisualizationProviderSelectableConverter}, ConverterParameter={x:Static core:RGBDeviceType.Keyboard}}"
                                       SelectedItem="{Binding SelectedPrimaryVisualization}"
                                       ToolTip="The visualization shown on the device.&#x0a; - Frequency Bars: Shows vertical bars representing the frequencies of the song.&#x0a; - Level: Shows two horizontal bars representing the loudness of the song (left and right).&#x0a; - Beat: Shows a flash to the beat of the song (this doesn't work too well right now :()" />
-                        </controls:Formular>
+                        </controls:Form>
                     </GroupBox>
 
                     <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
@@ -88,20 +88,20 @@
             <AdornerDecorator>
                 <DockPanel LastChildFill="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Secondary], Converter={StaticResource VisualizationToLastChildFillConverter}}">
                     <GroupBox DockPanel.Dock="Top">
-                        <controls:Formular>
-                            <controls:Formular.Resources>
-                                <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
-                                <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
-                                <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
-                            </controls:Formular.Resources>
+                        <controls:Form>
+                            <controls:Form.Resources>
+                                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
+                                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="TextBlock" />
+                                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="ListBox" />
+                            </controls:Form.Resources>
 
-                            <Label controls:Formular.IsLabel="True" Content="Visualization: " />
-                            <ComboBox controls:Formular.Fill="True" SelectedIndex="0" 
+                            <Label controls:Form.IsLabel="True" Content="Visualization: " />
+                            <ComboBox controls:Form.Fill="True" SelectedIndex="0" 
                                       ItemTemplate="{StaticResource DataTemplateVisualizationSelection}"
                                       ItemsSource="{Binding Source={StaticResource DataProviderVisualizationTypes},
                                                             Converter={StaticResource VisualizationProviderSelectableConverter}, ConverterParameter={x:Static core:RGBDeviceType.Mouse}}"
                                       SelectedItem="{Binding SelectedSecondaryVisualization}" />
-                        </controls:Formular>
+                        </controls:Form>
                     </GroupBox>
 
                     <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
@@ -119,20 +119,20 @@
             <AdornerDecorator>
                 <DockPanel LastChildFill="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Tertiary], Converter={StaticResource VisualizationToLastChildFillConverter}}">
                     <GroupBox DockPanel.Dock="Top">
-                        <controls:Formular>
-                            <controls:Formular.Resources>
-                                <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
-                                <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
-                                <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
-                            </controls:Formular.Resources>
+                        <controls:Form>
+                            <controls:Form.Resources>
+                                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
+                                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="TextBlock" />
+                                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="ListBox" />
+                            </controls:Form.Resources>
 
-                            <Label controls:Formular.IsLabel="True" Content="Visualization: " />
-                            <ComboBox controls:Formular.Fill="True" SelectedIndex="0" 
+                            <Label controls:Form.IsLabel="True" Content="Visualization: " />
+                            <ComboBox controls:Form.Fill="True" SelectedIndex="0" 
                                       ItemTemplate="{StaticResource DataTemplateVisualizationSelection}"
                                       ItemsSource="{Binding Source={StaticResource DataProviderVisualizationTypes},
                                                             Converter={StaticResource VisualizationProviderSelectableConverter}, ConverterParameter={x:Static core:RGBDeviceType.Mousepad}}"
                                       SelectedItem="{Binding SelectedTertiaryVisualization}" />
-                        </controls:Formular>
+                        </controls:Form>
                     </GroupBox>
 
                     <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
@@ -152,9 +152,9 @@
                     <StackPanel Orientation="Vertical">
                         <Grid>
                             <Grid.Resources>
-                                <Style BasedOn="{StaticResource StyleLabelFormular}" TargetType="Label" />
-                                <Style BasedOn="{StaticResource StyleTextBlockFormular}" TargetType="TextBlock" />
-                                <Style BasedOn="{StaticResource StyleListBoxFormular}" TargetType="ListBox" />
+                                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
+                                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="TextBlock" />
+                                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="ListBox" />
                             </Grid.Resources>
 
                             <Grid.ColumnDefinitions>
@@ -165,25 +165,25 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <controls:Formular Grid.Column="0">
-                                <Label controls:Formular.IsLabel="True" Content="Version:" />
+                            <controls:Form Grid.Column="0">
+                                <Label controls:Form.IsLabel="True" Content="Version:" />
                                 <TextBlock Text="{Binding Version}" />
 
-                                <Label controls:Formular.IsLabel="True" Content="Update-Rate" />
-                                <Slider Minimum="1" Maximum="40" controls:Formular.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                <Label controls:Form.IsLabel="True" Content="Update-Rate" />
+                                <Slider Minimum="1" Maximum="40" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
                                         Value="{Binding UpdateRate}"
                                         attached:SliderValue.Unit="FPS"
                                         ToolTip="Defines how fast the data is updated.&#x0a;Low values can reduce CPU-usage but will cause stuttering." />
 
-                                <Label controls:Formular.LineBreaks="1" controls:Formular.IsLabel="True" Content="Devices:" />
-                            </controls:Formular>
+                                <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="Devices:" />
+                            </controls:Form>
                         </Grid>
 
                         <!-- TODO DarthAffe 05.08.2017: Fix the formular to support that use-case -->
                         <ItemsControl VerticalAlignment="Top" HorizontalAlignment="Left" Margin="120,-22,0,0" ItemsSource="{Binding Source={x:Static core:RGBSurface.Instance}, Path=Devices}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Style="{StaticResource StyleTextBlockFormular}">
+                                    <TextBlock Style="{StaticResource StyleTextBlockForm}">
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat=">  {0} {1} ({2})">
                                                 <Binding Path="DeviceInfo.Manufacturer" />
