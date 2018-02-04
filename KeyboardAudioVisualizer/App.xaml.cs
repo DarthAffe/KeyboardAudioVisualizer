@@ -53,11 +53,11 @@ namespace KeyboardAudioVisualizer
 
                 if (settings == null)
                 {
-                    settings = new Settings();
+                    settings = new Settings { Version = Settings.CURRENT_VERSION };
                     _taskbarIcon.ShowBalloonTip("Keyboard Audio-Visualizer is starting in the tray!", "Click on the icon to open the configuration.", BalloonIcon.Info);
                 }
-
-                ConfigurationUpdates.PerformOn(settings);
+                else if (settings.Version != Settings.CURRENT_VERSION)
+                    ConfigurationUpdates.PerformOn(settings);
 
                 ApplicationManager.Instance.Settings = settings;
 
