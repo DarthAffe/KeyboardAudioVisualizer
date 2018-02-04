@@ -25,7 +25,9 @@
     </Style>
 
     <DataTemplate DataType="{x:Type visualizationProvider:BeatVisualizationProvider}">
-        <visualization:BeatVisualizer Style="{StaticResource StyleBeatVisualizer}" VisualizationProvider="{Binding}" />
+        <visualization:BeatVisualizer Style="{StaticResource StyleBeatVisualizer}" 
+                                      VisualizationProvider="{Binding}"
+                                      VisualizationIndex="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}}"  />
     </DataTemplate>
 
 </styles:CachedResourceDictionary>

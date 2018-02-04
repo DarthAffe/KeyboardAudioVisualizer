@@ -63,7 +63,9 @@
     </Style>
 
     <DataTemplate DataType="{x:Type visualizationProvider:LevelVisualizationProvider}">
-        <visualization:LevelVisualizer Style="{StaticResource StyleLevelVisualizer}" VisualizationProvider="{Binding}" />
+        <visualization:LevelVisualizer Style="{StaticResource StyleLevelVisualizer}" 
+                                       VisualizationProvider="{Binding}"
+                                       VisualizationIndex="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}}"  />
     </DataTemplate>
 
 </styles:CachedResourceDictionary>

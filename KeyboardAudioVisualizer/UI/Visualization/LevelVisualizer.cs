@@ -1,17 +1,27 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
+using KeyboardAudioVisualizer.Helper;
+using RGB.NET.Brushes.Gradients;
 using RGB.NET.Core;
 using Color = System.Windows.Media.Color;
+using GradientStop = RGB.NET.Brushes.Gradients.GradientStop;
 using Point = System.Windows.Point;
 
 namespace KeyboardAudioVisualizer.UI.Visualization
 {
     public class LevelVisualizer : Control
     {
+        #region Properties & Fields
+
+        private LinearGradient _gradient;
+
+        #endregion
+
         #region DependencyProperties
         // ReSharper disable InconsistentNaming
 
@@ -22,6 +32,15 @@ namespace KeyboardAudioVisualizer.UI.Visualization
         {
             get => (IVisualizationProvider)GetValue(VisualizationProviderProperty);
             set => SetValue(VisualizationProviderProperty, value);
+        }
+
+        public static readonly DependencyProperty VisualizationIndexProperty = DependencyProperty.Register(
+            "VisualizationIndex", typeof(VisualizationIndex?), typeof(LevelVisualizer), new PropertyMetadata(null, VisualizationIndexChanged));
+
+        public VisualizationIndex? VisualizationIndex
+        {
+            get => (VisualizationIndex?)GetValue(VisualizationIndexProperty);
+            set => SetValue(VisualizationIndexProperty, value);
         }
 
         public static readonly DependencyProperty BrushLeftProperty = DependencyProperty.Register(
@@ -68,10 +87,6 @@ namespace KeyboardAudioVisualizer.UI.Visualization
         public LevelVisualizer()
         {
             RGBSurface.Instance.Updated += args => Dispatcher.BeginInvoke(new Action(Update), DispatcherPriority.Normal);
-
-            //TODO DarthAffe 12.08.2017: Create brush from config
-            BrushLeft = new LinearGradientBrush(Color.FromRgb(255, 0, 0), Color.FromRgb(0, 0, 255), new Point(0, 0.5), new Point(1, 0.5));
-            BrushRight = new LinearGradientBrush(Color.FromRgb(0, 0, 255), Color.FromRgb(255, 0, 0), new Point(0, 0.5), new Point(1, 0.5));
         }
 
         #endregion
@@ -90,6 +105,38 @@ namespace KeyboardAudioVisualizer.UI.Visualization
             int horizontalSizeRight = (int)(visualizationProvider.VisualizationData[1] * (ActualWidth / 2));
             if (Math.Abs(SizeRight - horizontalSizeRight) > 1)
                 SizeRight = horizontalSizeRight;
+        }
+
+        private void SetBrushes()
+        {
+            if (_gradient == null) return;
+
+            GradientStopCollection gradientStops = new GradientStopCollection();
+            foreach (GradientStop stop in _gradient.GradientStops)
+                gradientStops.Add(new System.Windows.Media.GradientStop(Color.FromArgb(stop.Color.A, stop.Color.R, stop.Color.G, stop.Color.B), stop.Offset));
+
+            BrushLeft = new LinearGradientBrush(gradientStops, new Point(1, 0.5), new Point(0, 0.5));
+            BrushRight = new LinearGradientBrush(gradientStops, new Point(0, 0.5), new Point(1, 0.5));
+        }
+
+        private static void VisualizationIndexChanged(DependencyObject dependencyObject,
+                                                      DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            if (!(dependencyObject is LevelVisualizer visualizer)) return;
+            visualizer.UpdateGradient();
+        }
+
+        private void UpdateGradient()
+        {
+            void GradientChanged(object sender, EventArgs args) => SetBrushes();
+            if (_gradient != null)
+                _gradient.GradientChanged -= GradientChanged;
+
+            _gradient = VisualizationIndex.HasValue ? ApplicationManager.Instance.Settings[VisualizationIndex.Value].Gradient : null;
+            if (_gradient != null)
+                _gradient.GradientChanged += GradientChanged;
+
+            SetBrushes();
         }
 
         #endregion

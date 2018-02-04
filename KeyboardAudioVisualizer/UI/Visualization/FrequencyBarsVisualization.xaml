@@ -31,8 +31,11 @@
 
     <DataTemplate DataType="{x:Type visualizationProvider:FrequencyBarsVisualizationProvider}">
         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <visualization:FrequencyBarsVisualizer Style="{StaticResource StyleFrequencyBarsVisualizer}" VisualizationProvider="{Binding}" />
-            <visualization:EqualizerVisualizer Style="{StaticResource StyleEqualizerVisualizer}" Equalizer="{Binding Equalizer}" />
+            <visualization:FrequencyBarsVisualizer Style="{StaticResource StyleFrequencyBarsVisualizer}" 
+                                                   VisualizationProvider="{Binding}"
+                                                   VisualizationIndex="{Binding Tag, RelativeSource={RelativeSource AncestorType=ContentControl}}" />
+            <visualization:EqualizerVisualizer Style="{StaticResource StyleEqualizerVisualizer}" 
+                                               Equalizer="{Binding Equalizer}" />
         </Grid>
     </DataTemplate>
 

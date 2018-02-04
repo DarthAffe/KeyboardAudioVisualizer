@@ -1,0 +1,305 @@
+﻿<styles:CachedResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                 xmlns:controls="clr-namespace:KeyboardAudioVisualizer.Controls"
+                                 xmlns:styles="clr-namespace:KeyboardAudioVisualizer.Styles">
+
+    <DrawingBrush x:Key="BrushChessboard"
+                  TileMode="Tile" 
+                  Viewport="0,0,16,16" 
+                  ViewportUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Brush="#FF808080" 
+                             Geometry="M5,5 L0,5 0,10 5,10 5,5 10,5 10,0 5,0 Z"/>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <DrawingBrush x:Key="BrushChessboardSmall"
+                  TileMode="Tile" 
+                  Viewport="0,0,8,8" 
+                  ViewportUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Brush="#FF808080" 
+                             Geometry="M5,5 L0,5 0,10 5,10 5,5 10,5 10,0 5,0 Z"/>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <Style x:Key="StyleSliderLabel"
+           TargetType="TextBlock">
+        <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyleSliderValue"
+           TargetType="TextBlock">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyleThumbSlider"
+           TargetType="Thumb">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Height" Value="NaN" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border VerticalAlignment="Stretch"
+                            Width="4"
+                            SnapsToDevicePixels="True"
+                            Opacity="0.66"
+                            BorderThickness="1" 
+                            Background="#FFFFFFFF" 
+                            BorderBrush="#FF000000" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyleSlider"
+           TargetType="Slider">
+
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="#FF000000" />
+        <Setter Property="IsMoveToPointEnabled" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Border SnapsToDevicePixels="True"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="#FFFFFFFF">
+                        <Border Margin="1"
+                                SnapsToDevicePixels="True"
+                                Background="{StaticResource BrushChessboardSmall}">
+                            <Border SnapsToDevicePixels="True"
+                                    Background="{TemplateBinding Background}">
+                                <Grid x:Name="GridTrackParent" SnapsToDevicePixels="True">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Track x:Name="PART_Track" 
+                                           Grid.Row="1" 
+                                           Width="{Binding ActualWidth, ElementName=GridTrackParent}"
+                                           Height="{Binding ActualHeight, ElementName=GridTrackParent}">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Visibility="Hidden" Command="Slider.DecreaseLarge" />
+                                        </Track.DecreaseRepeatButton>
+
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource StyleThumbSlider}" />
+                                        </Track.Thumb>
+
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Visibility="Hidden" Command="Slider.IncreaseLarge" />
+                                        </Track.IncreaseRepeatButton>
+                                    </Track>
+                                </Grid>
+                            </Border>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyleColorSelector"
+           TargetType="{x:Type controls:ColorSelector}">
+
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Width" Value="504" />
+        <Setter Property="Height" Value="232" />
+        <Setter Property="FontSize" Value="13" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:ColorSelector}">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}">
+                        <DockPanel Margin="{TemplateBinding Padding}">
+                            <Border DockPanel.Dock="Left"
+                                    SnapsToDevicePixels="True"
+                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                    BorderThickness="1"
+                                    BorderBrush="#FF000000"
+                                    Background="#FFFFFFFF">
+                                <Grid x:Name="PART_Selector"
+                                      Margin="1"
+                                      SnapsToDevicePixels="True" />
+                            </Border>
+
+                            <Slider DockPanel.Dock="Left"
+                                    Margin="8,0"
+                                    Height="24"
+                                    Orientation="Horizontal"
+                                    Style="{StaticResource StyleSlider}"
+                                    Background="{Binding Background, ElementName=PART_SliderHue}"
+                                    Minimum="{Binding Minimum, ElementName=PART_SliderHue}"
+                                    Maximum="{Binding Maximum, ElementName=PART_SliderHue}"
+                                    Value="{Binding Value, ElementName=PART_SliderHue}">
+                                <Slider.LayoutTransform>
+                                    <RotateTransform CenterX="0.5" CenterY="0.5" Angle="90" />
+                                </Slider.LayoutTransform>
+                            </Slider>
+
+                            <DockPanel>
+                                <Grid DockPanel.Dock="Bottom">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="12" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="8" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="8" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="12" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="8" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="8" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="4" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="4" />
+                                        <ColumnDefinition Width="28" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0"
+                                               Style="{StaticResource StyleSliderLabel}" 
+                                               Text="Alpha:" />
+                                    <Slider x:Name="PART_SliderAlpha" 
+                                            Grid.Row="0" Grid.Column="2"
+                                            Orientation="Horizontal" 
+                                            Style="{StaticResource StyleSlider}"
+                                            Minimum="0" 
+                                            Maximum="255" />
+                                    <TextBlock Grid.Row="0" Grid.Column="4"
+                                               Style="{StaticResource StyleSliderValue}" 
+                                               Text="{Binding Value, ElementName=PART_SliderAlpha, StringFormat=##0}" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0"
+                                               Style="{StaticResource StyleSliderLabel}"
+                                               Text="Hue:" />
+                                    <Slider x:Name="PART_SliderHue"
+                                            Grid.Row="2" Grid.Column="2"
+                                            Orientation="Horizontal"
+                                            Style="{StaticResource StyleSlider}"
+                                            IsSnapToTickEnabled="False"
+                                            Minimum="0"
+                                            Maximum="360" />
+                                    <TextBlock Grid.Row="2" Grid.Column="4"
+                                               Style="{StaticResource StyleSliderValue}"
+                                               Text="{Binding Value, ElementName=PART_SliderHue, StringFormat=##0}" />
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0"
+                                               Style="{StaticResource StyleSliderLabel}"
+                                               Text="Sat:" />
+                                    <Slider x:Name="PART_SliderSaturation"
+                                            Grid.Row="4" Grid.Column="2"
+                                            Orientation="Horizontal"
+                                            Style="{StaticResource StyleSlider}"
+                                            IsSnapToTickEnabled="False"
+                                            Minimum="0"
+                                            Maximum="1" />
+                                    <TextBlock Grid.Row="4" Grid.Column="4"
+                                               Style="{StaticResource StyleSliderValue}"
+                                               Text="{Binding Value, ElementName=PART_SliderSaturation, StringFormat=0.00}" />
+
+                                    <TextBlock Grid.Row="6" Grid.Column="0"
+                                               Style="{StaticResource StyleSliderLabel}"
+                                               Text="Value:" />
+                                    <Slider x:Name="PART_SliderValue" 
+                                            Grid.Row="6" Grid.Column="2"
+                                            Orientation="Horizontal"
+                                            Style="{StaticResource StyleSlider}"
+                                            IsSnapToTickEnabled="False"
+                                            Minimum="0"
+                                            Maximum="1" />
+                                    <TextBlock Grid.Row="6" Grid.Column="4"
+                                               Style="{StaticResource StyleSliderValue}"
+                                               Text="{Binding Value, ElementName=PART_SliderValue, StringFormat=0.00}" />
+
+                                    <TextBlock Grid.Row="8" Grid.Column="0"
+                                               Style="{StaticResource StyleSliderLabel}" 
+                                               Text="Red:" />
+                                    <Slider x:Name="PART_SliderRed"
+                                            Grid.Row="8" Grid.Column="2"
+                                            Orientation="Horizontal" 
+                                            Style="{StaticResource StyleSlider}"
+                                            TickFrequency="1"
+                                            IsSnapToTickEnabled="True"
+                                            Minimum="0"
+                                            Maximum="255" />
+                                    <TextBlock Grid.Row="8" Grid.Column="4"
+                                               Style="{StaticResource StyleSliderValue}" 
+                                               Text="{Binding Value, ElementName=PART_SliderRed, StringFormat=000}" />
+
+                                    <TextBlock Grid.Row="10" Grid.Column="0"
+                                               Style="{StaticResource StyleSliderLabel}" 
+                                               Text="Green:" />
+                                    <Slider x:Name="PART_SliderGreen"
+                                            Grid.Row="10" Grid.Column="2"
+                                            Orientation="Horizontal"
+                                            Style="{StaticResource StyleSlider}"
+                                            TickFrequency="1" 
+                                            IsSnapToTickEnabled="True"
+                                            Minimum="0"
+                                            Maximum="255" />
+                                    <TextBlock Grid.Row="10" Grid.Column="4"
+                                               Style="{StaticResource StyleSliderValue}" 
+                                               Text="{Binding Value, ElementName=PART_SliderGreen, StringFormat=000}" />
+
+                                    <TextBlock Grid.Row="12" Grid.Column="0"
+                                               Style="{StaticResource StyleSliderLabel}"
+                                               Text="Blue:" />
+                                    <Slider x:Name="PART_SliderBlue" 
+                                            Grid.Row="12" Grid.Column="2"
+                                            Orientation="Horizontal" 
+                                            Style="{StaticResource StyleSlider}"
+                                            TickFrequency="1" 
+                                            IsSnapToTickEnabled="True"
+                                            Minimum="0" 
+                                            Maximum="255" />
+                                    <TextBlock Grid.Row="12" Grid.Column="4"
+                                               Style="{StaticResource StyleSliderValue}" 
+                                               Text="{Binding Value, ElementName=PART_SliderBlue, StringFormat=000}" />
+                                </Grid>
+
+                                <Border HorizontalAlignment="Stretch"
+                                        Margin="0,0,0,4"
+                                        SnapsToDevicePixels="True"
+                                        BorderThickness="1" 
+                                        BorderBrush="#FF000000"
+                                        Background="#FFFFFFFF">
+                                    <Border Margin="1"
+                                            SnapsToDevicePixels="True"
+                                            Background="{StaticResource BrushChessboard}">
+                                        <Rectangle x:Name="PART_Preview" 
+                                                   HorizontalAlignment="Stretch" 
+                                                   VerticalAlignment="Stretch"
+                                                   SnapsToDevicePixels="True" />
+                                    </Border>
+                                </Border>
+                            </DockPanel>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type controls:ColorSelector}" BasedOn="{StaticResource StyleColorSelector}" />
+
+</styles:CachedResourceDictionary>

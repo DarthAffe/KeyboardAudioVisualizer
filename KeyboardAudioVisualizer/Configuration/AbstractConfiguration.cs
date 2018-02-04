@@ -1,25 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Xml.Serialization;
 using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.Configuration
 {
     public class AbstractConfiguration : AbstractBindable, IConfiguration, INotifyPropertyChanged
     {
-        #region Properties & Fields
-
-        private IBrush _brush;
-        [XmlIgnore]
-        public IBrush Brush
-        {
-            get => _brush;
-            set => SetProperty(ref _brush, value);
-        }
-
-        #endregion
-
         #region Methods
 
         protected override bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

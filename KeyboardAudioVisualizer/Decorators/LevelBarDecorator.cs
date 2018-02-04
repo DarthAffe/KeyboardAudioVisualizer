@@ -1,4 +1,5 @@
 ﻿using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
+using RGB.NET.Brushes.Gradients;
 using RGB.NET.Core;
 
 namespace KeyboardAudioVisualizer.Decorators
@@ -10,16 +11,18 @@ namespace KeyboardAudioVisualizer.Decorators
         private readonly IVisualizationProvider _visualizationProvider;
         public LevelBarDirection Direction { get; set; }
         public int DataIndex { get; set; }
+        public LinearGradient Gradient { get; set; }
 
         #endregion
 
         #region Constructors
 
-        public LevelBarDecorator(IVisualizationProvider visualizationProvider, LevelBarDirection direction, int dataIndex)
+        public LevelBarDecorator(IVisualizationProvider visualizationProvider, LevelBarDirection direction, int dataIndex, LinearGradient gradient)
         {
             this._visualizationProvider = visualizationProvider;
             this.Direction = direction;
             this.DataIndex = dataIndex;
+            this.Gradient = gradient;
         }
 
         #endregion
@@ -34,17 +37,22 @@ namespace KeyboardAudioVisualizer.Decorators
 
             if (Direction == LevelBarDirection.Horizontal)
             {
+                
                 if (offset < 0)
                 {
                     offset = (-offset * 2);
                     if (offset >= _visualizationProvider.VisualizationData[0])
                         return color.SetA(0);
+                    else
+                        return Gradient.GetColor(offset);
                 }
                 else
                 {
                     offset *= 2;
                     if (offset >= _visualizationProvider.VisualizationData[1])
                         return color.SetA(0);
+                    else
+                        return Gradient.GetColor(offset);
                 }
             }
             else

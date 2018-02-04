@@ -75,6 +75,10 @@ namespace KeyboardAudioVisualizer
             ILedGroup background = new ListLedGroup(surface.Leds);
             background.Brush = new SolidColorBrush(new Color(64, 0, 0, 0)); //TODO DarthAffe 06.08.2017: A-Channel gives some kind of blur - settings!
 
+            LinearGradient primaryGradient = Settings[VisualizationIndex.Primary].Gradient;
+            LinearGradient secondaryGradient = Settings[VisualizationIndex.Primary].Gradient;
+            LinearGradient tertiaryGradient = Settings[VisualizationIndex.Primary].Gradient;
+
             List<(ILedGroup, GetDecoratorFunc)> primaryGroups = new List<(ILedGroup, GetDecoratorFunc)>();
             List<(ILedGroup, GetDecoratorFunc)> secondaryGroups = new List<(ILedGroup, GetDecoratorFunc)>();
             List<(ILedGroup, GetDecoratorFunc)> tertiaryGroups = new List<(ILedGroup, GetDecoratorFunc)>();
@@ -90,42 +94,38 @@ namespace KeyboardAudioVisualizer
                         {
                             primary.RemoveLeds(lightbar.Leds);
 
-                            IGradient keyboardLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
-
                             ILedGroup lightbarLeft = new ListLedGroup(lightbar.Left);
-                            lightbarLeft.Brush = new LinearGradientBrush(new Point(1.0, 0.5), new Point(0.0, 0.5), keyboardLevelGradient);
+                            lightbarLeft.Brush = new LinearGradientBrush(new Point(1.0, 0.5), new Point(0.0, 0.5), tertiaryGradient);
                             tertiaryGroups.Add((lightbarLeft, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Left, 0)));
 
                             ILedGroup lightbarRight = new ListLedGroup(lightbar.Right);
-                            lightbarRight.Brush = new LinearGradientBrush(keyboardLevelGradient);
+                            lightbarRight.Brush = new LinearGradientBrush(tertiaryGradient);
                             tertiaryGroups.Add((lightbarRight, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Right, 1)));
 
                             ILedGroup lightbarCenter = new ListLedGroup(lightbar.Center);
-                            lightbarCenter.Brush = new SolidColorBrush(new Color(255, 255, 255));
+                            lightbarCenter.Brush = new LinearGradientBrush(secondaryGradient);
                             secondaryGroups.Add((lightbarCenter, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer)));
                         }
 
-                        primary.Brush = new LinearGradientBrush(new RainbowGradient(300, -14));
-                        primaryGroups.Add((primary, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Horizontal)));
+                        primary.Brush = new LinearGradientBrush(primaryGradient);
+                        primaryGroups.Add((primary, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Horizontal, 0, primaryGradient)));
                         break;
 
                     case RGBDeviceType.Mousepad:
                     case RGBDeviceType.LedStripe:
-                        IGradient mousepadLevelGradient = new LinearGradient(new GradientStop(0, new Color(0, 0, 255)), new GradientStop(1, new Color(255, 0, 0)));
-
                         ILedGroup left = new RectangleLedGroup(new Rectangle(device.Location.X, device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
-                        left.Brush = new LinearGradientBrush(new Point(0.5, 1), new Point(0.5, 0), mousepadLevelGradient);
+                        left.Brush = new LinearGradientBrush(new Point(0.5, 1), new Point(0.5, 0), tertiaryGradient);
                         tertiaryGroups.Add((left, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Top, 0)));
 
                         ILedGroup right = new RectangleLedGroup(new Rectangle(device.Location.X + (device.Size.Width / 2.0), device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
-                        right.Brush = new LinearGradientBrush(new Point(0.5, 1), new Point(0.5, 0), mousepadLevelGradient);
+                        right.Brush = new LinearGradientBrush(new Point(0.5, 1), new Point(0.5, 0), tertiaryGradient);
                         tertiaryGroups.Add((right, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Top, 1)));
                         break;
 
                     case RGBDeviceType.Mouse:
                     case RGBDeviceType.Headset:
                         ILedGroup deviceGroup = new ListLedGroup(device);
-                        deviceGroup.Brush = new SolidColorBrush(new Color(255, 255, 255));
+                        deviceGroup.Brush = new LinearGradientBrush(secondaryGradient);
                         secondaryGroups.Add((deviceGroup, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer)));
                         break;
                 }
@@ -167,13 +167,13 @@ namespace KeyboardAudioVisualizer
             }
         }
 
-        private IBrushDecorator CreateDecorator(VisualizationType visualizationType, IVisualizationProvider visualizationProvider, LevelBarDirection direction = LevelBarDirection.Top, int dataIndex = 0)
+        private IBrushDecorator CreateDecorator(VisualizationType visualizationType, IVisualizationProvider visualizationProvider, LevelBarDirection direction = LevelBarDirection.Top, int dataIndex = 0, LinearGradient gradient = null)
         {
             if (visualizationType == VisualizationType.FrequencyBars)
                 return new FrequencyBarsDecorator(visualizationProvider);
 
             if (visualizationType == VisualizationType.Level)
-                return new LevelBarDecorator(visualizationProvider, direction, dataIndex);
+                return new LevelBarDecorator(visualizationProvider, direction, dataIndex, gradient);
 
             if (visualizationType == VisualizationType.Beat)
                 return new BeatDecorator(visualizationProvider);

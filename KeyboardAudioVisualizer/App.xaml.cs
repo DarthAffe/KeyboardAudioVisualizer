@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Hardcodet.Wpf.TaskbarNotification;
 using KeyboardAudioVisualizer.AudioProcessing;
+using KeyboardAudioVisualizer.Configuration;
 using KeyboardAudioVisualizer.Helper;
 using KeyboardAudioVisualizer.Legacy;
 using Newtonsoft.Json;
@@ -40,7 +41,7 @@ namespace KeyboardAudioVisualizer
 
                 //Settings settings = SerializationHelper.LoadObjectFromFile<Settings>(PATH_SETTINGS);
                 Settings settings = null;
-                try { settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(PATH_SETTINGS)); }
+                try { settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(PATH_SETTINGS), new ColorSerializer()); }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
@@ -55,6 +56,9 @@ namespace KeyboardAudioVisualizer
                     settings = new Settings();
                     _taskbarIcon.ShowBalloonTip("Keyboard Audio-Visualizer is starting in the tray!", "Click on the icon to open the configuration.", BalloonIcon.Info);
                 }
+
+                ConfigurationUpdates.PerformOn(settings);
+
                 ApplicationManager.Instance.Settings = settings;
 
                 AudioVisualizationFactory.Initialize();
@@ -74,7 +78,7 @@ namespace KeyboardAudioVisualizer
         {
             base.OnExit(e);
 
-            File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings));
+            File.WriteAllText(PATH_SETTINGS, JsonConvert.SerializeObject(ApplicationManager.Instance.Settings, new ColorSerializer()));
             ConfigurationMigrator.CleanupOldConfigs();
         }
 

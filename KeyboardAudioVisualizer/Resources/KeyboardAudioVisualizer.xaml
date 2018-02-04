@@ -14,6 +14,8 @@
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ComboBox.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Button.xaml" />
         <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/Slider.xaml" />
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/ColorSelector.xaml" />
+        <styles:CachedResourceDictionary Source="/KeyboardAudioVisualizer;component/Styles/GradientEditor.xaml" />
     </styles:CachedResourceDictionary.MergedDictionaries>
 
     <converter:EqualsToBoolConverter x:Key="EqualsToBoolConverter" />

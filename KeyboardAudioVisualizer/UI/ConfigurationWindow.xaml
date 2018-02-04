@@ -10,9 +10,9 @@
                                   xmlns:keyboardAudioVisualizer="clr-namespace:KeyboardAudioVisualizer"
                                   xmlns:converter="clr-namespace:KeyboardAudioVisualizer.Converter"
                                   xmlns:visualizationProvider="clr-namespace:KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider"
-                                  xmlns:helper="clr-namespace:KeyboardAudioVisualizer.Helper"
                                   xmlns:sys="clr-namespace:System;assembly=mscorlib"
                                   xmlns:attached="clr-namespace:KeyboardAudioVisualizer.Attached"
+                                  xmlns:helper="clr-namespace:KeyboardAudioVisualizer.Helper"
                                   mc:Ignorable="d"
                                   Title="Keyboard Audio-Visualizer # Configuration" 
                                   Icon="pack://application:,,,/KeyboardAudioVisualizer;component/Resources/Icon.ico"
@@ -56,6 +56,10 @@
             <AdornerDecorator>
                 <DockPanel LastChildFill="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Primary], Converter={StaticResource VisualizationToLastChildFillConverter}}">
                     <GroupBox DockPanel.Dock="Top">
+                        <controls:GradientEditor Gradient="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Settings[(helper:VisualizationIndex)Primary].Gradient}" />
+                    </GroupBox>
+
+                    <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
                         <controls:Form>
                             <controls:Form.Resources>
                                 <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
@@ -78,7 +82,7 @@
                     </GroupBox>
 
                     <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
-                        <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Primary]}" />
+                        <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Primary]}" Tag="0" />
                     </GroupBox>
                 </DockPanel>
             </AdornerDecorator>
@@ -88,6 +92,11 @@
             <AdornerDecorator>
                 <DockPanel LastChildFill="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Secondary], Converter={StaticResource VisualizationToLastChildFillConverter}}">
                     <GroupBox DockPanel.Dock="Top">
+                        <controls:GradientEditor Gradient="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Settings[(helper:VisualizationIndex)Secondary].Gradient}"
+                                                 CanAddOrDeleteStops="False" />
+                    </GroupBox>
+
+                    <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
                         <controls:Form>
                             <controls:Form.Resources>
                                 <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
@@ -109,7 +118,7 @@
                     </GroupBox>
 
                     <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
-                        <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Secondary]}" />
+                        <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Secondary]}" Tag="1" />
                     </GroupBox>
                 </DockPanel>
             </AdornerDecorator>
@@ -119,6 +128,10 @@
             <AdornerDecorator>
                 <DockPanel LastChildFill="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Tertiary], Converter={StaticResource VisualizationToLastChildFillConverter}}">
                     <GroupBox DockPanel.Dock="Top">
+                        <controls:GradientEditor Gradient="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Settings[(helper:VisualizationIndex)Tertiary].Gradient}" />
+                    </GroupBox>
+
+                    <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
                         <controls:Form>
                             <controls:Form.Resources>
                                 <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
@@ -140,7 +153,7 @@
                     </GroupBox>
 
                     <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
-                        <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Tertiary]}" />
+                        <ContentControl Content="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Tertiary]}" Tag="2" />
                     </GroupBox>
                 </DockPanel>
             </AdornerDecorator>

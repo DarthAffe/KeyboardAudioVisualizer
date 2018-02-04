@@ -4,14 +4,20 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
+using KeyboardAudioVisualizer.Helper;
+using RGB.NET.Brushes.Gradients;
 using RGB.NET.Core;
-using Color = System.Windows.Media.Color;
-using Point = System.Windows.Point;
 
 namespace KeyboardAudioVisualizer.UI.Visualization
 {
     public class BeatVisualizer : Control
     {
+        #region Properties & Fields
+
+        private LinearGradient _gradient;
+
+        #endregion
+
         #region DependencyProperties
         // ReSharper disable InconsistentNaming
 
@@ -22,6 +28,15 @@ namespace KeyboardAudioVisualizer.UI.Visualization
         {
             get => (IVisualizationProvider)GetValue(VisualizationProviderProperty);
             set => SetValue(VisualizationProviderProperty, value);
+        }
+
+        public static readonly DependencyProperty VisualizationIndexProperty = DependencyProperty.Register(
+            "VisualizationIndex", typeof(VisualizationIndex?), typeof(BeatVisualizer), new PropertyMetadata(null, VisualizationIndexChanged));
+
+        public VisualizationIndex? VisualizationIndex
+        {
+            get => (VisualizationIndex?)GetValue(VisualizationIndexProperty);
+            set => SetValue(VisualizationIndexProperty, value);
         }
 
         public static readonly DependencyProperty BrushProperty = DependencyProperty.Register(
@@ -52,7 +67,7 @@ namespace KeyboardAudioVisualizer.UI.Visualization
             RGBSurface.Instance.Updated += args => Dispatcher.BeginInvoke(new Action(Update), DispatcherPriority.Normal);
 
             //TODO DarthAffe 12.08.2017: Create brush from config
-            Brush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+
         }
 
         #endregion
@@ -73,6 +88,37 @@ namespace KeyboardAudioVisualizer.UI.Visualization
                     BeatValue = newValue;
                 else BeatValue = 0;
             }
+        }
+
+        private static void VisualizationIndexChanged(DependencyObject dependencyObject,
+                                                      DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            if (!(dependencyObject is BeatVisualizer visualizer)) return;
+            visualizer.UpdateGradient();
+        }
+
+        private void UpdateGradient()
+        {
+            void GradientChanged(object sender, EventArgs args) => UpdateColor();
+            if (_gradient != null)
+                _gradient.GradientChanged -= GradientChanged;
+
+            _gradient = VisualizationIndex.HasValue ? ApplicationManager.Instance.Settings[VisualizationIndex.Value].Gradient : null;
+            if (_gradient != null)
+                _gradient.GradientChanged += GradientChanged;
+
+            UpdateColor();
+        }
+
+        private void UpdateColor()
+        {
+            if (_gradient == null) return;
+
+            GradientStopCollection gradientStops = new GradientStopCollection();
+            foreach (RGB.NET.Brushes.Gradients.GradientStop stop in _gradient.GradientStops)
+                gradientStops.Add(new System.Windows.Media.GradientStop(System.Windows.Media.Color.FromArgb(stop.Color.A, stop.Color.R, stop.Color.G, stop.Color.B), stop.Offset));
+
+            Brush = new LinearGradientBrush(gradientStops, new System.Windows.Point(0, 0.5), new System.Windows.Point(1, 0.5));
         }
 
         #endregion

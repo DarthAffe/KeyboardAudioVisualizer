@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
+using KeyboardAudioVisualizer.Helper;
 using RGB.NET.Brushes.Gradients;
 using RGB.NET.Core;
 using Color = System.Windows.Media.Color;
@@ -27,12 +28,22 @@ namespace KeyboardAudioVisualizer.UI.Visualization
             get => (IVisualizationProvider)GetValue(VisualizationProviderProperty);
             set => SetValue(VisualizationProviderProperty, value);
         }
+
+        public static readonly DependencyProperty VisualizationIndexProperty = DependencyProperty.Register(
+            "VisualizationIndex", typeof(VisualizationIndex?), typeof(FrequencyBarsVisualizer), new PropertyMetadata(null, VisualizationIndexChanged));
+
+        public VisualizationIndex? VisualizationIndex
+        {
+            get => (VisualizationIndex?)GetValue(VisualizationIndexProperty);
+            set => SetValue(VisualizationIndexProperty, value);
+        }
+
         // ReSharper restore InconsistentNaming
         #endregion
 
         #region Properties & Fields
 
-        private IGradient _gradient;
+        private LinearGradient _gradient;
         private Panel _panel;
         private Rectangle[] _bars = new Rectangle[0];
 
@@ -44,9 +55,6 @@ namespace KeyboardAudioVisualizer.UI.Visualization
         {
             RGBSurface.Instance.Updated += args => Dispatcher.BeginInvoke(new Action(Update), DispatcherPriority.Normal);
             SizeChanged += (sender, args) => UpdateSizes();
-
-            //TODO DarthAffe 12.08.2017: Get gradient from config
-            _gradient = new RainbowGradient(300, -14);
         }
 
         #endregion
@@ -65,8 +73,7 @@ namespace KeyboardAudioVisualizer.UI.Visualization
         private static void VisualizationProviderChanged(DependencyObject dependencyObject,
             DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            FrequencyBarsVisualizer visualizer = dependencyObject as FrequencyBarsVisualizer;
-            if (visualizer == null) return;
+            if (!(dependencyObject is FrequencyBarsVisualizer visualizer)) return;
 
             void ConfigurationOnPropertyChanged(object sender, PropertyChangedEventArgs args) => visualizer.ConfigurationChanged(args.PropertyName);
 
@@ -75,6 +82,26 @@ namespace KeyboardAudioVisualizer.UI.Visualization
 
             if (dependencyPropertyChangedEventArgs.NewValue is IVisualizationProvider newVisualizationProvider)
                 newVisualizationProvider.Configuration.PropertyChanged += ConfigurationOnPropertyChanged;
+        }
+
+        private static void VisualizationIndexChanged(DependencyObject dependencyObject,
+                                                      DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            if (!(dependencyObject is FrequencyBarsVisualizer visualizer)) return;
+            visualizer.UpdateGradient();
+        }
+
+        private void UpdateGradient()
+        {
+            void GradientChanged(object sender, EventArgs args) => UpdateColors();
+            if (_gradient != null)
+                _gradient.GradientChanged -= GradientChanged;
+
+            _gradient = VisualizationIndex.HasValue ? ApplicationManager.Instance.Settings[VisualizationIndex.Value].Gradient : null;
+            if (_gradient != null)
+                _gradient.GradientChanged += GradientChanged;
+
+            UpdateColors();
         }
 
         private void ConfigurationChanged(string changedPropertyName)
@@ -119,6 +146,8 @@ namespace KeyboardAudioVisualizer.UI.Visualization
 
         private void UpdateColors()
         {
+            if (_gradient == null) return;
+
             for (int i = 0; i < _bars.Length; i++)
             {
                 RGB.NET.Core.Color color = _gradient.GetColor((double)i / _bars.Length);
