@@ -17,7 +17,8 @@
                                   Title="Keyboard Audio-Visualizer # Configuration" 
                                   Icon="pack://application:,,,/KeyboardAudioVisualizer;component/Resources/Icon.ico"
                                   IconCommand="{Binding OpenHomepageCommand}"
-                                  Width="1280"  Height="720">
+                                  Width="1280"  Height="720"
+                                  Closed="ConfigurationWindow_OnClosed">
 
     <controls:BlurredDecorationWindow.Resources>
         <styles:CachedResourceDictionary>
