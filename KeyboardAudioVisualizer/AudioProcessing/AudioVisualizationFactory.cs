@@ -31,6 +31,11 @@ namespace KeyboardAudioVisualizer.AudioProcessing
 
         public void Update()
         {
+            if (ApplicationManager.Instance.Settings.EnableAudioPrescale)
+                _audioBuffer.Prescale = _audioInput.MasterVolume;
+            else
+                _audioBuffer.Prescale = null;
+
             foreach (IAudioProcessor processor in _processors.Where(x => x.IsActive))
                 processor.Update();
         }

@@ -189,8 +189,8 @@ namespace KeyboardAudioVisualizer
 
         private void Exit()
         {
-            RGBSurface.Instance?.Dispose();
-            AudioVisualizationFactory.Instance?.Dispose();
+            try { AudioVisualizationFactory.Instance?.Dispose(); } catch { }
+            try { RGBSurface.Instance?.Dispose(); } catch { }
             Application.Current.Shutdown();
         }
 

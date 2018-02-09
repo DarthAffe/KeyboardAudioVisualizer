@@ -21,6 +21,8 @@ namespace KeyboardAudioVisualizer.Configuration
 
         public double UpdateRate { get; set; } = 40.0;
 
+        public bool EnableAudioPrescale { get; set; } = false;
+ 
         public Dictionary<VisualizationIndex, VisualizationSettings> Visualizations { get; set; } = new Dictionary<VisualizationIndex, VisualizationSettings>();
 
         public VisualizationSettings this[VisualizationIndex visualizationIndex]

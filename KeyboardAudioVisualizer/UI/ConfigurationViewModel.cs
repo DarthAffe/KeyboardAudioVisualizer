@@ -25,6 +25,16 @@ namespace KeyboardAudioVisualizer.UI
             }
         }
 
+        public bool EnableAudioPrescale
+        {
+            get => ApplicationManager.Instance.Settings.EnableAudioPrescale;
+            set
+            {
+                ApplicationManager.Instance.Settings.EnableAudioPrescale = value;
+                OnPropertyChanged();
+            }
+        }
+
         public VisualizationType SelectedPrimaryVisualization
         {
             get => ApplicationManager.Instance.Settings[VisualizationIndex.Primary].SelectedVisualization;

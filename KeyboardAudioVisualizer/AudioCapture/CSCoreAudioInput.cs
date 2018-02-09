@@ -13,10 +13,12 @@ namespace KeyboardAudioVisualizer.AudioCapture
         private WasapiCapture _capture;
         private SoundInSource _soundInSource;
         private SingleBlockNotificationStream _stream;
+        private AudioEndpointVolume _audioEndpointVolume;
 
         private readonly float[] _readBuffer = new float[2048];
 
         public int SampleRate => _soundInSource?.WaveFormat?.SampleRate ?? -1;
+        public float MasterVolume => _audioEndpointVolume.MasterVolumeLevelScalar;
 
         #endregion
 
@@ -32,6 +34,7 @@ namespace KeyboardAudioVisualizer.AudioCapture
         {
             MMDevice captureDevice = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Render, Role.Console);
             WaveFormat deviceFormat = captureDevice.DeviceFormat;
+            _audioEndpointVolume = AudioEndpointVolume.FromDevice(captureDevice);
 
             //DarthAffe 07.02.2018: This is a really stupid workaround to (hopefully) finally fix the surround driver issues
             for (int i = 1; i < 13; i++)

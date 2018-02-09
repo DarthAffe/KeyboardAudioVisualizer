@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace KeyboardAudioVisualizer.AudioCapture
+﻿namespace KeyboardAudioVisualizer.AudioCapture
 {
     public class AudioBuffer
     {
@@ -12,6 +10,8 @@ namespace KeyboardAudioVisualizer.AudioCapture
         private int _currentIndex;
 
         public int Size => _capacity;
+
+        public float? Prescale { get; set; } = null;
 
         #endregion
 
@@ -32,24 +32,33 @@ namespace KeyboardAudioVisualizer.AudioCapture
         public void Put(float[] src, int offset, int count)
         {
             lock (_bufferLeft)
-            {
-                if ((count & 1) != 0) return; // we expect stereo-data to be an even amount of values
-
-                if (count > _capacity)
+                lock (_bufferRight)
                 {
-                    offset += count - _capacity;
-                    count = _capacity;
-                }
+                    if ((count & 1) != 0) return; // we expect stereo-data to be an even amount of values
 
-                for (int i = 0; i < count; i += 2)
-                {
-                    _currentIndex++;
-                    if (_currentIndex >= _capacity) _currentIndex = 0;
+                    if (count > _capacity)
+                    {
+                        offset += count - _capacity;
+                        count = _capacity;
+                    }
 
-                    _bufferLeft[_currentIndex] = src[offset + i];
-                    _bufferRight[_currentIndex] = src[offset + i + 1];
+                    for (int i = 0; i < count; i += 2)
+                    {
+                        _currentIndex++;
+                        if (_currentIndex >= _capacity) _currentIndex = 0;
+
+                        if (Prescale.HasValue)
+                        {
+                            _bufferLeft[_currentIndex] = src[offset + i] / Prescale.Value;
+                            _bufferRight[_currentIndex] = src[offset + i + 1] / Prescale.Value;
+                        }
+                        else
+                        {
+                            _bufferLeft[_currentIndex] = src[offset + i];
+                            _bufferRight[_currentIndex] = src[offset + i + 1];
+                        }
+                    }
                 }
-            }
         }
 
         public void CopyLeftInto(ref float[] data, int offset) => CopyLeftInto(ref data, offset, _capacity);
@@ -72,11 +81,12 @@ namespace KeyboardAudioVisualizer.AudioCapture
         public void CopyMixInto(ref float[] data, int offset, int count)
         {
             lock (_bufferLeft)
-                for (int i = _capacity - count; i < count; i++)
-                {
-                    int index = (_currentIndex + i) % _capacity;
-                    data[offset + i] = (_bufferLeft[index] + _bufferRight[index]) / 2f;
-                }
+                lock (_bufferRight)
+                    for (int i = _capacity - count; i < count; i++)
+                    {
+                        int index = (_currentIndex + i) % _capacity;
+                        data[offset + i] = (_bufferLeft[index] + _bufferRight[index]) / 2f;
+                    }
         }
 
         #endregion

@@ -7,6 +7,7 @@ namespace KeyboardAudioVisualizer.AudioCapture
     public interface IAudioInput : IDisposable
     {
         int SampleRate { get; }
+        float MasterVolume { get; }
 
         event AudioData DataAvailable;
 

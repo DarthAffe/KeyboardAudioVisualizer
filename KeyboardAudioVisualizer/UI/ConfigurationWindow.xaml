@@ -57,7 +57,8 @@
             <AdornerDecorator>
                 <DockPanel LastChildFill="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Visualizations[(helper:VisualizationIndex)Primary], Converter={StaticResource VisualizationToLastChildFillConverter}}">
                     <GroupBox DockPanel.Dock="Top">
-                        <controls:GradientEditor Gradient="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Settings[(helper:VisualizationIndex)Primary].Gradient}" />
+                        <controls:GradientEditor Gradient="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Settings[(helper:VisualizationIndex)Primary].Gradient}"
+                                                 ToolTip="Defines the gradient that's drawed on the device. Usage:&#x0a;   Left click inside the preview to add a new stop.&#x0a;   Left-click stop to change the color or move it.&#x0a;   Right-click stop to remove it.&#x0a;" />
                     </GroupBox>
 
                     <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
@@ -188,6 +189,11 @@
                                         Value="{Binding UpdateRate}"
                                         attached:SliderValue.Unit="FPS"
                                         ToolTip="Defines how fast the data is updated.&#x0a;Low values can reduce CPU-usage but will cause stuttering." />
+
+                                <Label controls:Form.IsLabel="True" Content="Fix Volume" />
+                                <CheckBox VerticalAlignment="Center"
+                                          IsChecked="{Binding EnableAudioPrescale}"
+                                          ToolTip="Scales the audio signal inverse to the OS-master-volume.&#x0a;This might (depending on the system) lead to decrased performance&#x0a;   -> only activate it if you need it." />
 
                                 <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="Devices:" />
                             </controls:Form>
