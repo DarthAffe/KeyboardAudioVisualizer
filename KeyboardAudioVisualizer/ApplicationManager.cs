@@ -76,8 +76,8 @@ namespace KeyboardAudioVisualizer
             background.Brush = new SolidColorBrush(new Color(64, 0, 0, 0)); //TODO DarthAffe 06.08.2017: A-Channel gives some kind of blur - settings!
 
             LinearGradient primaryGradient = Settings[VisualizationIndex.Primary].Gradient;
-            LinearGradient secondaryGradient = Settings[VisualizationIndex.Primary].Gradient;
-            LinearGradient tertiaryGradient = Settings[VisualizationIndex.Primary].Gradient;
+            LinearGradient secondaryGradient = Settings[VisualizationIndex.Secondary].Gradient;
+            LinearGradient tertiaryGradient = Settings[VisualizationIndex.Tertiary].Gradient;
 
             List<(ILedGroup, GetDecoratorFunc)> primaryGroups = new List<(ILedGroup, GetDecoratorFunc)>();
             List<(ILedGroup, GetDecoratorFunc)> secondaryGroups = new List<(ILedGroup, GetDecoratorFunc)>();
