@@ -1,4 +1,5 @@
-﻿using CSCore;
+﻿using System;
+using CSCore;
 using CSCore.CoreAudioAPI;
 using CSCore.SoundIn;
 using CSCore.Streams;
@@ -31,9 +32,21 @@ namespace KeyboardAudioVisualizer.AudioCapture
         {
             MMDevice captureDevice = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Render, Role.Console);
             WaveFormat deviceFormat = captureDevice.DeviceFormat;
-            _capture = new WasapiLoopbackCapture(100, new WaveFormat(deviceFormat.SampleRate, deviceFormat.BitsPerSample, deviceFormat.Channels <= 2 ? deviceFormat.Channels : 2));
 
-            //_capture = new WasapiLoopbackCapture();
+            //DarthAffe 07.02.2018: This is a really stupid workaround to (hopefully) finally fix the surround driver issues
+            for (int i = 1; i < 13; i++)
+            {
+                try
+                {
+                    _capture = new WasapiLoopbackCapture(100, new WaveFormat(deviceFormat.SampleRate, deviceFormat.BitsPerSample, i));
+                }
+                catch
+                { }
+            }
+
+            if (_capture == null)
+                throw new NullReferenceException("Failed to initialize WasapiLoopbackCapture");
+
             _capture.Initialize();
             _soundInSource = new SoundInSource(_capture) { FillWithZeros = false };
 
