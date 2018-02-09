@@ -185,10 +185,10 @@
                                 <TextBlock Text="{Binding Version}" />
 
                                 <Label controls:Form.IsLabel="True" Content="Update-Rate" />
-                                <Slider Minimum="1" Maximum="40" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                <Slider Minimum="1" Maximum="60" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
                                         Value="{Binding UpdateRate}"
                                         attached:SliderValue.Unit="FPS"
-                                        ToolTip="Defines how fast the data is updated.&#x0a;Low values can reduce CPU-usage but will cause stuttering." />
+                                        ToolTip="Defines how fast the data is updated.&#x0a;Low values can reduce CPU-usage but will cause stuttering.&#x0a;Values above 40 will only affect the internal calculations and wont make the keyboard update faster.&#x0a;It's not recommended to select a value > 40." />
 
                                 <Label controls:Form.IsLabel="True" Content="Fix Volume" />
                                 <CheckBox VerticalAlignment="Center"

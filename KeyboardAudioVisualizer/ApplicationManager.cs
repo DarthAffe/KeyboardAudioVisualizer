@@ -61,7 +61,7 @@ namespace KeyboardAudioVisualizer
         {
             RGBSurface surface = RGBSurface.Instance;
 
-            surface.UpdateFrequency = 1.0 / MathHelper.Clamp(Settings.UpdateRate, 1, 40);
+            surface.UpdateFrequency = 1.0 / MathHelper.Clamp(Settings.UpdateRate, 1, 60);
             surface.UpdateMode = UpdateMode.Continuous;
 
             LoadDevices(surface, CorsairDeviceProvider.Instance);
