@@ -171,8 +171,9 @@ namespace KeyboardAudioVisualizer.Controls
                                                 Color.FromArgb(endColor.A, endColor.R, endColor.G, endColor.B),
                                                 new Point(0, 0.5), new Point(1, 0.5));
 
-            Canvas.SetLeft(rect, referenceWidth * from.Clamp(0, 1));
-            rect.Width = referenceWidth * (to.Clamp(0, 1) - from.Clamp(0, 1));
+            //DarthAffe 09.02.2018: Forced rounding to prevent render issues on resize
+            Canvas.SetLeft(rect, Math.Floor(referenceWidth * from.Clamp(0, 1)));
+            rect.Width = Math.Ceiling(referenceWidth * (to.Clamp(0, 1) - from.Clamp(0, 1)));
 
             Canvas.SetTop(rect, 0);
             rect.Height = referenceHeight;
