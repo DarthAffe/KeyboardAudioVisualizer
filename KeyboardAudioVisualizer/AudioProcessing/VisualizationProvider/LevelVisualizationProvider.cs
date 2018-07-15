@@ -80,9 +80,9 @@ namespace KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider
 
         public override void Initialize()
         {
-            _sampleDataLeft = new float[_audioBuffer.Size];
-            _sampleDataRight = new float[_audioBuffer.Size];
-            _sampleDataMix = new float[_audioBuffer.Size];
+            _sampleDataLeft = new float[2048];
+            _sampleDataRight = new float[2048];
+            _sampleDataMix = new float[2048];
 
             RecalculateConfigValues(null);
         }

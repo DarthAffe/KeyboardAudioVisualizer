@@ -2,7 +2,7 @@
 
 namespace KeyboardAudioVisualizer.AudioCapture
 {
-    public delegate void AudioData(float[] data, int offset, int count);
+    public delegate void AudioData(float left, float right);
 
     public interface IAudioInput : IDisposable
     {

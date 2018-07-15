@@ -54,7 +54,7 @@ namespace KeyboardAudioVisualizer.AudioProcessing
             _audioInput.Initialize();
 
             _audioBuffer = new AudioBuffer(4096); // Working with ~93ms - 
-            _audioInput.DataAvailable += (data, offset, count) => _audioBuffer.Put(data, offset, count);
+            _audioInput.DataAvailable += (left, right) => _audioBuffer.Put(left, right);
 
             _processors.Add(new FourierSpectrumProvider(_audioBuffer));
 
