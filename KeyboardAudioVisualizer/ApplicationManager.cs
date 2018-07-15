@@ -37,6 +37,8 @@ namespace KeyboardAudioVisualizer
 
         private readonly Dictionary<VisualizationIndex, IEnumerable<(ILedGroup group, GetDecoratorFunc getDecoratorFunc)>> _groups = new Dictionary<VisualizationIndex, IEnumerable<(ILedGroup group, GetDecoratorFunc getDecoratorFunc)>>();
 
+        public TimerUpdateTrigger UpdateTrigger { get; } = new TimerUpdateTrigger();
+
         #endregion
 
         #region Commands
@@ -61,8 +63,8 @@ namespace KeyboardAudioVisualizer
         {
             RGBSurface surface = RGBSurface.Instance;
 
-            surface.UpdateFrequency = 1.0 / MathHelper.Clamp(Settings.UpdateRate, 1, 60);
-            surface.UpdateMode = UpdateMode.Continuous;
+            UpdateTrigger.UpdateFrequency = 1.0 / MathHelper.Clamp(Settings.UpdateRate, 1, 60);
+            surface.RegisterUpdateTrigger(UpdateTrigger);
 
             LoadDevices(surface, CorsairDeviceProvider.Instance);
             LoadDevices(surface, CoolerMasterDeviceProvider.Instance);
@@ -86,6 +88,7 @@ namespace KeyboardAudioVisualizer
                 switch (device.DeviceInfo.DeviceType)
                 {
                     case RGBDeviceType.Keyboard:
+                    case RGBDeviceType.Keypad:
                     case RGBDeviceType.LedMatrix:
                         ListLedGroup primary = new ListLedGroup(device);
 
@@ -113,6 +116,7 @@ namespace KeyboardAudioVisualizer
 
                     case RGBDeviceType.Mousepad:
                     case RGBDeviceType.LedStripe:
+                    case RGBDeviceType.HeadsetStand:
                         ILedGroup left = new RectangleLedGroup(new Rectangle(device.Location.X, device.Location.Y, device.Size.Width / 2.0, device.Size.Height));
                         left.Brush = new LinearGradientBrush(new Point(0.5, 1), new Point(0.5, 0), tertiaryGradient);
                         tertiaryGroups.Add((left, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer, LevelBarDirection.Top, 0)));
@@ -124,6 +128,11 @@ namespace KeyboardAudioVisualizer
 
                     case RGBDeviceType.Mouse:
                     case RGBDeviceType.Headset:
+                    case RGBDeviceType.Speaker:
+                    case RGBDeviceType.Fan:
+                    case RGBDeviceType.GraphicsCard:
+                    case RGBDeviceType.DRAM:
+                    case RGBDeviceType.Mainboard:
                         ILedGroup deviceGroup = new ListLedGroup(device);
                         deviceGroup.Brush = new LinearGradientBrush(secondaryGradient);
                         secondaryGroups.Add((deviceGroup, (visualizationType, visualizer) => CreateDecorator(visualizationType, visualizer)));
@@ -145,7 +154,8 @@ namespace KeyboardAudioVisualizer
         {
             surface.LoadDevices(deviceProvider, RGBDeviceType.Keyboard | RGBDeviceType.LedMatrix
                                               | RGBDeviceType.Mousepad | RGBDeviceType.LedStripe
-                                              | RGBDeviceType.Mouse | RGBDeviceType.Headset);
+                                              | RGBDeviceType.Mouse | RGBDeviceType.Headset
+                                              | RGBDeviceType.HeadsetStand);
         }
 
         //TODO DarthAffe 12.09.2017: This is just a big mess - is this worth to rework before arge?

@@ -15,12 +15,12 @@ namespace KeyboardAudioVisualizer.UI
 
         public double UpdateRate
         {
-            get => 1.0 / RGBSurface.Instance.UpdateFrequency;
+            get => 1.0 / ApplicationManager.Instance.UpdateTrigger.UpdateFrequency;
             set
             {
                 double val = MathHelper.Clamp(value, 1, 60);
                 ApplicationManager.Instance.Settings.UpdateRate = val;
-                RGBSurface.Instance.UpdateFrequency = 1.0 / val;
+                ApplicationManager.Instance.UpdateTrigger.UpdateFrequency = 1.0 / val;
                 OnPropertyChanged();
             }
         }
