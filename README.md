@@ -36,7 +36,7 @@ It's colorful - I like it!
 - **Gamma:** The correction value used for gamma-grouping (disabled if any other grouping is selected). High values lead to a stronger compression of high frequencies. _(default: 2)_
 - **Reference:** The reference value used to calculate the power of each bar. Adjust this to your audio volume. Low volume -> low reference, high volume -> higher reference. _(default: 90)_
 - **Smoothing:** Smooths the graph to prevent flickering. Low values will cause a hectic fast plot, high values a slow one without peaks. _(default: 3)_
-- **Emphasize:** Emphasizes peaks. The higher the value, the bigger the difference between a "loud-bar" and a "quite-bar". _(default: 0.5)_
+- **Emphasize:** Emphasizes peaks. The higher the value, the bigger the difference between a "loud-bar" and a "quiet-bar". _(default: 0.5)_
    
 **Equalizer**   
 Allows to finetune the graph by slective increasing/decresing the value.
