@@ -58,7 +58,7 @@ namespace KeyboardAudioVisualizer
                     settings = new Settings
                     {
                         Version = Settings.CURRENT_VERSION,
-                        Background = new LinearGradient(new GradientStop(0.1, new Color(64, 0, 0, 0)))
+                        Background = new LinearGradient(new GradientStop(0.5, new Color(64, 0, 0, 0)))
                     };
                     _taskbarIcon.ShowBalloonTip("Keyboard Audio-Visualizer is starting in the tray!", "Click on the icon to open the configuration.", BalloonIcon.Info);
                 }
