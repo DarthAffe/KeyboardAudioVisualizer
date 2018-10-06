@@ -163,60 +163,70 @@
 
         <TabItem Header="Settings">
             <AdornerDecorator>
-                <GroupBox VerticalAlignment="Top">
-                    <StackPanel Orientation="Vertical">
-                        <Grid>
-                            <Grid.Resources>
-                                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
-                                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="TextBlock" />
-                                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="ListBox" />
-                            </Grid.Resources>
+                <DockPanel LastChildFill="False">
+                    <DockPanel.Resources>
+                        <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="Label" />
+                        <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="TextBlock" />
+                        <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="ListBox" />
+                    </DockPanel.Resources>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="8" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="8" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                    <GroupBox DockPanel.Dock="Top">
+                        <controls:Form>
+                            <Label controls:Form.IsLabel="True" Content="Version" />
+                            <TextBlock Text="{Binding Version}" />
 
-                            <controls:Form Grid.Column="0">
-                                <Label controls:Form.IsLabel="True" Content="Version:" />
-                                <TextBlock Text="{Binding Version}" />
+                            <Label controls:Form.IsLabel="True" Content="Update-Rate" />
+                            <Slider Minimum="1" Maximum="60" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
+                                    Value="{Binding UpdateRate}"
+                                    attached:SliderValue.Unit="FPS"
+                                    ToolTip="Defines how fast the data is updated.&#x0a;Low values can reduce CPU-usage but will cause stuttering.&#x0a;Values above 40 will only affect the internal calculations and wont make the keyboard update faster.&#x0a;It's not recommended to select a value > 40." />
 
-                                <Label controls:Form.IsLabel="True" Content="Update-Rate" />
-                                <Slider Minimum="1" Maximum="60" controls:Form.Fill="True"  IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="BottomRight"
-                                        Value="{Binding UpdateRate}"
-                                        attached:SliderValue.Unit="FPS"
-                                        ToolTip="Defines how fast the data is updated.&#x0a;Low values can reduce CPU-usage but will cause stuttering.&#x0a;Values above 40 will only affect the internal calculations and wont make the keyboard update faster.&#x0a;It's not recommended to select a value > 40." />
+                            <Label controls:Form.IsLabel="True" Content="Fix Volume" />
+                            <CheckBox VerticalAlignment="Center"
+                                      IsChecked="{Binding EnableAudioPrescale}"
+                                      ToolTip="Scales the audio signal inverse to the OS-master-volume.&#x0a;This might (depending on the system) lead to decrased performance&#x0a;   -> only activate it if you need it." />
 
-                                <Label controls:Form.IsLabel="True" Content="Fix Volume" />
-                                <CheckBox VerticalAlignment="Center"
-                                          IsChecked="{Binding EnableAudioPrescale}"
-                                          ToolTip="Scales the audio signal inverse to the OS-master-volume.&#x0a;This might (depending on the system) lead to decrased performance&#x0a;   -> only activate it if you need it." />
+                        </controls:Form>
+                    </GroupBox>
 
-                                <Label controls:Form.LineBreaks="1" controls:Form.IsLabel="True" Content="Devices:" />
-                            </controls:Form>
-                        </Grid>
+                    <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
+                        <StackPanel Orientation="Vertical">
+                            <Border HorizontalAlignment="Left" Width="111">
+                                <Label HorizontalAlignment="Right" 
+                                       Content="Background" />
+                            </Border>
 
-                        <!-- TODO DarthAffe 05.08.2017: Fix the formular to support that use-case -->
-                        <ItemsControl VerticalAlignment="Top" HorizontalAlignment="Left" Margin="120,-22,0,0" ItemsSource="{Binding Source={x:Static core:RGBSurface.Instance}, Path=Devices}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Style="{StaticResource StyleTextBlockForm}">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat=">  {0} {1} ({2})">
-                                                <Binding Path="DeviceInfo.Manufacturer" />
-                                                <Binding Path="DeviceInfo.Model" />
-                                                <Binding Path="DeviceInfo.DeviceType" />
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </GroupBox>
+                            <controls:GradientEditor Margin="120,-18,0,0" 
+                                                     Gradient="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance}, Path=Settings.Background}"
+                                                     ToolTip="Defines the gradient used as the background. Use transparency to create some kind of blur. Usage:&#x0a;   Left click inside the preview to add a new stop.&#x0a;   Left-click stop to change the color or move it.&#x0a;   Right-click stop to remove it.&#x0a;" />
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
+                        <StackPanel Orientation="Vertical">
+                            <Border HorizontalAlignment="Left" Width="111">
+                                <Label HorizontalAlignment="Right" 
+                                       Content="Devices" />
+                            </Border>
+
+                            <ItemsControl VerticalAlignment="Top" HorizontalAlignment="Left" Margin="120,-18,0,0" ItemsSource="{Binding Source={x:Static core:RGBSurface.Instance}, Path=Devices}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource StyleTextBlockForm}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat=">  {0} {1} ({2})">
+                                                    <Binding Path="DeviceInfo.Manufacturer" />
+                                                    <Binding Path="DeviceInfo.Model" />
+                                                    <Binding Path="DeviceInfo.DeviceType" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </GroupBox>
+                </DockPanel>
             </AdornerDecorator>
         </TabItem>
     </TabControl>

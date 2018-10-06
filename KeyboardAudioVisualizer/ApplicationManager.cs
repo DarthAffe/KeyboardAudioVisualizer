@@ -75,7 +75,7 @@ namespace KeyboardAudioVisualizer
             surface.AlignDevices();
 
             ILedGroup background = new ListLedGroup(surface.Leds);
-            background.Brush = new SolidColorBrush(new Color(64, 0, 0, 0)); //TODO DarthAffe 06.08.2017: A-Channel gives some kind of blur - settings!
+            background.Brush = new LinearGradientBrush(Settings.Background);
 
             LinearGradient primaryGradient = Settings[VisualizationIndex.Primary].Gradient;
             LinearGradient secondaryGradient = Settings[VisualizationIndex.Secondary].Gradient;

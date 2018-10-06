@@ -22,7 +22,9 @@ namespace KeyboardAudioVisualizer.Configuration
         public double UpdateRate { get; set; } = 40.0;
 
         public bool EnableAudioPrescale { get; set; } = false;
- 
+
+        public LinearGradient Background { get; set; }
+
         public Dictionary<VisualizationIndex, VisualizationSettings> Visualizations { get; set; } = new Dictionary<VisualizationIndex, VisualizationSettings>();
 
         public VisualizationSettings this[VisualizationIndex visualizationIndex]
