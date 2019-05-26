@@ -167,8 +167,8 @@ namespace KeyboardAudioVisualizer.Controls
         private void UpdatePreviewRectangle(Rectangle rect, double referenceWidth, double referenceHeight, double from, double to,
                                             RGB.NET.Core.Color startColor, RGB.NET.Core.Color endColor)
         {
-            rect.Fill = new LinearGradientBrush(Color.FromArgb(startColor.A, startColor.R, startColor.G, startColor.B),
-                                                Color.FromArgb(endColor.A, endColor.R, endColor.G, endColor.B),
+            rect.Fill = new LinearGradientBrush(Color.FromArgb(startColor.GetA(), startColor.GetR(), startColor.GetG(), startColor.GetB()),
+                                                Color.FromArgb(endColor.GetA(), endColor.GetR(), endColor.GetG(), endColor.GetB()),
                                                 new Point(0, 0.5), new Point(1, 0.5));
 
             //DarthAffe 09.02.2018: Forced rounding to prevent render issues on resize
@@ -212,7 +212,7 @@ namespace KeyboardAudioVisualizer.Controls
 
         private void UpdateGradientStop(ContentControl control, double referenceWidth, double referenceHeight, GradientStop stop)
         {
-            control.Background = new SolidColorBrush(Color.FromArgb(stop.Color.A, stop.Color.R, stop.Color.G, stop.Color.B));
+            control.Background = new SolidColorBrush(Color.FromArgb(stop.Color.GetA(), stop.Color.GetR(), stop.Color.GetG(), stop.Color.GetB()));
 
             Canvas.SetLeft(control, (referenceWidth * stop.Offset.Clamp(0, 1)) - (control.Width / 2.0));
 

@@ -151,7 +151,7 @@ namespace KeyboardAudioVisualizer.UI.Visualization
             for (int i = 0; i < _bars.Length; i++)
             {
                 RGB.NET.Core.Color color = _gradient.GetColor((double)i / _bars.Length);
-                _bars[i].Fill = new SolidColorBrush(Color.FromRgb(color.R, color.G, color.B));
+                _bars[i].Fill = new SolidColorBrush(Color.FromRgb(color.GetR(), color.GetG(), color.GetB()));
             }
         }
 

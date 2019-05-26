@@ -320,7 +320,7 @@ namespace KeyboardAudioVisualizer.Controls
 
         private void HSVChanged()
         {
-            Color color = Color.FromHSV(_a, _hue, _saturation, _value);
+            Color color = HSVColor.Create(_a, _hue, _saturation, _value);
             UpdateSelectedColor(color);
             SetRGB(color);
             UpdateUIColors();
@@ -331,7 +331,7 @@ namespace KeyboardAudioVisualizer.Controls
         {
             _ignorePropertyChanged = true;
 
-            _a = color.A;
+            _a = color.GetA();
             if (_sliderAlpha != null)
                 _sliderAlpha.Value = _a;
 
@@ -342,15 +342,15 @@ namespace KeyboardAudioVisualizer.Controls
         {
             _ignorePropertyChanged = true;
 
-            _r = color.R;
+            _r = color.GetR();
             if (_sliderRed != null)
                 _sliderRed.Value = _r;
 
-            _g = color.G;
+            _g = color.GetG();
             if (_sliderGreen != null)
                 _sliderGreen.Value = _g;
 
-            _b = color.B;
+            _b = color.GetB();
             if (_sliderBlue != null)
                 _sliderBlue.Value = _b;
 
@@ -361,15 +361,15 @@ namespace KeyboardAudioVisualizer.Controls
         {
             _ignorePropertyChanged = true;
 
-            _hue = color.Hue;
+            _hue = color.GetHue();
             if (_sliderHue != null)
                 _sliderHue.Value = _hue;
 
-            _saturation = color.Saturation;
+            _saturation = color.GetSaturation();
             if (_sliderSaturation != null)
                 _sliderSaturation.Value = _saturation;
 
-            _value = color.Value;
+            _value = color.GetValue();
             if (_sliderValue != null)
                 _sliderValue.Value = _value;
 
@@ -411,13 +411,13 @@ namespace KeyboardAudioVisualizer.Controls
 
         private void UpdateUIColors()
         {
-            Color hueColor = Color.FromHSV(_hue, 1, 1);
+            Color hueColor = HSVColor.Create(_hue, 1, 1);
 
             if (_previewBrush != null)
                 _previewBrush.Color = WpfColor.FromArgb(_a, _r, _g, _b);
 
             if (_selectorBrush != null)
-                _selectorBrush.Color = WpfColor.FromRgb(hueColor.R, hueColor.G, hueColor.B);
+                _selectorBrush.Color = WpfColor.FromRgb(hueColor.GetR(), hueColor.GetG(), hueColor.GetB());
 
             if (_alphaBrush != null)
             {
@@ -445,36 +445,36 @@ namespace KeyboardAudioVisualizer.Controls
 
             if (_hueBrush != null)
             {
-                Color referenceColor1 = Color.FromHSV(0, _saturation, _value);
-                Color referenceColor2 = Color.FromHSV(60, _saturation, _value);
-                Color referenceColor3 = Color.FromHSV(120, _saturation, _value);
-                Color referenceColor4 = Color.FromHSV(180, _saturation, _value);
-                Color referenceColor5 = Color.FromHSV(240, _saturation, _value);
-                Color referenceColor6 = Color.FromHSV(300, _saturation, _value);
+                Color referenceColor1 = HSVColor.Create(0, _saturation, _value);
+                Color referenceColor2 = HSVColor.Create(60, _saturation, _value);
+                Color referenceColor3 = HSVColor.Create(120, _saturation, _value);
+                Color referenceColor4 = HSVColor.Create(180, _saturation, _value);
+                Color referenceColor5 = HSVColor.Create(240, _saturation, _value);
+                Color referenceColor6 = HSVColor.Create(300, _saturation, _value);
 
-                _hueBrush.GradientStops[0].Color = WpfColor.FromArgb(_a, referenceColor1.R, referenceColor1.G, referenceColor1.B);
-                _hueBrush.GradientStops[1].Color = WpfColor.FromArgb(_a, referenceColor2.R, referenceColor2.G, referenceColor2.B);
-                _hueBrush.GradientStops[2].Color = WpfColor.FromArgb(_a, referenceColor3.R, referenceColor3.G, referenceColor3.B);
-                _hueBrush.GradientStops[3].Color = WpfColor.FromArgb(_a, referenceColor4.R, referenceColor4.G, referenceColor4.B);
-                _hueBrush.GradientStops[4].Color = WpfColor.FromArgb(_a, referenceColor5.R, referenceColor5.G, referenceColor5.B);
-                _hueBrush.GradientStops[5].Color = WpfColor.FromArgb(_a, referenceColor6.R, referenceColor6.G, referenceColor6.B);
-                _hueBrush.GradientStops[6].Color = WpfColor.FromArgb(_a, referenceColor1.R, referenceColor1.G, referenceColor1.B);
+                _hueBrush.GradientStops[0].Color = WpfColor.FromArgb(_a, referenceColor1.GetR(), referenceColor1.GetG(), referenceColor1.GetB());
+                _hueBrush.GradientStops[1].Color = WpfColor.FromArgb(_a, referenceColor2.GetR(), referenceColor2.GetG(), referenceColor2.GetB());
+                _hueBrush.GradientStops[2].Color = WpfColor.FromArgb(_a, referenceColor3.GetR(), referenceColor3.GetG(), referenceColor3.GetB());
+                _hueBrush.GradientStops[3].Color = WpfColor.FromArgb(_a, referenceColor4.GetR(), referenceColor4.GetG(), referenceColor4.GetB());
+                _hueBrush.GradientStops[4].Color = WpfColor.FromArgb(_a, referenceColor5.GetR(), referenceColor5.GetG(), referenceColor5.GetB());
+                _hueBrush.GradientStops[5].Color = WpfColor.FromArgb(_a, referenceColor6.GetR(), referenceColor6.GetG(), referenceColor6.GetB());
+                _hueBrush.GradientStops[6].Color = WpfColor.FromArgb(_a, referenceColor1.GetR(), referenceColor1.GetG(), referenceColor1.GetB());
             }
 
             if (_saturationBrush != null)
             {
-                Color referenceColor = Color.FromHSV(_hue, 1, _value);
+                Color referenceColor = HSVColor.Create(_hue, 1, _value);
 
                 _saturationBrush.GradientStops[0].Color = WpfColor.FromArgb(_a, 255, 255, 255);
-                _saturationBrush.GradientStops[1].Color = WpfColor.FromArgb(_a, referenceColor.R, referenceColor.G, referenceColor.B);
+                _saturationBrush.GradientStops[1].Color = WpfColor.FromArgb(_a, referenceColor.GetR(), referenceColor.GetG(), referenceColor.GetB());
             }
 
             if (_valueBrush != null)
             {
-                Color referenceColor = Color.FromHSV(_hue, _saturation, 1);
+                Color referenceColor = HSVColor.Create(_hue, _saturation, 1);
 
                 _valueBrush.GradientStops[0].Color = WpfColor.FromArgb(_a, 0, 0, 0);
-                _valueBrush.GradientStops[1].Color = WpfColor.FromArgb(_a, referenceColor.R, referenceColor.G, referenceColor.B);
+                _valueBrush.GradientStops[1].Color = WpfColor.FromArgb(_a, referenceColor.GetR(), referenceColor.GetG(), referenceColor.GetB());
             }
         }
 

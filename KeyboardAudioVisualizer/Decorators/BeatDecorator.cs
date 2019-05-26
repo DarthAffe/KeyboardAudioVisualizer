@@ -26,6 +26,6 @@ namespace KeyboardAudioVisualizer.Decorators
 
         #endregion
 
-        public Color ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, Color color) => color.SetAPercent(color.APercent * _visualizationProvider.VisualizationData[0]);
+        public Color ManipulateColor(Rectangle rectangle, BrushRenderTarget renderTarget, Color color) => color.SetA(color.A * _visualizationProvider.VisualizationData[0]);
     }
 }

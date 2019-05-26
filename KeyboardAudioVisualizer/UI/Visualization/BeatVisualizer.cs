@@ -116,7 +116,7 @@ namespace KeyboardAudioVisualizer.UI.Visualization
 
             GradientStopCollection gradientStops = new GradientStopCollection();
             foreach (RGB.NET.Brushes.Gradients.GradientStop stop in _gradient.GradientStops)
-                gradientStops.Add(new System.Windows.Media.GradientStop(System.Windows.Media.Color.FromArgb(stop.Color.A, stop.Color.R, stop.Color.G, stop.Color.B), stop.Offset));
+                gradientStops.Add(new System.Windows.Media.GradientStop(System.Windows.Media.Color.FromArgb(stop.Color.GetA(), stop.Color.GetR(), stop.Color.GetG(), stop.Color.GetB()), stop.Offset));
 
             Brush = new LinearGradientBrush(gradientStops, new System.Windows.Point(0, 0.5), new System.Windows.Point(1, 0.5));
         }
