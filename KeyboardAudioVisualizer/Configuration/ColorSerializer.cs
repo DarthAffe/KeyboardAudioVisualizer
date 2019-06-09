@@ -30,10 +30,16 @@ namespace KeyboardAudioVisualizer.Configuration
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject jsonObject = JObject.Load(reader);
-            return new Color(jsonObject.Property("A").Value.ToObject<byte>(),
-                             jsonObject.Property("R").Value.ToObject<byte>(),
-                             jsonObject.Property("G").Value.ToObject<byte>(),
-                             jsonObject.Property("B").Value.ToObject<byte>());
+            if (jsonObject.Property("A").Value.ToObject<double>() > 1.0) //DarthAffe 09.06.2019: Convert old Settings
+                return new Color(jsonObject.Property("A").Value.ToObject<byte>(),
+                                 jsonObject.Property("R").Value.ToObject<byte>(),
+                                 jsonObject.Property("G").Value.ToObject<byte>(),
+                                 jsonObject.Property("B").Value.ToObject<byte>());
+            else
+                return new Color(jsonObject.Property("A").Value.ToObject<double>(),
+                                 jsonObject.Property("R").Value.ToObject<double>(),
+                                 jsonObject.Property("G").Value.ToObject<double>(),
+                                 jsonObject.Property("B").Value.ToObject<double>());
         }
 
         #endregion
