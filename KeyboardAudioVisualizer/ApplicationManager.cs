@@ -14,6 +14,7 @@ using RGB.NET.Devices.Corsair;
 using RGB.NET.Devices.Logitech;
 using RGB.NET.Devices.Novation;
 using RGB.NET.Devices.Razer;
+using RGB.NET.Devices.SteelSeries;
 using RGB.NET.Groups;
 using Point = RGB.NET.Core.Point;
 using GetDecoratorFunc = System.Func<KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider.VisualizationType, KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider.IVisualizationProvider, RGB.NET.Core.IBrushDecorator>;
@@ -71,6 +72,7 @@ namespace KeyboardAudioVisualizer
             LoadDevices(surface, NovationDeviceProvider.Instance);
             LoadDevices(surface, RazerDeviceProvider.Instance);
             LoadDevices(surface, LogitechDeviceProvider.Instance);
+            LoadDevices(surface, SteelSeriesDeviceProvider.Instance);
 
             surface.AlignDevices();
 
