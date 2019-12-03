@@ -338,7 +338,6 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\RGB.NET.Devices.Msi.0.0.1.41\build\net45\RGB.NET.Devices.Msi.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RGB.NET.Devices.Msi.0.0.1.41\build\net45\RGB.NET.Devices.Msi.targets'))" />
     <Error Condition="!Exists('..\packages\RGB.NET.Resources.Novation.0.1.0\build\RGB.NET.Resources.Novation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RGB.NET.Resources.Novation.0.1.0\build\RGB.NET.Resources.Novation.targets'))" />
     <Error Condition="!Exists('..\packages\RGB.NET.Resources.CoolerMaster.0.2.0\build\RGB.NET.Resources.CoolerMaster.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RGB.NET.Resources.CoolerMaster.0.2.0\build\RGB.NET.Resources.CoolerMaster.targets'))" />
     <Error Condition="!Exists('..\packages\RGB.NET.Resources.Corsair.0.3.0.234\build\RGB.NET.Resources.Corsair.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RGB.NET.Resources.Corsair.0.3.0.234\build\RGB.NET.Resources.Corsair.targets'))" />
@@ -346,7 +345,6 @@
     <Error Condition="!Exists('..\packages\RGB.NET.Resources.Razer.0.3.2.4\build\RGB.NET.Resources.Razer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RGB.NET.Resources.Razer.0.3.2.4\build\RGB.NET.Resources.Razer.targets'))" />
     <Error Condition="!Exists('..\packages\RGB.NET.Resources.Asus.0.3.0\build\RGB.NET.Resources.Asus.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RGB.NET.Resources.Asus.0.3.0\build\RGB.NET.Resources.Asus.targets'))" />
   </Target>
-  <Import Project="..\packages\RGB.NET.Devices.Msi.0.0.1.41\build\net45\RGB.NET.Devices.Msi.targets" Condition="Exists('..\packages\RGB.NET.Devices.Msi.0.0.1.41\build\net45\RGB.NET.Devices.Msi.targets')" />
   <Import Project="..\packages\RGB.NET.Resources.Novation.0.1.0\build\RGB.NET.Resources.Novation.targets" Condition="Exists('..\packages\RGB.NET.Resources.Novation.0.1.0\build\RGB.NET.Resources.Novation.targets')" />
   <Import Project="..\packages\RGB.NET.Resources.CoolerMaster.0.2.0\build\RGB.NET.Resources.CoolerMaster.targets" Condition="Exists('..\packages\RGB.NET.Resources.CoolerMaster.0.2.0\build\RGB.NET.Resources.CoolerMaster.targets')" />
   <Import Project="..\packages\RGB.NET.Resources.Corsair.0.3.0.234\build\RGB.NET.Resources.Corsair.targets" Condition="Exists('..\packages\RGB.NET.Resources.Corsair.0.3.0.234\build\RGB.NET.Resources.Corsair.targets')" />
