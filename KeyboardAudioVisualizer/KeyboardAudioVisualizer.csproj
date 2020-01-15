@@ -30,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -161,6 +161,7 @@
     <Compile Include="Configuration\ColorSerializer.cs" />
     <Compile Include="Controls\ColorSelector.cs" />
     <Compile Include="Controls\GradientEditor.cs" />
+    <Compile Include="Converter\CaptureDeviceConverter.cs" />
     <Compile Include="Converter\VisualizationProviderDisplayNameConverter.cs" />
     <Compile Include="Converter\VisualizationToLastChildFillConverter.cs" />
     <Compile Include="Converter\VisualizationTypeSelectableConverter.cs" />

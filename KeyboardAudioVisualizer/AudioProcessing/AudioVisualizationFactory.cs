@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CSCore.CoreAudioAPI;
 using KeyboardAudioVisualizer.AudioCapture;
 using KeyboardAudioVisualizer.AudioProcessing.Equalizer;
 using KeyboardAudioVisualizer.AudioProcessing.Spectrum;
@@ -40,18 +41,18 @@ namespace KeyboardAudioVisualizer.AudioProcessing
                 processor.Update();
         }
 
-        public static void Initialize()
+        public static void Initialize(MMDevice captureDevice)
         {
             if (Instance != null) return;
 
             Instance = new AudioVisualizationFactory();
-            Instance.InitializeInstance();
+            Instance.InitializeInstance(captureDevice);
         }
 
-        private void InitializeInstance()
+        private void InitializeInstance(MMDevice captureDevice)
         {
             _audioInput = new CSCoreAudioInput();
-            _audioInput.Initialize();
+            _audioInput.Initialize(captureDevice);
 
             _audioBuffer = new AudioBuffer(4096); // Working with ~93ms - 
             _audioInput.DataAvailable += (left, right) => _audioBuffer.Put(left, right);
@@ -60,6 +61,13 @@ namespace KeyboardAudioVisualizer.AudioProcessing
 
             foreach (IAudioProcessor processor in _processors)
                 processor.Initialize();
+        }
+
+        //BLARG 01.14.2020: Added a method to change the Audio device without 1. Restarting the application 2. Crashing the Application 3. The Visualization Stopping
+        public void ChangeAudioDevice(MMDevice newDevice)
+        {
+            _audioInput.Dispose();
+            _audioInput.Initialize(newDevice);
         }
 
         private T GetAudioProcessor<T>() => (T)_processors.FirstOrDefault(x => x.GetType() == typeof(T));

@@ -35,6 +35,7 @@
             <converter:VisualizationTypeSelectableConverter x:Key="VisualizationProviderSelectableConverter" />
             <converter:VisualizationProviderDisplayNameConverter x:Key="VisualizationProviderDisplayNameConverter" />
             <converter:VisualizationToLastChildFillConverter x:Key="VisualizationToLastChildFillConverter" />
+            <converter:CaptureDeviceConverter x:Key="CaptureDeviceConverter"/>
 
             <DataTemplate x:Key="DataTemplateVisualizationSelection" DataType="{x:Type visualizationProvider:VisualizationType}">
                 <TextBlock Text="{Binding Converter={StaticResource VisualizationProviderDisplayNameConverter}}" />
@@ -225,6 +226,23 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </StackPanel>
+                    </GroupBox>
+                    <GroupBox Margin="0,8,0,0" DockPanel.Dock="Top">
+                        <controls:Form>
+                            <controls:Form.Resources>
+                                <Style BasedOn="{StaticResource StyleLabelForm}" TargetType="{x:Type Label}" />
+                                <Style BasedOn="{StaticResource StyleTextBlockForm}" TargetType="{x:Type TextBlock}" />
+                                <Style BasedOn="{StaticResource StyleListBoxForm}" TargetType="{x:Type ListBox}" />
+                            </controls:Form.Resources>
+
+                            <Label controls:Form.IsLabel="True" Content="Audio Device: " />
+                            <ComboBox controls:Form.Fill="True" Name="deviceBox" SelectionChanged="DeviceBox_SelectionChanged"
+                                ItemsSource="{Binding Source={x:Static keyboardAudioVisualizer:ApplicationManager.Instance},
+                                    Path=Settings.DeviceCollection,
+                                    Converter={StaticResource CaptureDeviceConverter}}"
+                                SelectedValue="{Binding SelectedCaptureDevice,Converter={StaticResource CaptureDeviceConverter}}"
+                                Margin="5,0,0,0" />
+                        </controls:Form>
                     </GroupBox>
                 </DockPanel>
             </AdornerDecorator>

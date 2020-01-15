@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using CSCore.CoreAudioAPI;
 using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
 using KeyboardAudioVisualizer.Helper;
 using RGB.NET.Core;
@@ -32,6 +33,16 @@ namespace KeyboardAudioVisualizer.UI
             {
                 ApplicationManager.Instance.Settings.EnableAudioPrescale = value;
                 OnPropertyChanged();
+            }
+        }
+
+        //BLARG 01.14.2020: This makes the combobox actually display the selected device
+        public MMDevice SelectedCaptureDevice
+        {
+            get => ApplicationManager.Instance.Settings.CaptureDevice;
+            set
+            {
+                ApplicationManager.Instance.Settings.CaptureDevice = value;
             }
         }
 
