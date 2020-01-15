@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSCore.CoreAudioAPI;
+using System;
 
 namespace KeyboardAudioVisualizer.AudioCapture
 {
@@ -11,6 +12,6 @@ namespace KeyboardAudioVisualizer.AudioCapture
 
         event AudioData DataAvailable;
 
-        void Initialize();
+        void Initialize(MMDevice captureDevice);
     }
 }

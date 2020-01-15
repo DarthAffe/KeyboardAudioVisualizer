@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CSCore.CoreAudioAPI;
 using KeyboardAudioVisualizer.AudioProcessing.VisualizationProvider;
 using KeyboardAudioVisualizer.Helper;
 using RGB.NET.Brushes.Gradients;
@@ -37,6 +38,11 @@ namespace KeyboardAudioVisualizer.Configuration
             }
         }
 
+        //BLARG: 01.14.2020 Creating some Audio devices used in the AudioVisualizationFactory and the ConfigurationWindow.xaml
+        private static MMDeviceEnumerator DeviceEnumerator = new MMDeviceEnumerator();
+        public MMDeviceCollection DeviceCollection { get; set; } = DeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active);
+        public MMDevice CaptureDevice { get; set; } = DeviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Console);
+        
         #endregion
     }
 

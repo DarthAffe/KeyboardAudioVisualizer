@@ -67,7 +67,7 @@ namespace KeyboardAudioVisualizer
 
                 ApplicationManager.Instance.Settings = settings;
 
-                AudioVisualizationFactory.Initialize();
+                AudioVisualizationFactory.Initialize(settings.CaptureDevice);
                 ApplicationManager.Instance.InitializeDevices();
             }
             catch (Exception ex)
