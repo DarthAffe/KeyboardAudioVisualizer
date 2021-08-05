@@ -1,3 +1,7 @@
+This software is no longer actively developed.
+
+Consider checking out [Artemis](https://github.com/Artemis-RGB/Artemis) for a even more feature rich replacement.
+
 # KeyboardAudioVisualizer
 It's colorful - I like it!
 
