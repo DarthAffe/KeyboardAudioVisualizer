@@ -29,9 +29,10 @@ namespace KeyboardAudioVisualizer.AudioCapture
 
         #region Methods
 
-        public void Initialize()
+        public void Initialize(MMDevice captureDevice)
         {
-            MMDevice captureDevice = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Render, Role.Console);
+            //BLARG 01.14.2020: Don't need the default when we're given an Audio Enpoint
+            //MMDevice captureDevice = MMDeviceEnumerator.DefaultAudioEndpoint(DataFlow.Render, Role.Console);
             WaveFormat deviceFormat = captureDevice.DeviceFormat;
             _audioEndpointVolume = AudioEndpointVolume.FromDevice(captureDevice);
 
@@ -42,6 +43,8 @@ namespace KeyboardAudioVisualizer.AudioCapture
             if (_capture == null)
                 throw new NullReferenceException("Failed to initialize WasapiLoopbackCapture");
 
+            //BLARG: Actually setting the Device
+            _capture.Device = captureDevice;
             _capture.Initialize();
 
             _soundInSource = new SoundInSource(_capture) { FillWithZeros = false };
@@ -63,10 +66,15 @@ namespace KeyboardAudioVisualizer.AudioCapture
             _capture.Start();
         }
 
+        //BLARG 01.14.2020: Added the rest of the disposables since we'll be calling this method a lot more
         public void Dispose()
         {
-            _capture?.Stop();
+            //_capture?.Stop(); //Don't need this, Dispose() takes care of it
             _capture?.Dispose();
+            _soundInSource?.Dispose();
+            _source?.Dispose();
+            _stream?.Dispose();
+            _audioEndpointVolume?.Dispose();
         }
 
         private void StreamOnSingleBlockRead(object sender, SingleBlockReadEventArgs singleBlockReadEventArgs)
